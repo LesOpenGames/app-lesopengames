@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-12-13 15:35+0100\n"
+"POT-Creation-Date: 2018-12-15 15:34+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -16,13 +16,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.5.1\n"
 
 #: app/__init__.py:23
 msgid "Please log in to access page"
 msgstr "S'il vous plait, connectez vous pour accéder à la page"
 
-#: app/__init__.py:67
+#: app/__init__.py:73
 msgid "Microblog startup"
 msgstr "Départ de Microblog"
 
@@ -103,8 +103,9 @@ msgid "token not verified"
 msgstr "Token invalid"
 
 #: app/routes.py:34
-msgid "For User: %(username) Password resetted to: %(passwrord) "
-msgstr "Pour l'utilisateur : %(username) mot de pas mis à: %(passwrord) "
+#, python-format
+msgid "For User: %(username)s Password resetted to: %(password)s "
+msgstr "Mot de pass mis à %(password)s pour l'utilisateur %(username)s"
 
 #: app/routes.py:47
 msgid "Email sent for password reset"
@@ -119,32 +120,36 @@ msgid "Invalid username or password"
 msgstr "Nom ou mot de passe invalide"
 
 #: app/routes.py:126
-msgid "Congratulation %(username), you are registered"
-msgstr "Félicitations %(username), vous être inscrit"
+#, python-format
+msgid "Congratulation %(username)s, you are registered"
+msgstr "Félicitations %(username)s, vous êtes inscrit"
 
 #: app/routes.py:157
 msgid "Sucessfully updated your profile"
 msgstr "Mise à jour du profile réussie"
 
 #: app/routes.py:169 app/routes.py:184
-msgid "User %(username) not found"
-msgstr "Utilisateur %(username) introuvable"
+#, python-format
+msgid "User %(username)s not found"
+msgstr "Utilisateur %(username)s introuvable"
 
 #: app/routes.py:172
 msgid "Cannot follow yourself"
 msgstr "Impossible de vous suivre vous même"
 
 #: app/routes.py:176
-msgid "You are following %(username)"
-msgstr "Vous suivez %(username)"
+#, python-format
+msgid "You are following %(username)s"
+msgstr "Vous suivez %(username)s"
 
 #: app/routes.py:187
 msgid "Cannot unfollow yourself"
 msgstr "Impossible de vous suivre vous même"
 
 #: app/routes.py:191
-msgid "You have unfollowed %(username)"
-msgstr "Vous ne suivez plus %(username)"
+#, python-format
+msgid "You have unfollowed %(username)s"
+msgstr "Vous ne suivez plus %(username)s"
 
 #: app/templates/404.html:4
 msgid "File Not Found"
@@ -238,6 +243,10 @@ msgstr "Resseter le mot de passe"
 msgid "Request New Password"
 msgstr "Demandre un nouveau mot de passe"
 
+#: app/templates/user.html:7
+msgid "User:"
+msgstr "Utilisateur:"
+
 #: app/templates/user.html:9
 msgid "Last seen on:"
 msgstr "Dernière visite:"
@@ -252,7 +261,7 @@ msgstr "Abonnements"
 
 #: app/templates/user.html:16
 msgid "Edit your profile"
-msgstr "éditer votre profil"
+msgstr "Éditer votre profil"
 
 #: app/templates/user.html:18
 msgid "Unfollow"
@@ -264,4 +273,37 @@ msgstr "S'abonner"
 
 #~ msgid "[Microblog] Reseter le mot de passe"
 #~ msgstr ""
+
+#~ msgid "For User: %(username) Password resetted to: %(passwrord) "
+#~ msgstr "Pour l'utilisateur : %(username) mot de pas mis à: %(passwrord) "
+
+#~ msgid "Congratulation %(username), you are registered"
+#~ msgstr "Félicitations %(username), vous être inscrit"
+
+#~ msgid "User %(username) not found"
+#~ msgstr "Utilisateur %(username) introuvable"
+
+#~ msgid "You are following %(username)"
+#~ msgstr "Vous suivez %(username)"
+
+#~ msgid "You have unfollowed %(username)"
+#~ msgstr "Vous ne suivez plus %(username)"
+
+#~ msgid "Last seen on:"
+#~ msgstr "Dernière visite:"
+
+#~ msgid "followers,"
+#~ msgstr "Abonnés"
+
+#~ msgid "following."
+#~ msgstr "Abonnements"
+
+#~ msgid "Edit your profile"
+#~ msgstr "éditer votre profil"
+
+#~ msgid "Unfollow"
+#~ msgstr "Se désabonner"
+
+#~ msgid "Follow"
+#~ msgstr "S'abonner"
 
