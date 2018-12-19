@@ -11,6 +11,11 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock %}
 
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='opengames.css')}}">
+{% endblock %}
+
 {% block title %}
     {% if title %} {{title}} - OpenGames{% else %}{{_('Default Title')}}{% endif %}
 {% endblock %}
