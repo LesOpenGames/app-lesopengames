@@ -13,11 +13,11 @@
     </table>
 
     {% if user == current_user %}
-    <p><a href="{{ url_for('edit_profile') }}">{{_('Edit your profile')}}</a></p>
+    <p><a href="{{ url_for('main.edit_profile') }}">{{_('Edit your profile')}}</a></p>
     {% elif current_user.is_following(user) %}
-        <p><a href="{{ url_for('unfollow', username=user.username) }}">{{_('Unfollow')}}</a></p>
+        <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{_('Unfollow')}}</a></p>
     {% else %}
-    <p><a href="{{ url_for('follow', username=user.username) }}">{{_('Follow')}}</a></p>
+    <p><a href="{{ url_for('main.follow', username=user.username) }}">{{_('Follow')}}</a></p>
     {% endif %}
 
     {% if posts %}

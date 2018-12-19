@@ -14,7 +14,7 @@ from app.auth.email import send_password_reset_email
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -25,14 +25,14 @@ def login():
         next_page = request.args.get('next')
         # next page is from outside or None
         if not next_page or url_parse(next_page).netloc != '':
-            next_page=url_for('index')
+            next_page=url_for('main.index')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = RegisterForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -41,24 +41,24 @@ def register():
         db.session.commit()
         #if user is None or not user.check_password(form.password.data):
         flash(_('Congratulation %(username)s, you are registered', username=user.username))
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('register.html', title='Register', form=form)
 
 @bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
 @bp.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
         flash(_('sorry, you cant reset passwd while connected'))
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     user = User.verify_reset_password_token(token)
     if not user:
         flash(_('token not verified'))
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
@@ -71,7 +71,7 @@ def reset_password(token):
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
