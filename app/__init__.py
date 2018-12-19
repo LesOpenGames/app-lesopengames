@@ -36,6 +36,9 @@ def get_locale():
     # use requested languages by client
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
+from app.errors import bp as errors_bp
+app.register_blueprint(errors_bp)
+
 if not app.debug:
     # send ERROR by Mail if possible
     if app.config['MAIL_SERVER']:
@@ -72,4 +75,4 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info(_('Microblog startup'))
 
-from app import routes, models, errors
+from app import routes, models
