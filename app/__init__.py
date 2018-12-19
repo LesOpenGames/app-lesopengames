@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 login = LoginManager(app)
-login.login_view='login' # redirect to login route when login required
+login.login_view='auth.login' # redirect to login route when login required
 login.login_message = _l('Please log in to access page') # new message 
 
 mail = Mail(app)
@@ -39,6 +39,9 @@ def get_locale():
 from app.errors import bp as errors_bp
 app.register_blueprint(errors_bp)
 
+from app.auth import bp as auth_bp
+app.register_blueprint(auth_bp, url_prefix='/auth')
+
 if not app.debug:
     # send ERROR by Mail if possible
     if app.config['MAIL_SERVER']:
@@ -51,7 +54,7 @@ if not app.debug:
         mail_handler = SMTPHandler(
             mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
             fromaddr='no-reply@' + app.config['MAIL_SERVER'],
-            toaddrs=app.config['ADMINS'], subject='Microblog Failure',
+            toaddrs=app.config['ADMINS'], subject='OpenGames Failure',
             credentials=auth, secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
@@ -65,7 +68,7 @@ if not app.debug:
         # log INFO to file
         if not os.path.exists('logs'):
             os.mkdir('logs')
-        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
+        file_handler = RotatingFileHandler('logs/opengames.log', maxBytes=10240,
                                            backupCount=10)
         file_handler.setFormatter(logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
@@ -73,6 +76,6 @@ if not app.debug:
         app.logger.addHandler(file_handler)
 
     app.logger.setLevel(logging.INFO)
-    app.logger.info(_('Microblog startup'))
+    app.logger.info(_('OpenGames startup'))
 
 from app import routes, models
