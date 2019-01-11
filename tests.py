@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import unittest
 from app import db, create_app
-from app.models import User, Post
+from app.models import User, Post, Team
 
 from config import Config
 
@@ -94,6 +94,37 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f2, [p2, p3])
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
+
+    def test_team_subscribe(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
+        u3 = User(username='mary', email='mary@example.com')
+        u4 = User(username='david', email='david@example.com')
+        u5 = User(username='joseph', email='joseph@example.com')
+        t1 = Team(teamname='cathares')
+        db.session.add_all([u1, u2, u3, u4, u5, t1])
+        db.session.commit()
+
+        self.assertEqual(t1.players, [])
+
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+        t1.subscribe(u4)
+
+
+        self.assertTrue(t1.is_player(u1))
+        self.assertTrue(t1.is_player(u2))
+        self.assertTrue(t1.is_player(u3))
+        self.assertTrue(t1.is_player(u4))
+
+        self.assertFalse(t1.is_player(u5))
+
+
+        #self.assertTrue(t1.is_leader(u1))
+
+        
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

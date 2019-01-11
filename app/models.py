@@ -1,11 +1,13 @@
 import jwt
 
+from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.ext.orderinglist import ordering_list
 from flask import current_app
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from hashlib import md5
 from time import time
+
 
 from app import db, login
 
@@ -33,6 +35,8 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    player_rank = db.Column(db.Integer)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     # see before, the followers relationshup
     followed = db.relationship(
             'User', secondary=followers,
@@ -41,7 +45,7 @@ class User(UserMixin, db.Model):
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<Player {}, rank {}>'.format(self.username, self.player_rank)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -85,6 +89,44 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.get(int(id))
+
+class Team(db.Model):
+    id = db.Column(db.Integer, primary_key=True ) 
+    teamname =  db.Column(db.String(80), unique=True, nullable=False)
+    players = db.relationship("User", backref='team', order_by="User.player_rank", collection_class=ordering_list('player_rank'))
+
+
+    def get_players(self):
+        return self.players
+	
+    def is_leader(self, player):
+        return self.is_player(player) and (player.player_rank == 0 )
+        #try:
+        #    index = self.players.index(user)
+        #except:
+        #    return False
+        #return index == 0
+
+    def is_player(self, player):
+        #return False if ( player.team == None ) else ( player.team.id == self.id )
+        count = db.session.query(Team).join(Team.players).filter(User.id==player.id).filter(Team.id==self.id).count()
+        #return self.players.count( player ) #== 1
+        return count == 1
+
+#   def move_to_leader(self, player):
+#   def move_to_rank(self, player, rank):
+
+    def subscribe(self, player):
+        if not self.is_player( player ):
+            self.players.append(player)
+
+    def unsubscribe(self, player):
+        if self.is_player( player ):
+            self.players.remove(player)
+
+    def __repr__(self):
+        return '<Team: {}, Players: {} >'.format( self.teamname, self.players)
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True )
