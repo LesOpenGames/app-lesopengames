@@ -100,9 +100,8 @@ class UserModelCase(unittest.TestCase):
         u2 = User(username='susan', email='susan@example.com')
         u3 = User(username='mary', email='mary@example.com')
         u4 = User(username='david', email='david@example.com')
-        u5 = User(username='joseph', email='joseph@example.com')
         t1 = Team(teamname='cathares')
-        db.session.add_all([u1, u2, u3, u4, u5, t1])
+        db.session.add_all([u1, u2, u3, u4, t1])
         db.session.commit()
 
         self.assertEqual(t1.players, [])
@@ -112,13 +111,21 @@ class UserModelCase(unittest.TestCase):
         t1.subscribe(u3)
         t1.subscribe(u4)
 
+        self.assertEqual(t1.players, [u1, u2, u3, u4])
+
 
         self.assertTrue(t1.is_player(u1))
         self.assertTrue(t1.is_player(u2))
         self.assertTrue(t1.is_player(u3))
         self.assertTrue(t1.is_player(u4))
 
+        t2 = Team(teamname='pelutes')
+        u5 = User(username='joseph', email='joseph@example.com')
+        t2.subscribe(u5)
+        db.session.add_all([t2, u5])
+
         self.assertFalse(t1.is_player(u5))
+        self.assertTrue(t2.is_player(u5))
 
 
         #self.assertTrue(t1.is_leader(u1))

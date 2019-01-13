@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
 
     def __repr__(self):
-        return '<Player {}, rank {}>'.format(self.username, self.player_rank)
+        return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -109,9 +109,9 @@ class Team(db.Model):
 
     def is_player(self, player):
         #return False if ( player.team == None ) else ( player.team.id == self.id )
-        count = db.session.query(Team).join(Team.players).filter(User.id==player.id).filter(Team.id==self.id).count()
-        #return self.players.count( player ) #== 1
-        return count == 1
+        #return self.players.count( player ) == 1 # wont work if User.id isnt udpated with session add and commit
+        #return db.session.query(Team).join(Team.players).filter(User.id==player.id .filter(Team.id==self.id).count() == 1
+        return Team.query.filter( Team.players.any( User.id == player.id ) ).filter(Team.id==self.id).count() == 1
 
 #   def move_to_leader(self, player):
 #   def move_to_rank(self, player, rank):
