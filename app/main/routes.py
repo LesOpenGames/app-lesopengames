@@ -5,9 +5,9 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 
 from app import db
-from app.models import User, Post
+from app.models import User, Post, Team
 
-from app.main.forms import EditProfileForm, PostForm
+from app.main.forms import EditProfileForm, PostForm, EditTeamForm
 from app.main import bp
 
 @bp.before_request
@@ -62,6 +62,7 @@ def posts():
     for u in all_users:
         posts.append( { 'author': u, 'body': 'This is my body' })
     return render_template('posts.html', title='All Posts', posts=posts)
+
 @bp.route('/user/<username>')
 @login_required
 def user(username):
@@ -90,6 +91,20 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
+
+@bp.route('/edit_team', methods=['GET', 'POST'])
+@login_required
+def edit_team():
+    form = EditTeamForm()
+    if form.validate_on_submit():
+        team = Team(teamname=form.teamname.data)
+        db.session.add(team)
+        db.session.commit()
+        flash( _('Team validated'))
+        return redirect(url_for('main.edit_team') )
+    #elif request.method == 'GET':
+    #    form.teamname.data = current_user.username
+    return render_template('edit_team.html', title='Edit Team', form=form)
 
 @bp.route('/follow/<username>')
 @login_required
@@ -120,3 +135,5 @@ def unfollow(username):
     db.session.commit()
     flash( _('You have unfollowed %(username)s', username=username))
     return redirect(url_for('main.user', username=username))
+
+

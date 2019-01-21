@@ -8,6 +8,10 @@ class PostForm(FlaskForm):
     post = TextAreaField(_l('Post Body'), validators=[DataRequired(), Length(min=0, max=140)])
     submit = SubmitField(_l('Publish'))
 
+class EditTeamForm(FlaskForm):
+    teamname = StringField(_l('Team Name'), validators=[DataRequired()])
+    submit = SubmitField(_l('Validate'))
+
 class EditProfileForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=140)])
