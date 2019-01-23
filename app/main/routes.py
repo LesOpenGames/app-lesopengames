@@ -67,14 +67,6 @@ def posts():
         posts.append( { 'author': u, 'body': 'This is my body' })
     return render_template('posts.html', title='All Posts', posts=posts)
 
-@bp.route('/teams')
-def teams():
-    all_teams = Team.query.all()
-    teams = []
-    for t in all_teams:
-        teams.append( t )
-    return render_template('teams.html', title='All Teams', teams=teams)
-
 @bp.route('/user/<username>')
 @login_required
 def user(username):
