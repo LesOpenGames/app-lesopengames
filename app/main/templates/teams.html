@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+      {% if teams %}
+      <ul>
+          {% for team in teams %}
+            {% include '_team.html' %}
+          {% endfor %}
+      </ul>
+      {% else %}
+      <h1>{{_('No teams')}}</h1>
+      {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+    <table class="table table-hover">
+        <tr >
+            <td>
+                <a href="{{ url_for('main.team', teamid=team.id)}}">
+                    {{ team.teamname }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('main.edit_team', teamid=team.id)}}">
+                    {{ _('join') }}
+                </a>
+            </td>
+        </tr>
+    </table>

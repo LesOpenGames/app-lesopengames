@@ -63,6 +63,14 @@ def posts():
         posts.append( { 'author': u, 'body': 'This is my body' })
     return render_template('posts.html', title='All Posts', posts=posts)
 
+@bp.route('/teams')
+def teams():
+    all_teams = Team.query.all()
+    teams = []
+    for t in all_teams:
+        teams.append( t )
+    return render_template('teams.html', title='All Teams', teams=teams)
+
 @bp.route('/user/<username>')
 @login_required
 def user(username):
@@ -91,6 +99,18 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
+
+@bp.route('/team/<teamid>')
+def team(teamid):
+    team = Team.query.filter_by(id=teamid).first_or_404()
+    #page_num = request.args.get('page_num', 1, type=int)
+    #posts = user.posts.order_by(Post.timestamp.desc()).paginate(
+    #        page_num, current_app.config['POSTS_PER_PAGE'], False)
+    #next_url = url_for('main.user', username=user.username, page_num=posts.next_num) \
+    #    if posts.has_next else None
+    #prev_url = url_for('main.user', username=user.username, page_num=posts.prev_num) \
+    #    if posts.has_prev else None
+    return render_template('team.html', team=team)
 
 @bp.route('/edit_team', methods=['GET', 'POST'])
 @login_required
