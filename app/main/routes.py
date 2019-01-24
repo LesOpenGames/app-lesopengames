@@ -68,10 +68,10 @@ def posts():
         posts.append( { 'author': u, 'body': 'This is my body' })
     return render_template('posts.html', title='All Posts', posts=posts)
 
-@bp.route('/user/<username>')
+@bp.route('/user/<int:user_id>')
 @login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+def user(user_id):
+    user = User.query.filter_by(id=user_id).first_or_404()
     page_num = request.args.get('page_num', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
             page_num, current_app.config['POSTS_PER_PAGE'], False)
@@ -96,6 +96,16 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
+
+@bp.route('/users')
+@login_required
+def users():
+    if( current_user.role  != RolesType.ADMIN ):
+        flash( _('You dont have access to such page'))
+        return redirect(url_for('main.index') )
+    users = User.query.all()
+    return render_template('users.html', title='Users Admin List', users=users, admin=True)
+
 
 @bp.route('/team/<teamid>')
 def team(teamid):
@@ -159,7 +169,7 @@ def teams():
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index') )
     teams = Team.query.all()
-    return render_template('index.html', teams=teams, admin=True)
+    return render_template('index.html', title='Teams Admin List', teams=teams, admin=True)
 
 @bp.route('/follow/<username>')
 @login_required
