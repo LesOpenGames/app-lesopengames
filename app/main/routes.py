@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 
+from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team
 
@@ -108,6 +109,7 @@ def create_team():
     if form.validate_on_submit():
         teamname=form.teamname.data
         team = Team(teamname=teamname)
+        team.subscribe(current_user)
         db.session.add(team)
         db.session.commit()
         flash( _('Team %(teamname)s validated', teamname=teamname))
@@ -126,8 +128,17 @@ def edit_team(team_id):
 #        return redirect(url_for('main.index') )
     form = EditTeamForm(obj=team)
     if form.validate_on_submit():
-        team.teamname=form.teamname.data
-        db.session.commit()
+        newteamname = form.teamname.data
+        team.teamname= newteamname
+        try:
+            db.session.commit()
+        except IntegrityError as err:
+            if "UNIQUE constraint failed: team.teamname" in str(err):
+                flash( _('Name %(newteamname)s already exist', newteamname=newteamname))
+                return redirect( url_for('main.edit_team', team_id=team_id) )
+            else:
+                flash( _('Problem Occured with modifying team') )
+                return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s modified', teamname=team.teamname))
         return redirect(url_for('main.index') )
     return render_template('edit_team.html', title='Edit Team', form=form, team=team)
