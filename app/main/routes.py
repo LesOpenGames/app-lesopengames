@@ -143,6 +143,15 @@ def edit_team(team_id):
         return redirect(url_for('main.index') )
     return render_template('edit_team.html', title='Edit Team', form=form, team=team)
 
+@bp.route('/teams', methods=['GET', 'POST'])
+@login_required
+def teams():
+    if( current_user.role  != RolesType.ADMIN ):
+        flash( _('You dont have access to such page'))
+        return redirect(url_for('main.index') )
+    teams = Team.query.all()
+    return render_template('index.html', teams=teams, admin=True)
+
 @bp.route('/follow/<username>')
 @login_required
 def follow(username):
