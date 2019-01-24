@@ -1,4 +1,5 @@
 import jwt
+import enum
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -10,6 +11,12 @@ from time import time
 
 
 from app import db, login
+
+class RolesType(enum.Enum):
+    ADMIN = 0
+    JUGE = 1
+    PLAYER = 2
+
 
 
 # simple relation as table, not class
@@ -32,6 +39,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    role = db.Column(db.Enum(RolesType))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
