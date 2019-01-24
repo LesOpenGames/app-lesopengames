@@ -2,4 +2,5 @@
 
 {% block app_content %}
     <h1> {{team.teamname}}</h1>
+    <p><a href="{{ url_for('main.edit_team', team_id=team.id) }}">{{_('Edit your team')}}</a></p>
 {% endblock %}

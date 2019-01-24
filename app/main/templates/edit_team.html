@@ -3,7 +3,11 @@
 
 
 {% block app_content %}
-    <h1>{{_('Edit Team')}}</h1>
+    {% if team %}
+    <h1>{{_('Edit Team: ') }} {{team.teamname}}</h1>
+    {% else %}
+    <h1>{{_('Create Team') }}</h1>
+    {% endif %}
     <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}

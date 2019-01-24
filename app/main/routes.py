@@ -99,28 +99,38 @@ def edit_profile():
 @bp.route('/team/<teamid>')
 def team(teamid):
     team = Team.query.filter_by(id=teamid).first_or_404()
-    #page_num = request.args.get('page_num', 1, type=int)
-    #posts = user.posts.order_by(Post.timestamp.desc()).paginate(
-    #        page_num, current_app.config['POSTS_PER_PAGE'], False)
-    #next_url = url_for('main.user', username=user.username, page_num=posts.next_num) \
-    #    if posts.has_next else None
-    #prev_url = url_for('main.user', username=user.username, page_num=posts.prev_num) \
-    #    if posts.has_prev else None
     return render_template('team.html', team=team)
 
-@bp.route('/edit_team', methods=['GET', 'POST'])
+@bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
-def edit_team():
+def create_team():
     form = EditTeamForm()
     if form.validate_on_submit():
-        team = Team(teamname=form.teamname.data)
+        teamname=form.teamname.data
+        team = Team(teamname=teamname)
         db.session.add(team)
         db.session.commit()
-        flash( _('Team validated'))
-        return redirect(url_for('main.edit_team') )
-    #elif request.method == 'GET':
-    #    form.teamname.data = current_user.username
-    return render_template('edit_team.html', title='Edit Team', form=form)
+        flash( _('Team %(teamname)s validated', teamname=teamname))
+        return redirect(url_for('main.index') )
+    return render_template('edit_team.html', title=_('Create Team'), form=form)
+
+@bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
+@login_required
+def edit_team(team_id):
+    team=Team.query.filter_by(id=team_id).first()
+    if( not team ):
+        flash( _('No such team for id %(team_id)', team_id=team_id))
+        return redirect(url_for('main.index') )
+#    if( team_id != current_user.team.team_id):
+#        flash( _('Sorry, you dont have access to team with id %(team_id)', team_id=team_id))
+#        return redirect(url_for('main.index') )
+    form = EditTeamForm(obj=team)
+    if form.validate_on_submit():
+        team.teamname=form.teamname.data
+        db.session.commit()
+        flash( _('Team %(teamname)s modified', teamname=team.teamname))
+        return redirect(url_for('main.index') )
+    return render_template('edit_team.html', title='Edit Team', form=form, team=team)
 
 @bp.route('/follow/<username>')
 @login_required
