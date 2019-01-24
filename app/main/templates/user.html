@@ -14,7 +14,11 @@
 
     {% if user == current_user %}
     <p><a href="{{ url_for('main.edit_profile') }}">{{_('Edit your profile')}}</a></p>
-    <p><a href="{{ url_for('main.edit_team') }}">{{_('Edit or create team')}}</a></p>
+        {% if current_user.team %}
+        <p><a href="{{ url_for('main.edit_team', team_id=current_user.team.id) }}">{{_('Edit your team')}}</a></p>
+        {%else%}
+        <p><a href="{{ url_for('main.create_team') }}">{{_('Create new team')}}</a></p>
+        {%endif%}
     {% elif current_user.is_following(user) %}
         <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{_('Unfollow')}}</a></p>
     {% else %}
