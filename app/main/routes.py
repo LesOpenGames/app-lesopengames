@@ -123,9 +123,9 @@ def edit_team(team_id):
     if( not team ):
         flash( _('No such team for id %(team_id)', team_id=team_id))
         return redirect(url_for('main.index') )
-#    if( team_id != current_user.team.team_id):
-#        flash( _('Sorry, you dont have access to team with id %(team_id)', team_id=team_id))
-#        return redirect(url_for('main.index') )
+    if( team_id != current_user.team.id):
+        flash( _('Sorry, you cant modify team %(name)s', name=team.teamname))
+        return redirect(url_for('main.index') )
     form = EditTeamForm(obj=team)
     if form.validate_on_submit():
         newteamname = form.teamname.data
