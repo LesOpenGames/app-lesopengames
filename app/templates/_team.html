@@ -5,5 +5,8 @@
                     {{ team.teamname }}
                 </a>
             </td>
+            {% for player in team.get_players() %}
+            <td> {{player.username}} </td>
+            {% endfor %}
         </tr>
     </table>
