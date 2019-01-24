@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 
 from sqlalchemy.exc import IntegrityError
 from app import db
-from app.models import User, Post, Team
+from app.models import User, Post, Team, RolesType
 
 from app.main.forms import EditProfileForm, PostForm, EditTeamForm
 from app.main import bp
