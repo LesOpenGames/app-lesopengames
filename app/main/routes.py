@@ -116,16 +116,25 @@ def create_team():
         return redirect(url_for('main.index') )
     return render_template('edit_team.html', title=_('Create Team'), form=form)
 
+@bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
 @bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
 @login_required
 def edit_team(team_id):
+    # check security
     team=Team.query.filter_by(id=team_id).first()
     if( not team ):
         flash( _('No such team for id %(team_id)', team_id=team_id))
         return redirect(url_for('main.index') )
-    if( team_id != current_user.team.id):
+    if( ( current_user.role != RolesType.ADMIN ) and ( team_id != current_user.team.id) ):
         flash( _('Sorry, you cant modify team %(name)s', name=team.teamname))
         return redirect(url_for('main.index') )
+    # did we ask for delet ?
+    if( "delete" in request.path ):
+        db.session.delete(team)
+        db.session.commit()
+        flash( _('Team %(teamname)s deleted', teamname=team.teamname))
+        return redirect( url_for('main.teams') )
+    # or we just want to modify ?
     form = EditTeamForm(obj=team)
     if form.validate_on_submit():
         newteamname = form.teamname.data
