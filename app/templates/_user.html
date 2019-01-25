@@ -1,30 +1,28 @@
-    <table class="table table-hover">
-        <tr >
-            <td width='200'>
-                <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
-            </td>
-            <td width='40'>
-                {% if user.team != None %}
-                {{ user.team.teamname }}
-                {% else %}
-                {{ _('No Team') }}
-                {% endif %}
-            </td>
-            {% if current_user.role | string() == 'RolesType.ADMIN' and admin %}
-            <td width='10'>
-                {{ user.id }}
-            </td>
-            <td width='60'>
-                {{ user.email }}
-            </td>
-            <td width='20'>
-                <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
-            </td>
-            <td width='20'>
-                <form action="delete_user/{{user.id}}" method="POST">
-                    <button type="submit" class="btn btn-info">{{ _('Delete') }}</button>
-                </form>
-            </td>
+    <tr >
+        <td width='100%'>
+            <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
+        </td>
+        <td>
+            {% if user.team != None %}
+            {{ user.team.teamname }}
+            {% else %}
+            {{ _('No Team') }}
             {% endif %}
-        </tr>
-    </table>
+        </td>
+        {% if current_user.role | string() == 'RolesType.ADMIN' and admin %}
+        <td>
+            {{ user.id }}
+        </td>
+        <td>
+            {{ user.email }}
+        </td>
+        <td>
+            <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
+        </td>
+        <td>
+            <form action="delete_user/{{user.id}}" method="POST">
+                <button type="submit" class="btn btn-info">{{ _('Delete') }}</button>
+            </form>
+        </td>
+        {% endif %}
+    </tr>

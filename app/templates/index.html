@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-      <ul>
-          {% for team in teams %}
-            {% include '_team.html' %}
-          {% endfor %}
-      </ul>
+   <table class="table table-hover">
+      {% for team in teams %}
+        {% include '_team.html' %}
+      {% endfor %}
+  </table>
 {% endblock %}
