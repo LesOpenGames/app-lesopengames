@@ -82,6 +82,29 @@ def user(user_id):
     return render_template('user.html', user=user, posts=posts.items,
                            next_url=next_url, prev_url=prev_url)
 
+@bp.route('/create_profile', methods=['GET', 'POST'])
+@login_required
+def create_profile():
+    team_id = request.args.get('team_id')
+    form = EditProfileForm()
+    team = Team.query.get(team_id)
+    if ( team == None ):
+        flash( _('No such team'))
+        return render_template('index.html')
+    elif form.validate_on_submit():
+        user = User()
+        user.username = form.username.data
+        user.about_me = form.about_me.data
+        db.session.add(user)
+        team.subscribe( user )
+        db.session.commit()
+        flash(_('Sucessfully added player to team'))
+        return redirect( url_for('main.edit_team', team_id=team_id) )
+#    elif request.method == 'GET':
+#        form.username.data = user.username
+#        form.about_me.data = user.about_me
+    return render_template('edit_profile.html', title='Create User', form=form)
+
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @bp.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
 @login_required
