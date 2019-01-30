@@ -13,4 +13,25 @@
             {{ wtf.quick_form(form) }}
         </div>
     </div>
+    <table class="table table-hover">
+        <tr>
+            <td>User1</td>
+            <td>user_name </td>
+            <td> <a href="{{ url_for('main.edit_team', team_id=team.id)}}" class="btn btn-info">{{ _('Adduser') }} </a> </td>
+        </tr>
+        <tr>
+            <td>User2</td>
+            <td>user_name </td>
+            <td> <a href="{{ url_for('main.edit_team', team_id=team.id)}}" class="btn btn-info">{{ _('Adduser') }} </a> </td>
+        </tr>
+        <tr>
+            <td>User3</td>
+            <td>user_name </td>
+            <td> <a href="{{ url_for('main.edit_team', team_id=team.id)}}" class="btn btn-info">{{ _('Adduser') }} </a> </td>
+        </tr>
+        <tr>
+            <td>User4</td>
+            <td>user_name </td>
+            <td> <a href="{{ url_for('main.edit_team', team_id=team.id)}}" class="btn btn-info">{{ _('Adduser') }} </a> </td>
+        </tr>
 {% endblock %}
