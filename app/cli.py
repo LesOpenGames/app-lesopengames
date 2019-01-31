@@ -1,7 +1,60 @@
 import os
 import click
+from app.models import User, Post, Team, RolesType
+from app import db
+
+
 
 def register(app):
+    @app.cli.group()
+    def og_adm():
+        """Administration for opengames app"""
+        pass
+
+    @og_adm.command()
+    @click.argument('user_id')
+    @click.argument('passwd')
+    def set_pwd(user_id, passwd):
+        """Set password for user by id"""
+        user = User.query.get(user_id)
+        if( user == None ):
+            print("no such user")
+            return
+        use.set_password(passwd)
+
+    @og_adm.command()
+    @click.argument('user_id')
+    def set_admin(user_id):
+        """Set admin rights to user by id"""
+        user = User.query.get(user_id)
+        if( user == None ):
+            print("no such user")
+            return
+        user.role=RolesType.ADMIN
+        db.session.commit()
+
+    @og_adm.command()
+    @click.argument('user_id')
+    def del_user(user_id):
+        """Del user by id"""
+        user = User.query.get(user_id)
+        if( user == None ):
+            print("no such user")
+            return
+        db.session.delete(user)
+        db.session.commit()
+        print("User {} deleted".format(user.username))
+
+    @og_adm.command()
+    def show_users():
+        """List all users in base"""
+        for u in User.query.all():
+            print ("{0:4} {1:14} {3:20} {2:30} ".format(
+                str(u.id or '---'),
+                str(u.username or '---'),
+                str(u.email or '---'),
+                str(u.role  or '---')))
+
     @app.cli.group()
     def translate():
         """Translate and localization commands"""
