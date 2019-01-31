@@ -9,6 +9,7 @@ from datetime import datetime
 from hashlib import md5
 from time import time
 
+from sqlalchemy.dialects import postgresql
 
 from app import db, login
 
@@ -40,6 +41,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     role = db.Column(db.Enum(RolesType))
+    #role = db.Column(db.Enum('A', 'B', name='blah'))
+    #role = db.Column(postgresql.ENUM('A', 'B', name='blah',create_type=False), nullable=False)
+    #role = db.Column(postgresql.ENUM('uk_mainland', 'uk_channel_islands', name='zone', create_type=False), nullable=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)

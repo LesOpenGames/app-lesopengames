@@ -1,8 +1,8 @@
-"""users with team
+"""empty message
 
-Revision ID: e28d0da492b0
+Revision ID: a2d0cbef4c34
 Revises: 
-Create Date: 2018-12-27 16:19:09.121374
+Create Date: 2019-01-31 14:51:54.468372
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e28d0da492b0'
+revision = 'a2d0cbef4c34'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,6 +29,7 @@ def upgrade():
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('role', sa.Enum('ADMIN', 'JUGE', 'PLAYER', name='rolestype'), nullable=True),
     sa.Column('about_me', sa.String(length=140), nullable=True),
     sa.Column('last_seen', sa.DateTime(), nullable=True),
     sa.Column('player_rank', sa.Integer(), nullable=True),
