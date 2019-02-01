@@ -2,7 +2,7 @@
 
 {% block app_content %}
       {% if users %}
-      <table class="table table-hover">
+      <table class="table table-hover .table-responsive">
           {% for user in users %}
             {% include '_user.html' %}
           {% endfor %}
