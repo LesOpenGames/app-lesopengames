@@ -9,7 +9,6 @@ from datetime import datetime
 from hashlib import md5
 from time import time
 
-from sqlalchemy.dialects import postgresql
 
 from app import db, login
 
@@ -18,7 +17,17 @@ class RolesType(enum.Enum):
     JUGE = 1
     PLAYER = 2
 
+class RacketSportType(enum.Enum):
+    PINGPONG = 0
+    BADMINGTON = 1
 
+class CollectiveSportType(enum.Enum):
+    HAND = 0
+    FLAG = 1
+
+class SportLevel(enum.Enum):
+    EASY = 0
+    TOUGH = 1
 
 # simple relation as table, not class
 #
@@ -41,9 +50,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     role = db.Column(db.Enum(RolesType))
-    #role = db.Column(db.Enum('A', 'B', name='blah'))
-    #role = db.Column(postgresql.ENUM('A', 'B', name='blah',create_type=False), nullable=False)
-    #role = db.Column(postgresql.ENUM('uk_mainland', 'uk_channel_islands', name='zone', create_type=False), nullable=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
@@ -106,7 +112,9 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True ) 
     teamname =  db.Column(db.String(80), unique=True, nullable=False)
     players = db.relationship("User", backref='team', order_by="User.player_rank", collection_class=ordering_list('player_rank'))
-
+    racket_sport_type = db.Column(db.Enum(RacketSportType) )
+    collective_sport_type = db.Column(db.Enum(CollectiveSportType) )
+    sport_level = db.Column(db.Enum(SportLevel) )
 
     def get_players(self):
         return self.players

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import unittest
 from app import db, create_app
-from app.models import User, Post, Team
+from app.models import User, Post, Team, RolesType, CollectiveSportType, RacketSportType, SportLevel
 
 from config import Config
 
@@ -130,6 +130,50 @@ class UserModelCase(unittest.TestCase):
 
         #self.assertTrue(t1.is_leader(u1))
 
+    def test_user_roles(self):
+        u0 = User(username='david', email='david@example.com')
+        u0.role = RolesType.ADMIN
+        u1 = User(username='josette', email='josette@example.com')
+        u1.role = RolesType.JUGE
+        u2 = User(username='alfred', email='alfred@example.com')
+        u2.role = RolesType.PLAYER
+        
+        db.session.add(u0)
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+
+        v0  = User.query.filter_by(username='david').one()
+        v1  = User.query.filter_by(username='josette').one()
+        v2  = User.query.filter_by(username='alfred').one()
+
+        self.assertEqual(v0.role, RolesType.ADMIN)
+        self.assertEqual(v1.role, RolesType.JUGE)
+        self.assertEqual(v2.role, RolesType.PLAYER)
+
+        
+    def test_team_sportstype(self):
+        t0 = Team(teamname='pelutes')
+        t0.racket_sport_type = RacketSportType.PINGPONG
+        t0.collective_sport_type = CollectiveSportType.HAND
+        t0.sport_level = SportLevel.EASY
+
+        t1 = Team(teamname='cathares')
+        t1.racket_sport_type = RacketSportType.BADMINGTON
+        t1.collective_sport_type = CollectiveSportType.FLAG
+        t1.sport_level = SportLevel.TOUGH
+
+        db.session.add_all([t1, t0])
+        db.session.commit()
+
+        s0  = Team.query.filter_by(teamname='pelutes').one()
+        self.assertEqual(s0.racket_sport_type, RacketSportType.PINGPONG)
+        self.assertEqual(s0.collective_sport_type, CollectiveSportType.HAND)
+        self.assertEqual(s0.sport_level, SportLevel.EASY)
+        s1  = Team.query.filter_by(teamname='cathares').one()
+        self.assertEqual(s1.racket_sport_type, RacketSportType.BADMINGTON)
+        self.assertEqual(s1.collective_sport_type, CollectiveSportType.FLAG)
+        self.assertEqual(s1.sport_level, SportLevel.TOUGH)
         
 
 
