@@ -9,12 +9,15 @@
             {{ _('No Team') }}
             {% endif %}
         </td>
-        {% if current_user.role | string() == 'RolesType.ADMIN' and admin %}
+    {% if current_user.role | string() == 'RolesType.ADMIN' and admin %}
         <td>
             {{ user.id }}
         </td>
         <td>
             {{ user.email }}
+        </td>
+        <td>
+            {{ user.role }}
         </td>
         <td>
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
@@ -24,5 +27,5 @@
                 <button type="submit" class="btn btn-info">{{ _('Delete') }}</button>
             </form>
         </td>
-        {% endif %}
+    {% endif %}
     </tr>

@@ -95,6 +95,7 @@ def create_profile():
         user = User()
         user.username = form.username.data
         user.about_me = form.about_me.data
+        user.role = RolesType.PLAYER
         db.session.add(user)
         team.subscribe( user )
         db.session.commit()
