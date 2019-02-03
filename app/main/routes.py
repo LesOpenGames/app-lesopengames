@@ -178,6 +178,9 @@ def edit_team(team_id):
     if form.validate_on_submit():
         newteamname = form.teamname.data
         team.teamname= newteamname
+        team.sport_level = form.sportlevel.data
+        team.racket_sport_type = form.racksport.data
+        team.collective_sport_type = form.collsport.data
         try:
             db.session.commit()
         except IntegrityError as err:

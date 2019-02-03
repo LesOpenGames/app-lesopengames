@@ -12,20 +12,20 @@ from time import time
 
 from app import db, login
 
-class RolesType(enum.Enum):
+class RolesType(enum.IntEnum):
     ADMIN = 0
     JUGE = 1
     PLAYER = 2
 
-class RacketSportType(enum.Enum):
+class RacketSportType(enum.IntEnum):
     PINGPONG = 0
     BADMINGTON = 1
 
-class CollectiveSportType(enum.Enum):
+class CollectiveSportType(enum.IntEnum):
     HAND = 0
     FLAG = 1
 
-class SportLevel(enum.Enum):
+class SportLevel(enum.IntEnum):
     EASY = 0
     TOUGH = 1
 
@@ -49,7 +49,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    role = db.Column(db.Enum(RolesType))
+    role = db.Column(db.Integer)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
@@ -112,9 +112,9 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True ) 
     teamname =  db.Column(db.String(80), unique=True, nullable=False)
     players = db.relationship("User", backref='team', order_by="User.player_rank", collection_class=ordering_list('player_rank'))
-    racket_sport_type = db.Column(db.Enum(RacketSportType) )
-    collective_sport_type = db.Column(db.Enum(CollectiveSportType) )
-    sport_level = db.Column(db.Enum(SportLevel) )
+    racket_sport_type = db.Column(db.Integer )
+    collective_sport_type = db.Column(db.Integer )
+    sport_level = db.Column(db.Integer )
 
     def get_players(self):
         return self.players

@@ -10,9 +10,27 @@
     {% endif %}
     <div class="row">
         <div class="col-md-4">
+            <form class="form form-horizontal" method="post" role="form">
+              {{ form.hidden_tag() }}
+              {{ wtf.form_errors(form, hiddens="only") }}
+              {{ wtf.form_field(form.teamname) }}
+              {{ form.sportlevel.label}}
+              {{ wtf.form_field(form.sportlevel) }}
+              {{ form.collsport.label}}
+              {{ wtf.form_field(form.collsport) }}
+              {{ form.racksport.label}}
+              {{ wtf.form_field(form.racksport) }}
+              {{ wtf.form_field(form.submit) }}
+            </form>
+        </div>
+    </div>
+    <!--
+    <div class="row">
+        <div class="col-md-4">
             {{ wtf.quick_form(form) }}
         </div>
     </div>
+    -->
     {% if team %}
     <table class="table table-hover">
         {% for i in range(4) %}
