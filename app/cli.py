@@ -30,7 +30,7 @@ def register(app):
         if( user == None ):
             print("no such user")
             return
-        user.role=RolesType.ADMIN
+        user.role=int(RolesType.ADMIN)
         db.session.commit()
 
     @og_adm.command()
