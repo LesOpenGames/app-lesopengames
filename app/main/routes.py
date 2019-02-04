@@ -114,16 +114,23 @@ def edit_profile(user_id=-1):
         user = User.query.get(user_id)
     else:
         user = current_user
-    form = EditProfileForm(user.username)
+    form = EditProfileForm(obj=user)
     if form.validate_on_submit():
         user.username = form.username.data
         user.about_me = form.about_me.data
+        user.firstname = form.firstname.data
+        user.secondname = form.secondname.data
+        user.gender = form.gender.data
+        user.birthdate = form.birthdate.data
+        user.weight = form.weight.data
+        user.email = form.email.data
+        user.phonenumber = form.phonenumber.data
         db.session.commit()
         flash(_('Sucessfully updated your profile'))
         return redirect(url_for('main.edit_profile', user_id=user_id))
-    elif request.method == 'GET':
-        form.username.data = user.username
-        form.about_me.data = user.about_me
+#    elif request.method == 'GET':
+#        form.username.data = user.username
+#        form.about_me.data = user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
 
 @bp.route('/users')

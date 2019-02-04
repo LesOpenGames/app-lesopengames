@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
+from wtforms import IntegerField, DateField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User, SportLevel, CollectiveSportType, RacketSportType, RolesType
 
@@ -21,14 +22,21 @@ class EditTeamForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=140)])
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    secondname = StringField(_l('Second Name'), validators=[DataRequired()])
+    gender = RadioField(_('Gender'), coerce=int, choices=[(0, _('M')), (1, _('F')) ] )
+    birthdate = DateField(_l('Birth Date'), validators=[DataRequired()])
+    weight = IntegerField(_l('Weight'), validators=[DataRequired()])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    phonenumber =  IntegerField(_l('Phone Number'), validators=[DataRequired()])
     submit = SubmitField(_l('Change Profile'))
     # New constructor with param, called in routes.py       
-    def __init__(self, original_username='', *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.original_username = original_username
-    # Username validator, preventing allready used username
-    def validate_username(self, username):
-        if username.data != self.original_username:
-            user = User.query.filter_by(username=self.username.data).first()
-            if user is not None:
-                raise ValidationError(_('Please use a different username.'))
+    #def __init__(self, original_username='', *args, **kwargs):
+    #    super(EditProfileForm, self).__init__(*args, **kwargs)
+    #    self.original_username = original_username
+    ## Username validator, preventing allready used username
+    #def validate_username(self, username):
+    #    if username.data != self.original_username:
+    #        user = User.query.filter_by(username=self.username.data).first()
+    #        if user is not None:
+    #            raise ValidationError(_('Please use a different username.'))

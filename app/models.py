@@ -47,7 +47,13 @@ def load_user(id):
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
     username = db.Column(db.String(64), index=True, unique=True)
+    secondname = db.Column(db.String(64))
+    firstname = db.Column(db.String(64))
+    birthdate = db.Column(db.DateTime)
+    weight = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
     email = db.Column(db.String(120), index=True, unique=True)
+    phonenumber = db.Column(db.Integer)
     password_hash = db.Column(db.String(128))
     role = db.Column(db.Integer)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
