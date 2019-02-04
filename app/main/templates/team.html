@@ -2,5 +2,23 @@
 
 {% block app_content %}
     <h1> {{team.teamname}}</h1>
+    <div class="row">
+        <div class="col-xs-2"> {{ _('Sport Level')}}:</div>
+        <div class="col-xs-4"> {{ team.sport_level_name()}}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2"> {{ _('Collective Sport')}}:</div>
+        <div class="col-xs-4"> {{ team.collective_sport_name()}}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2"> {{ _('Racket Sport')}}:</div>
+        <div class="col-xs-4"> {{ team.racket_sport_name()}}</div>
+    </div>
+    <h3>Users</h3>
+    <table class="table table-hover">
+    {% for u in team.get_players() %}
+        <tr> <td class="col-xs-1">{{u.player_rank}}</td> <td class="col-xs-10">{{u.username}}</td> </tr>
+    {%endfor%}
+    </table>
     <p><a href="{{ url_for('main.edit_team', team_id=team.id) }}">{{_('Edit team')}}</a></p>
 {% endblock %}
