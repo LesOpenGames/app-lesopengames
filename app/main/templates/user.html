@@ -14,7 +14,7 @@
     {% if user == current_user %}
     <p><a href="{{ url_for('main.edit_profile') }}">{{_('Edit your profile')}}</a></p>
         {% if current_user.team %}
-        <p><a href="{{ url_for('main.team', teamid=current_user.team.id) }}">{{ current_user.team.teamname}}</a></p>
+        <p><a href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{ current_user.team.teamname}}</a></p>
         {%else%}
         <p><a href="{{ url_for('main.create_team') }}">{{_('Participate to team')}}</a></p>
         {%endif%}

@@ -136,9 +136,9 @@ def users():
     return render_template('users.html', title='Users Admin List', users=users, admin=True)
 
 
-@bp.route('/team/<teamid>')
-def team(teamid):
-    team = Team.query.filter_by(id=teamid).first_or_404()
+@bp.route('/team/<team_id>')
+def team(team_id):
+    team = Team.query.filter_by(id=team_id).first_or_404()
     return render_template('team.html', team=team)
 
 @bp.route('/create_team', methods=['GET', 'POST'])
@@ -192,7 +192,7 @@ def edit_team(team_id):
                 flash( _('Problem Occured with modifying team') )
                 return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s modified', teamname=team.teamname))
-        return redirect(url_for('main.team', teamid=team_id) )
+        return redirect(url_for('main.team', team_id=team_id) )
     elif request.method == 'GET':
         form.sportlevel.data = team.sport_level
         form.racksport.data = team.racket_sport_type
