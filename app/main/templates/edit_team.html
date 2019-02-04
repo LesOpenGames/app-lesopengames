@@ -8,22 +8,36 @@
     {% else %}
     <h1>{{_('Create Team') }}</h1>
     {% endif %}
-    <div class="row">
-        <div class="col-md-4">
-            <form class="form form-horizontal" method="post" role="form">
-              {{ form.hidden_tag() }}
-              {{ wtf.form_errors(form, hiddens="only") }}
-              {{ wtf.form_field(form.teamname) }}
-              {{ form.sportlevel.label}}
-              {{ wtf.form_field(form.sportlevel) }}
-              {{ form.collsport.label}}
-              {{ wtf.form_field(form.collsport) }}
-              {{ form.racksport.label}}
-              {{ wtf.form_field(form.racksport) }}
-              {{ wtf.form_field(form.submit) }}
-            </form>
+    <form class="form form-horizontal" method="post" role="form">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_errors(form, hiddens="only") }}
+        <div class="row">
+            <div class="col-xs-2"> {{ form.teamname.label }}</div>
+            <div class="col-xs-4"> {{ form.teamname }}</div>
+            <div class="col-xs-6"> </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-xs-2">{{ form.sportlevel.label}}</div>
+            <div class="col-xs-4">{{ wtf.form_field(form.sportlevel) }}</div>
+            <div class="col-xs-6"> </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">{{ form.collsport.label}}</div>
+            <div class="col-xs-4">{{ wtf.form_field(form.collsport) }}</div>
+            <div class="col-xs-6"> </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">{{ form.racksport.label}}</div>
+            <div class="col-xs-4">{{ wtf.form_field(form.racksport) }}</div>
+            <div class="col-xs-6"> </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-xs-2"> </div>
+            <div class="col-xs-4"> {{ wtf.form_field(form.submit) }} </div>
+            <div class="col-xs-6"> </div>
+        </div>
+    </form>
     <!--
     <div class="row">
         <div class="col-md-4">
@@ -32,18 +46,20 @@
     </div>
     -->
     {% if team %}
+    <hr/>
     <table class="table table-hover">
         {% for i in range(4) %}
-        <tr>
-            <td>{{ i }} </td>
+        <tr class="row">
+            <td class="col-xs-2">{{ i }} </td>
             {% if team.get_players() |length < i+1 %}
-            <td>{{ _('No User') }} </td>
-            <td> <a href="{{ url_for('main.create_profile', team_id=team.id)}}" class="btn btn-info">{{ _('Add Player') }} </a> </td>
+            <td class="col-xs-2">{{ _('No User') }} </td>
+            <td class="col-xs-2"> <a href="{{ url_for('main.create_profile', team_id=team.id)}}" class="btn btn-info">{{ _('Add Player') }} </a> </td>
             {% else %}
             {% set player = team.get_players()[i] %}
-            <td>{{ player.username }} </td>
-            <td> <a href="{{ url_for('main.edit_profile', user_id=player.id)}}" class="btn btn-info">{{ _('Modify Player') }} </a> </td>
+            <td class="col-xs-2">{{ player.username }} </td>
+            <td class="col-xs-2"> <a href="{{ url_for('main.edit_profile', user_id=player.id)}}" class="btn btn-info">{{ _('Modify Player') }} </a> </td>
             {% endif %}
+            <td class="col-xs-6"> </td>
         </tr>
         {%endfor%}
     </table>
