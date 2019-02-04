@@ -9,7 +9,7 @@
             {{ _('No Team') }}
             {% endif %}
         </td>
-    {% if current_user.role | string() == 'RolesType.ADMIN' and admin %}
+    {% if current_user.is_authenticated and current_user.is_admin() and admin %}
         <td>
             {{ user.id }}
         </td>

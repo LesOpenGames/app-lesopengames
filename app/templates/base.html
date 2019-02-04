@@ -42,7 +42,7 @@
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for('auth.login') }}">{{_('Login')}}</a></li>
                     {% else %}
-                        {% if current_user.role | string() == 'RolesType.ADMIN' %}
+                        {% if current_user.is_admin() %}
                             <li><a href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a></li>
                             <li><a href="{{ url_for('main.users') }}">{{ _('Users')}}</a></li>
                         {% endif %}
