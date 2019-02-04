@@ -53,7 +53,7 @@ def register(app):
                 str(u.id or '---'),
                 str(u.username or '---'),
                 str(u.email or '---'),
-                str(u.role  or '---')))
+                str('---' if u.role is None  else  RolesType(u.role))))
 
     @app.cli.group()
     def translate():
