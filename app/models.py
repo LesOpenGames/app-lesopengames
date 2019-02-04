@@ -125,6 +125,7 @@ class Team(db.Model):
         return "none" if self.collective_sport_type is None else CollectiveSportType(self.collective_sport_type)
     def sport_level_name(self):
         return "none" if self.sport_level is None else SportLevel(self.sport_level)
+
     def get_players(self):
         return self.players
 	

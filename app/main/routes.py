@@ -192,7 +192,11 @@ def edit_team(team_id):
                 flash( _('Problem Occured with modifying team') )
                 return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s modified', teamname=team.teamname))
-        return redirect(url_for('main.index') )
+        return redirect(url_for('main.team', teamid=team_id) )
+    elif request.method == 'GET':
+        form.sportlevel.data = team.sport_level
+        form.racksport.data = team.racket_sport_type
+        form.collsport.data = team.collective_sport_type
     return render_template('edit_team.html', title='Edit Team', form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
