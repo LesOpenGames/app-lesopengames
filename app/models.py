@@ -65,6 +65,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
+    def is_admin(self):
+        return self.role is not None and RolesType(self.role) == RolesType.ADMIN
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

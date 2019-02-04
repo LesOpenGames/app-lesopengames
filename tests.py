@@ -176,6 +176,23 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(s1.sport_level, SportLevel.TOUGH)
         
 
+    def test_user_is_admin(self):
+        u0 = User(username='david', email='david@example.com')
+        u0.role = int(RolesType.ADMIN)
+        u1 = User(username='josette', email='josette@example.com')
+        u1.role = RolesType.JUGE
+        u2 = User(username='alfred', email='alfred@example.com')
+        u2.role = RolesType.ADMIN
+        u3 = User(username='chabin', email='chabin@example.com')
+
+#       u3.role = "admin"
+#        with self.assertRaises(ValueError):
+#            u3.role = "admin"
+
+        self.assertTrue( u0.is_admin() )
+        self.assertFalse( u1.is_admin() )
+        self.assertTrue( u2.is_admin() )
+        self.assertFalse( u3.is_admin() )
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
