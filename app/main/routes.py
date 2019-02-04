@@ -161,10 +161,11 @@ def create_team():
 def edit_team(team_id):
     # check security
     team=Team.query.filter_by(id=team_id).first()
-    if( not team ):
+    if( team is None ):
         flash( _('No such team for id %(team_id)', team_id=team_id))
         return redirect(url_for('main.index') )
-    if( ( current_user.role != RolesType.ADMIN ) and ( team_id != current_user.team.id) ):
+    if( not ( current_user.is_admin() or
+        (( current_user.team is not None) and  current_user.team.id == team_id ) )):
         flash( _('Sorry, you cant modify team %(name)s', name=team.teamname))
         return redirect(url_for('main.index') )
     # did we ask for delet ?
