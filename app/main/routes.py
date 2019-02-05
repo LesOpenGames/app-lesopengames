@@ -85,22 +85,28 @@ def user(user_id):
 @bp.route('/create_profile', methods=['GET', 'POST'])
 @login_required
 def create_profile():
+    team = None
     team_id = request.args.get('team_id')
     form = EditProfileForm()
-    team = Team.query.get(team_id)
-    if ( team == None ):
-        flash( _('No such team'))
-        return render_template('index.html')
-    elif form.validate_on_submit():
+    if( team_id is not None ):
+        team = Team.query.get(team_id)
+        if ( team is None ):
+            flash( _('No such team'))
+            return render_template('index.html')
+    if form.validate_on_submit():
         user = User()
-        user.username = form.username.data
-        user.about_me = form.about_me.data
         user.role = int(RolesType.PLAYER)
+        form2user(form, user)
         db.session.add(user)
-        team.subscribe( user )
+        if ( team is not None ):
+            team.subscribe( user )
         db.session.commit()
-        flash(_('Sucessfully added player to team'))
-        return redirect( url_for('main.edit_team', team_id=team_id) )
+        if( team is not None):
+            flash(_('Sucessfully added player to team'))
+            return redirect( url_for('main.edit_team', team_id=team.id) )
+        else:
+            flash(_('Sucessfully created user'))
+            return redirect( url_for('main.user', user_id=user.id) )
 #    elif request.method == 'GET':
 #        form.username.data = user.username
 #        form.about_me.data = user.about_me
@@ -116,22 +122,25 @@ def edit_profile(user_id=-1):
         user = current_user
     form = EditProfileForm(obj=user)
     if form.validate_on_submit():
-        user.username = form.username.data
-        user.about_me = form.about_me.data
-        user.firstname = form.firstname.data
-        user.secondname = form.secondname.data
-        user.gender = form.gender.data
-        user.birthdate = form.birthdate.data
-        user.weight = form.weight.data
-        user.email = form.email.data
-        user.phonenumber = form.phonenumber.data
+        form2user(form, user)
         db.session.commit()
         flash(_('Sucessfully updated your profile'))
-        return redirect(url_for('main.edit_profile', user_id=user_id))
+        return redirect(url_for('main.user', user_id=user.id))
 #    elif request.method == 'GET':
 #        form.username.data = user.username
 #        form.about_me.data = user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
+
+def form2user(form, user):
+    user.username = form.username.data
+    user.about_me = form.about_me.data
+    user.firstname = form.firstname.data
+    user.secondname = form.secondname.data
+    user.gender = form.gender.data
+    user.birthdate = form.birthdate.data
+    user.weight = form.weight.data
+    user.email = form.email.data
+    user.phonenumber = form.phonenumber.data
 
 @bp.route('/users')
 @login_required
