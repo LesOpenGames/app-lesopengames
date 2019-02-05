@@ -31,12 +31,16 @@ class EditProfileForm(FlaskForm):
     phonenumber =  IntegerField(_l('Phone Number'), validators=[DataRequired()])
     submit = SubmitField(_l('Change Profile'))
     # New constructor with param, called in routes.py       
-    #def __init__(self, original_username='', *args, **kwargs):
-    #    super(EditProfileForm, self).__init__(*args, **kwargs)
-    #    self.original_username = original_username
-    ## Username validator, preventing allready used username
-    #def validate_username(self, username):
-    #    if username.data != self.original_username:
-    #        user = User.query.filter_by(username=self.username.data).first()
-    #        if user is not None:
-    #            raise ValidationError(_('Please use a different username.'))
+    def __init__(self, original_username='', *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.original_username = kwargs.get('obj').username
+    # Username validator, preventing allready used username
+    def validate_username(self, username):
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
+            if user is not None:
+                raise ValidationError(_('Please use a different username.'))
+#    def validate_email(self, email):
+#        if email.data != self.
+#        email = User.query.filter
+
