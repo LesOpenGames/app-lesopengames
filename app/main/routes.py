@@ -156,11 +156,14 @@ def create_team():
     if form.validate_on_submit():
         teamname=form.teamname.data
         team = Team(teamname=teamname)
+        team.sport_level = form.sportlevel.data
+        team.racket_sport_type = form.racksport.data
+        team.collective_sport_type = form.collsport.data
         team.subscribe(current_user)
         db.session.add(team)
         db.session.commit()
         flash( _('Team %(teamname)s validated', teamname=teamname))
-        return redirect(url_for('main.index') )
+        return redirect( url_for('main.edit_team', team_id=team.id) )
     return render_template('edit_team.html', title=_('Create Team'), form=form)
 
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
