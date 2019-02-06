@@ -34,6 +34,27 @@ def register(app):
         db.session.commit()
 
     @og_adm.command()
+    @click.argument('team_id')
+    def del_team(team_id):
+        """Del team by id"""
+        team = Team.query.get(team_id)
+        if( team == None ):
+            print("no such team")
+            return
+        db.session.delete(team)
+        db.session.commit()
+        print("Team {} deleted".format(team.teamname))
+
+    @og_adm.command()
+    def show_teams():
+        """List all teams in base"""
+        for t in Team.query.order_by(Team.id).all():
+            print ("{0:4} {1:14}".format(
+                str(t.id or '---'),
+                str(t.teamname or '---')
+                ))
+
+    @og_adm.command()
     @click.argument('user_id')
     def del_user(user_id):
         """Del user by id"""
