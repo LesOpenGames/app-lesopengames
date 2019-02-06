@@ -20,7 +20,7 @@ def register(app):
         if( user == None ):
             print("no such user")
             return
-        use.set_password(passwd)
+        user.set_password(passwd)
 
     @og_adm.command()
     @click.argument('user_id')
@@ -48,7 +48,7 @@ def register(app):
     @og_adm.command()
     def show_users():
         """List all users in base"""
-        for u in User.query.all():
+        for u in User.query.order_by(User.id).all():
             print ("{0:4} {1:14} {3:20} {2:30} ".format(
                 str(u.id or '---'),
                 str(u.username or '---'),
