@@ -24,7 +24,6 @@ def index():
     teams = Team.query.all()
     return render_template('index.html', teams=teams)
 
-
 def old_index():
     form = PostForm()
     if form.validate_on_submit():
@@ -107,9 +106,6 @@ def create_profile():
         else:
             flash(_('Sucessfully created user'))
             return redirect( url_for('main.user', user_id=user.id) )
-#    elif request.method == 'GET':
-#        form.username.data = user.username
-#        form.about_me.data = user.about_me
     return render_template('edit_profile.html', title='Create User', form=form)
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])
@@ -126,9 +122,6 @@ def edit_profile(user_id=-1):
         db.session.commit()
         flash(_('Sucessfully updated your profile'))
         return redirect(url_for('main.user', user_id=user.id))
-#    elif request.method == 'GET':
-#        form.username.data = user.username
-#        form.about_me.data = user.about_me
     return render_template('edit_profile.html', title='User Profile', form=form)
 
 def form2user(form, user):
@@ -150,7 +143,6 @@ def users():
         return redirect(url_for('main.index') )
     users = User.query.all()
     return render_template('users.html', title='Users Admin List', users=users, admin=True)
-
 
 @bp.route('/team/<team_id>')
 def team(team_id):

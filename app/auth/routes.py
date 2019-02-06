@@ -49,7 +49,6 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
-
 @bp.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
