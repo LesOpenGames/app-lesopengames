@@ -69,12 +69,20 @@ def register(app):
     @og_adm.command()
     def show_users():
         """List all users in base"""
+        print ("{0:4} {1:14} {3:20} {2:30} {4:4}".format(
+                'id', 
+                'username', 
+                'role', 
+                'email', 
+                'team_id', 
+                ))
         for u in User.query.order_by(User.id).all():
-            print ("{0:4} {1:14} {3:20} {2:30} ".format(
+            print ("{0:4} {1:14} {3:20} {2:30} {4:4}".format(
                 str(u.id or '---'),
                 str(u.username or '---'),
                 str(u.email or '---'),
-                str('---' if u.role is None  else  RolesType(u.role))))
+                str('---' if u.role is None  else  RolesType(u.role)),
+                str('---' if u.team_id is None  else  u.team_id)))
 
     @app.cli.group()
     def translate():
