@@ -73,8 +73,8 @@ def register(app):
         print ("{0:4} {1:14} {3:20} {2:30} {4:4} {5:4}".format(
                 'id', 
                 'username', 
-                'role', 
                 'email', 
+                'role', 
                 'team', 
                 'rank', 
                 ))

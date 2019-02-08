@@ -170,9 +170,23 @@ def create_team():
         team.sport_level = form.sportlevel.data
         team.racket_sport_type = form.racksport.data
         team.collective_sport_type = form.collsport.data
-        team.subscribe(current_user)
+        # set role if no role
+        if( current_user.role is None ):
+            current_user.role = int(RolesType.PLAYER)
+        # subscribe to team only if is player
+        if( current_user.role == RolesType.PLAYER):
+            team.subscribe(current_user)
         db.session.add(team)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError as err:
+            if "duplicate key value violates unique constraint" in str(err):
+                flash( _('Name %(newteamname)s already exist', newteamname=teamname))
+                return redirect( url_for('main.create_team') )
+            else:
+                flash( _('Problem Occured with creating team')  )
+                flash ( str(err) )
+                return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s validated', teamname=teamname))
         return redirect( url_for('main.edit_team', team_id=team.id) )
     return render_template('edit_team.html', title=_('Create Team'), form=form)
