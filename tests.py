@@ -127,31 +127,19 @@ class UserModelCase(unittest.TestCase):
         self.assertFalse(t1.is_player(u5))
         self.assertTrue(t2.is_player(u5))
 
-
-        #self.assertTrue(t1.is_leader(u1))
-
-    def test_user_roles(self):
-        u0 = User(username='david', email='david@example.com')
-        u0.role = RolesType.ADMIN
-        u1 = User(username='josette', email='josette@example.com')
-        u1.role = RolesType.JUGE
-        u2 = User(username='alfred', email='alfred@example.com')
-        u2.role = RolesType.PLAYER
-        
-        db.session.add(u0)
-        db.session.add(u1)
-        db.session.add(u2)
+    def test_team_isleader(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='sarah', email='sarah@example.com')
+        u3 = User(username='cedric', email='cedric@example.com')
+        t1 = Team(teamname='cathares')
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        db.session.add(t1)
         db.session.commit()
+        self.assertTrue(t1.is_leader(u1))
+        self.assertFalse(t1.is_leader(u2))
+        self.assertFalse(t1.is_leader(u3))
 
-        v0  = User.query.filter_by(username='david').one()
-        v1  = User.query.filter_by(username='josette').one()
-        v2  = User.query.filter_by(username='alfred').one()
-
-        self.assertEqual(v0.role, RolesType.ADMIN)
-        self.assertEqual(v1.role, RolesType.JUGE)
-        self.assertEqual(v2.role, RolesType.PLAYER)
-
-        
     def test_team_sportstype(self):
         t0 = Team(teamname='pelutes')
         t0.racket_sport_type = RacketSportType.PINGPONG
@@ -175,6 +163,26 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(s1.collective_sport_type, CollectiveSportType.FLAG)
         self.assertEqual(s1.sport_level, SportLevel.TOUGH)
         
+    def test_user_roles(self):
+        u0 = User(username='david', email='david@example.com')
+        u0.role = RolesType.ADMIN
+        u1 = User(username='josette', email='josette@example.com')
+        u1.role = RolesType.JUGE
+        u2 = User(username='alfred', email='alfred@example.com')
+        u2.role = RolesType.PLAYER
+        
+        db.session.add(u0)
+        db.session.add(u1)
+        db.session.add(u2)
+        db.session.commit()
+
+        v0  = User.query.filter_by(username='david').one()
+        v1  = User.query.filter_by(username='josette').one()
+        v2  = User.query.filter_by(username='alfred').one()
+
+        self.assertEqual(v0.role, RolesType.ADMIN)
+        self.assertEqual(v1.role, RolesType.JUGE)
+        self.assertEqual(v2.role, RolesType.PLAYER)
 
     def test_user_is_admin(self):
         u0 = User(username='david', email='david@example.com')

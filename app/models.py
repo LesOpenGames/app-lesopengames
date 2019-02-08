@@ -137,11 +137,6 @@ class Team(db.Model):
 	
     def is_leader(self, player):
         return self.is_player(player) and (player.player_rank == 0 )
-        #try:
-        #    index = self.players.index(user)
-        #except:
-        #    return False
-        #return index == 0
 
     def is_player(self, player):
         #return False if ( player.team == None ) else ( player.team.id == self.id )
