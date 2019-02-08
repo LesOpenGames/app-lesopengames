@@ -21,6 +21,7 @@ def register(app):
             print("no such user")
             return
         user.set_password(passwd)
+        db.session.commit()
 
     @og_adm.command()
     @click.argument('user_id')
