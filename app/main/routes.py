@@ -112,10 +112,21 @@ def create_profile():
 @bp.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def edit_profile(user_id=-1):
-    if( user_id >= 0 and current_user.role  == RolesType.ADMIN ):
-        user = User.query.get(user_id)
-    else:
+    if( user_id == -1 or current_user.id == user_id ): # url called with no arg or ourself
         user = current_user
+    else: # trying to edit other user than us
+        user = User.query.get(user_id)
+        # Is there such id in base ?
+        if( user is None ):
+            flash(_('No such User'))
+            return redirect(url_for('main.index'))
+        # Do we have auth to edit ?
+        current_is_leader = ( user.team is not None and user.team.is_leader(current_user) )
+        current_is_admin  = current_user.role  == RolesType.ADMIN
+        if not ( current_is_leader or current_is_admin ):
+            flash(_('Unable to edit such User '))
+            return redirect(url_for('main.index'))
+    # else ... well, go on
     form = EditProfileForm(obj=user)
     if form.validate_on_submit():
         form2user(form, user)
