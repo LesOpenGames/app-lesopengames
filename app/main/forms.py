@@ -25,7 +25,7 @@ class EditProfileForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
     gender = RadioField(_('Gender'), coerce=int, choices=[(0, _('M')), (1, _('F')) ] )
-    birthdate = DateField(_l('Birth Date'), validators=[DataRequired()])
+    birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})#, validators=[DataRequired()], description="une description")
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     phonenumber =  IntegerField(_l('Phone Number'), validators=[DataRequired()])
@@ -44,6 +44,10 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError(_('Please use a different username.'))
+#    def validate_birthdate(self, date):
+#        raise ValidationError(date.data)
+#        if( date is None)
+#            raise ValidationError(_('Birthdate required'))
 #    def validate_email(self, email):
 #        if email.data != self.
 #        email = User.query.filter
