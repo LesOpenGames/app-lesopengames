@@ -1,0 +1,12 @@
+    <tr >
+        <th> Username </th>
+        <th> Team </th>
+    {% if current_user.is_authenticated and current_user.is_admin() and admin %}
+        <th> Id </th>
+        <th> Email </th>
+        <th> Role </th>
+        <th> Edit </th>
+        <th> Delete </th>
+    {% endif %}
+    </tr>
+
