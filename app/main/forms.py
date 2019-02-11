@@ -29,7 +29,7 @@ class EditProfileForm(FlaskForm):
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     phonenumber =  IntegerField(_l('Phone Number'), validators=[DataRequired()])
-    submit = SubmitField(_l('Change Profile'))
+    submit = SubmitField(_l('Submit'))
     # New constructor with param, called in routes.py       
     def __init__(self, original_username='', *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)

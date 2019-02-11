@@ -133,7 +133,7 @@ def edit_profile(user_id=-1):
         db.session.commit()
         flash(_('Sucessfully updated your profile'))
         return redirect(url_for('main.user', user_id=user.id))
-    return render_template('edit_profile.html', title='User Profile', form=form)
+    return render_template('edit_profile.html', title='Change User', form=form)
 
 def form2user(form, user):
     user.username = form.username.data
