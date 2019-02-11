@@ -3,11 +3,7 @@
 
 
 {% block app_content %}
-    {% if team %}
     <h1>{{_('Edit Team: ') }} {{team.teamname}}</h1>
-    {% else %}
-    <h1>{{_('Create Team') }}</h1>
-    {% endif %}
     <form class="form form-horizontal" method="post" role="form">
       {{ form.hidden_tag() }}
       {{ wtf.form_errors(form, hiddens="only") }}
@@ -18,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-xs-2">{{ form.sportlevel.label}}</div>
-            <div class="col-xs-4">{{ wtf.form_field(form.sportlevel) }}</div>
+            <div class="col-xs-4">{{ team.sport_level_name() }}</div>
             <div class="col-xs-6"> </div>
         </div>
         <div class="row">

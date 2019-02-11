@@ -9,6 +9,8 @@ from datetime import datetime
 from hashlib import md5
 from time import time
 
+from flask_babel import _, lazy_gettext as _l
+
 
 from app import db, login
 
@@ -130,7 +132,9 @@ class Team(db.Model):
     def collective_sport_name(self):
         return "none" if self.collective_sport_type is None else CollectiveSportType(self.collective_sport_type)
     def sport_level_name(self):
-        return "none" if self.sport_level is None else SportLevel(self.sport_level)
+        levels = [_("Easy"), _("Sport")]
+        #return "none" if self.sport_level is None else SportLevel(self.sport_level)
+        return "none" if self.sport_level is None else levels[self.sport_level]
 
     def get_players(self):
         return self.players

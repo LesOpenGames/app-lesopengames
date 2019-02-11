@@ -169,6 +169,9 @@ def team(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
     return render_template('team.html', team=team)
 
+##
+# First create team with name and level
+#  (later fill it with editing )
 @bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
 def create_team():
@@ -177,13 +180,11 @@ def create_team():
         teamname=form.teamname.data
         team = Team(teamname=teamname)
         team.sport_level = form.sportlevel.data
-        team.racket_sport_type = form.racksport.data
-        team.collective_sport_type = form.collsport.data
         # set role if no role
         if( current_user.role is None ):
             current_user.role = int(RolesType.PLAYER)
         # subscribe to team only if is player
-        if( current_user.role == RolesType.PLAYER):
+        if( current_user.role == RolesType.PLAYER ):
             team.subscribe(current_user)
         db.session.add(team)
         try:
@@ -196,9 +197,9 @@ def create_team():
                 flash( _('Problem Occured with creating team')  )
                 flash ( str(err) )
                 return redirect(url_for('main.index') )
-        flash( _('Team %(teamname)s validated', teamname=teamname))
+        flash( _('Team %(teamname)s created', teamname=teamname))
         return redirect( url_for('main.edit_team', team_id=team.id) )
-    return render_template('edit_team.html', title=_('Create Team'), form=form)
+    return render_template('create_team.html', title=_('Create Team'), form=form)
 
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
 @bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
@@ -224,7 +225,7 @@ def edit_team(team_id):
     if form.validate_on_submit():
         newteamname = form.teamname.data
         team.teamname= newteamname
-        team.sport_level = form.sportlevel.data
+        #team.sport_level = form.sportlevel.data
         team.racket_sport_type = form.racksport.data
         team.collective_sport_type = form.collsport.data
         try:

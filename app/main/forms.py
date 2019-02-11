@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
 from wtforms import IntegerField, DateField, HiddenField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
 from app.models import User, SportLevel, CollectiveSportType, RacketSportType, RolesType
 
 class PostForm(FlaskForm):
@@ -14,9 +14,9 @@ class EditTeamForm(FlaskForm):
     #sportlevel = RadioField(_('Sport Level'), coerce=int, choices=[(0, _('Easy')), (1, _('Tough')) ] )
     #collsport = RadioField(_('Racket Sport'), coerce=int, choices=[(0, _('Flag')), (1, _('Handball')) ] )
     #racksport = RadioField(_('Collective Sport'), coerce=int, choices=[(0, _('PingPong')), (1, _('Badmington')) ] )
-    sportlevel = RadioField(_('Sport Level'), coerce=int, choices=[(int(SportLevel.EASY), _('Easy')), (int(SportLevel.TOUGH), _('Tough')) ] )
-    collsport = RadioField(_('Racket Sport'), coerce=int, choices=[(int(CollectiveSportType.FLAG), _('Flag')), (int(CollectiveSportType.HAND), _('Handball')) ] )
-    racksport = RadioField(_('Collective Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _('PingPong')), (int(RacketSportType.BADMINGTON), _('Badmington')) ] )
+    sportlevel = RadioField(_('Sport Level'), coerce=int, choices=[(int(SportLevel.EASY), _('Easy')), (int(SportLevel.TOUGH), _('Tough')) ] , validators=[Optional()])
+    collsport = RadioField(_('Collective Sport'), coerce=int, choices=[(int(CollectiveSportType.FLAG), _('Flag')), (int(CollectiveSportType.HAND), _('Handball')) ] , validators=[Optional()])
+    racksport = RadioField(_('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _('PingPong')), (int(RacketSportType.BADMINGTON), _('Badmington')) ] , validators=[Optional()])
     submit = SubmitField(_l('Validate'))
 
 class EditProfileForm(FlaskForm):
