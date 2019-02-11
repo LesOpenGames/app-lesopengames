@@ -84,6 +84,7 @@ def user(user_id):
 @bp.route('/create_profile', methods=['GET', 'POST'])
 @login_required
 def create_profile():
+    # manage the 'from edit_team' scenario
     team = None
     team_id = request.args.get('team_id')
     form = EditProfileForm()
@@ -132,8 +133,16 @@ def edit_profile(user_id=-1):
         form2user(form, user)
         db.session.commit()
         flash(_('Sucessfully updated your profile'))
-        return redirect(url_for('main.user', user_id=user.id))
-    return render_template('edit_profile.html', title='Change User', form=form)
+        # where do we come from ?
+        next_page = form.next_page.data or 'index'
+        if ( 'edit_team' in next_page ):
+            return redirect( url_for('main.edit_team', team_id=user.team_id) )
+        elif ( 'users' in next_page ):
+            return redirect( url_for('main.users') )
+        else:
+            return redirect(url_for('main.user', user_id=user.id))
+    form.next_page.data = request.referrer # store for redirect after validation
+    return render_template('edit_profile.html', title=_('Edit Profile'), form=form)
 
 def form2user(form, user):
     user.username = form.username.data

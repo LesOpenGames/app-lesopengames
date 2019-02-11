@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
-from wtforms import IntegerField, DateField
+from wtforms import IntegerField, DateField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User, SportLevel, CollectiveSportType, RacketSportType, RolesType
 
@@ -20,6 +20,7 @@ class EditTeamForm(FlaskForm):
     submit = SubmitField(_l('Validate'))
 
 class EditProfileForm(FlaskForm):
+    next_page = HiddenField('NextPage')
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=140)])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
