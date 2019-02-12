@@ -236,6 +236,15 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(  u2.is_valid_age() )
         self.assertTrue(  u3.is_valid_age() )
 
+    def test_user_is_valid_age_withnoage(self):
+        u0 = User(username='trestresjeune', email='ttj@example.com')
+        t0 = Team(teamname='Sportif', sport_level = SportLevel.TOUGH)
+        t0.subscribe(u0)
+        db.session.add(t0)
+        db.session.commit()
+
+        # should return false as no age set
+        self.assertFalse( u0.is_valid_age() )
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

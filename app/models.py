@@ -73,14 +73,21 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
+    def is_valid_doc(self):
+        return False
+
+    def is_valid_auth(self):
+        return False
+
     def is_valid_age(self):
-        res = True
+        if ( self.birthdate is None ):
+            return False
         if ( self.team ):
             if( self.team.sport_level == int( SportLevel.EASY) ):
-                res = self.birthdate.year <= 2007
+                return self.birthdate.year <= 2007
             elif( self.team.sport_level == int( SportLevel.TOUGH) ):
-                res = self.birthdate.year <= 2004
-        return res
+                return self.birthdate.year <= 2004
+        return False
 
     def is_admin(self):
         return self.role is not None and RolesType(self.role) == RolesType.ADMIN
