@@ -202,5 +202,40 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue( u2.is_admin() )
         self.assertFalse( u3.is_admin() )
 
+    def test_user_is_valid_age(self):
+        u0 = User(username='trestresjeune', email='ttj@example.com', birthdate=datetime(2008, 12, 9))
+        u1 = User(username='tresjeune', email='tj@example.com', birthdate=datetime(2007, 12, 9))
+        u2 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        u3 = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        t0 = Team(teamname='Sportif', sport_level = SportLevel.TOUGH)
+        t1 = Team(teamname='Loisir', sport_level = SportLevel.EASY)
+
+        t0.subscribe(u0)
+        t0.subscribe(u1)
+        t0.subscribe(u2)
+        t0.subscribe(u3)
+
+        db.session.add(t0)
+        db.session.commit()
+
+        self.assertFalse( u0.is_valid_age() )
+        self.assertFalse( u1.is_valid_age() )
+        self.assertTrue(  u2.is_valid_age() )
+        self.assertTrue(  u3.is_valid_age() )
+
+        t1.subscribe(u0)
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+
+        db.session.add(t1)
+        db.session.commit()
+
+        self.assertFalse( u0.is_valid_age() )
+        self.assertTrue(  u1.is_valid_age() )
+        self.assertTrue(  u2.is_valid_age() )
+        self.assertTrue(  u3.is_valid_age() )
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

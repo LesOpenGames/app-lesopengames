@@ -81,6 +81,8 @@ def user(user_id):
     return render_template('user.html', user=user, posts=posts.items,
                            next_url=next_url, prev_url=prev_url)
 
+#TODO: merge some code between create_profile and edit_profile
+
 @bp.route('/create_profile', methods=['GET', 'POST'])
 @login_required
 def create_profile():
@@ -103,6 +105,8 @@ def create_profile():
         db.session.commit()
         if( team is not None):
             flash(_('Sucessfully added player to team'))
+            if( not user.is_valid_age() ):
+                flash(_('Warning: age is to low for this team level'))
             return redirect( url_for('main.edit_team', team_id=team.id) )
         else:
             flash(_('Sucessfully created user'))
@@ -136,6 +140,8 @@ def edit_profile(user_id=-1):
         # where do we come from ?
         next_page = form.next_page.data or 'index'
         if ( 'edit_team' in next_page ):
+            if( not user.is_valid_age() ):
+                flash(_('Warning: age is to low for this team level'))
             return redirect( url_for('main.edit_team', team_id=user.team_id) )
         elif ( 'users' in next_page ):
             return redirect( url_for('main.users') )
