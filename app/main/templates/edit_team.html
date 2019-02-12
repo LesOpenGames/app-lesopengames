@@ -34,30 +34,9 @@
             <div class="col-xs-6"> </div>
         </div>
     </form>
-    <!--
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
-    </div>
-    -->
     {% if team %}
-    <hr/>
-    <table class="table table-hover">
-        {% for i in range(4) %}
-        <tr class="row">
-            <td class="col-xs-2">{{ i }} </td>
-            {% if team.get_players() |length < i+1 %}
-            <td class="col-xs-2">{{ _('No User') }} </td>
-            <td class="col-xs-2"> <a href="{{ url_for('main.create_profile', team_id=team.id)}}" class="btn btn-info">{{ _('Add Player') }} </a> </td>
-            {% else %}
-            {% set player = team.get_players()[i] %}
-            <td class="col-xs-2">{{ player.username }} </td>
-            <td class="col-xs-2"> <a href="{{ url_for('main.edit_profile', user_id=player.id)}}" class="btn btn-info">{{ _('Modify Player') }} </a> </td>
-            {% endif %}
-            <td class="col-xs-6"> </td>
-        </tr>
-        {%endfor%}
-    </table>
+        {% with edit=True %}
+            {%include '_team_users.html'%}
+        {% endwith %}
     {% endif %}
 {% endblock %}

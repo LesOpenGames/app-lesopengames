@@ -6,7 +6,7 @@
             {% if user.team != None %}
             {{ user.team.teamname }}
             {% else %}
-            {{ _('No Team') }}
+            ----
             {% endif %}
         </td>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
@@ -17,7 +17,7 @@
             {{ user.email }}
         </td>
         <td>
-            {{ user.role }}
+            {% if user.role %} {{ user.role }} {% else %} ---- {% endif %}
         </td>
         <td>
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
