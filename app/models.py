@@ -79,7 +79,7 @@ class User(UserMixin, db.Model):
         return self.valid_health
 
     def is_valid_auth(self):
-        return self.valid_auth
+        return self.is_mayor() or self.valid_auth
 
     def is_valid_age(self):
         if ( self.birthdate is None ):

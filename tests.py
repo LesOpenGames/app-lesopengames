@@ -249,10 +249,13 @@ class UserModelCase(unittest.TestCase):
     def test_user_is_valid(self):
         u1 = User(username='jeune', email='j@example.com', valid_auth = True, valid_health = False)
         u2 = User(username='age', email='ag@example.com', valid_auth = False, valid_health = True)
-        self.assertTrue(u1.is_valid_auth())
-        self.assertFalse(u1.is_valid_health())
-        self.assertFalse(u2.is_valid_auth())
-        self.assertTrue(u2.is_valid_health())
+        u3 = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        self.assertTrue( u1.is_valid_auth() )
+        self.assertFalse( u1.is_valid_health() )
+        self.assertFalse( u2.is_valid_auth() )
+        self.assertTrue( u2.is_valid_health() )
+        # even with valid_auth false, mayor player is_authorized
+        self.assertTrue( u1.is_valid_auth() )
 
     def test_user_is_mayor(self):
         u1 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
