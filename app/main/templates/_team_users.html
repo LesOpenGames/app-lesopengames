@@ -25,7 +25,7 @@
                 <td class="col-xs-8">{{u.username}}</td>
                 <td class="col-xs-1"><span class="badge {{is_success(u.is_valid_age())}}">{{_("age")}}</span></td>
                 <td class="col-xs-1"><span class="badge {{is_success(u.is_valid_auth())}}">{{_("auth")}}</span></td>
-                <td class="col-xs-1"><span class="badge {{is_success(u.is_valid_doc())}}">{{_("doc")}}</span></td>
+                <td class="col-xs-1"><span class="badge {{is_success(u.is_valid_health())}}">{{_("doc")}}</span></td>
                 {% if edit %}
                 <td class="col-xs-2"> <a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-info">{{ _('Change') }} </a> </td>
                 {% endif %}

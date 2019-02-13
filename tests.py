@@ -246,5 +246,21 @@ class UserModelCase(unittest.TestCase):
         # should return false as no age set
         self.assertFalse( u0.is_valid_age() )
 
+    def test_user_is_valid(self):
+        u1 = User(username='jeune', email='j@example.com', valid_auth = True, valid_health = False)
+        u2 = User(username='age', email='ag@example.com', valid_auth = False, valid_health = True)
+        self.assertTrue(u1.is_valid_auth())
+        self.assertFalse(u1.is_valid_health())
+        self.assertFalse(u2.is_valid_auth())
+        self.assertTrue(u2.is_valid_health())
+
+    def test_user_is_mayor(self):
+        u1 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        u2 = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        u3 = User(username='age', email='ag@example.com')
+        self.assertFalse(u1.is_mayor())
+        self.assertTrue(u2.is_mayor())
+        self.assertFalse(u3.is_mayor())
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

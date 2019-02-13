@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.orderinglist import ordering_list
 from flask import current_app
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from hashlib import md5
 from time import time
 
@@ -63,6 +63,8 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     player_rank = db.Column(db.Integer)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    valid_health = db.Column(db.Boolean, default=False)
+    valid_auth = db.Column(db.Boolean, default=False)
     # see before, the followers relationshup
     followed = db.relationship(
             'User', secondary=followers,
@@ -73,11 +75,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
-    def is_valid_doc(self):
-        return False
+    def is_valid_health(self):
+        return self.valid_health
 
     def is_valid_auth(self):
-        return False
+        return self.valid_auth
 
     def is_valid_age(self):
         if ( self.birthdate is None ):
@@ -88,6 +90,12 @@ class User(UserMixin, db.Model):
             elif( self.team.sport_level == int( SportLevel.TOUGH) ):
                 return self.birthdate.year <= 2004
         return False
+
+    def is_mayor(self):
+        if( self.birthdate is None ):
+            return False
+        age = ( datetime.today() - self.birthdate ) / timedelta(days=365.2425)
+        return age >= 18.0
 
     def is_admin(self):
         return self.role is not None and RolesType(self.role) == RolesType.ADMIN
