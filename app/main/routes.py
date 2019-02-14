@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, RolesType
 
-from app.main.forms import EditProfileForm, PostForm, EditTeamForm
+from app.main.forms import EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
 @bp.before_request
@@ -112,6 +112,26 @@ def create_profile():
             flash(_('Sucessfully created user'))
             return redirect( url_for('main.user', user_id=user.id) )
     return render_template('edit_profile.html', title='Create User', form=form)
+
+@bp.route('/check_docs/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def check_docs(user_id):
+    if( not current_user.is_admin() ):
+        flash( _('Sorry, you cant check players docs') )
+        return redirect(url_for('main.index') )
+    form = SetAuthForm(meta={'csrf': False})
+    user = User.query.get(user_id)
+    if( user is None ):
+        flash(_('No such User'))
+        return redirect(url_for('main.index'))
+    if form.validate_on_submit():
+        user.valid_auth=form.auth.data
+        user.valid_health=form.health.data
+        db.session.commit()
+        return redirect ( request.referrer )
+        #return redirect(url_for('main.index') )
+    flash(_('You cant call that page'))
+    return redirect(url_for('main.index') )
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @bp.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])

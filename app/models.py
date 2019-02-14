@@ -38,9 +38,6 @@ followers = db.Table('followers',
         db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
         )
 
-
-
-
 # used by the flask_login extension for db interaction
 @login.user_loader
 def load_user(id):

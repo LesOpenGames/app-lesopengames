@@ -19,6 +19,11 @@ class EditTeamForm(FlaskForm):
     racksport = RadioField(_('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _('PingPong')), (int(RacketSportType.BADMINGTON), _('Badmington')) ] , validators=[Optional()])
     submit = SubmitField(_l('Validate'))
 
+class SetAuthForm(FlaskForm):
+    health = BooleanField( _l('Health Document'), validators=[Optional()])
+    auth = BooleanField(_l('Parent Auth'), validators=[Optional()])
+    submit = SubmitField(_l('Validate'))
+
 class EditProfileForm(FlaskForm):
     next_page = HiddenField('NextPage')
     username = StringField(_l('Username'), validators=[DataRequired()])
