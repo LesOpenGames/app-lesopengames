@@ -72,6 +72,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
+    def is_valid(self):
+        return self.is_valid_health and self.is_valid_auth and self.is_valid_age
+
     def is_valid_health(self):
         return self.valid_health
 
@@ -148,6 +151,16 @@ class Team(db.Model):
     racket_sport_type = db.Column(db.Integer )
     collective_sport_type = db.Column(db.Integer )
     sport_level = db.Column(db.Integer )
+
+    def is_valid(self):
+        team_players = self.get_players()
+        if(  len( team_players ) == 4):
+            return  ( team_players[0].is_valid and
+                    team_players[1].is_valid and
+                    team_players[2].is_valid and
+                    team_players[3].is_valid  )
+        else:
+            return False
 
     def unset_team_number(self):
         self.team_number = None
