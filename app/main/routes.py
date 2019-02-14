@@ -179,7 +179,7 @@ def form2user(form, user):
     user.birthdate = form.birthdate.data
     user.weight = form.weight.data
     user.email = form.email.data
-    user.phonenumber = form.phonenumber.data
+    user.phonenumberstr = form.phonenumberstr.data
 
 @bp.route('/users')
 @login_required

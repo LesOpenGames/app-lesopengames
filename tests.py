@@ -265,5 +265,12 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(u2.is_mayor())
         self.assertFalse(u3.is_mayor())
 
+    def test_user_phonenumberstr(self):
+        u1 = User(username='romain', email='r@example.com', phonenumberstr='0644267582')
+        u2 = User(username='david', email='d@example.com', phonenumberstr='06 44 26 75 82')
+        u3 = User(username='sheila', email='s@example.com', phonenumberstr='06-44-26-75-82')
+        db.session.add_all([u1, u2, u3])
+        db.session.commit()
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

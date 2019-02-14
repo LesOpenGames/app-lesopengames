@@ -52,7 +52,7 @@ class User(UserMixin, db.Model):
     weight = db.Column(db.Integer)
     gender = db.Column(db.Integer)
     email = db.Column(db.String(120), index=True, unique=True)
-    phonenumber = db.Column(db.Integer)
+    phonenumberstr = db.Column( db.String(32) )
     password_hash = db.Column(db.String(128))
     role = db.Column(db.Integer)
     posts = db.relationship('Post', backref='author', lazy='dynamic')

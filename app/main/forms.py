@@ -1,3 +1,4 @@
+import re
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
@@ -34,7 +35,7 @@ class EditProfileForm(FlaskForm):
     birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    phonenumber =  IntegerField(_l('Phone Number'), validators=[DataRequired()])
+    phonenumberstr =  StringField(_l('Phone Number'), render_kw={'placeholder': '06-18-55-82-33 | 06 18 55 82 33 | 0618558233'}, validators=[Optional()])
     submit = SubmitField(_l('Submit'))
     # New constructor with param, called in routes.py       
     def __init__(self, original_username='', *args, **kwargs):
@@ -50,6 +51,16 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError(_('Please use a different username.'))
+    def validate_phonenumberstr(self, phonenumberfield):
+        phonenumber = phonenumberfield.data
+        if( re.match('\d{10}$', phonenumber)):
+            return True
+        elif( re.match('\d{10}$', "".join(phonenumber.split('-')))):
+            return True
+        elif( re.match('\d{10}$', "".join(phonenumber.split(' ')))):
+            return True
+        else:
+            raise ValidationError(_('Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233'))
 #    def validate_birthdate(self, date):
 #        raise ValidationError(date.data)
 #        if( date is None)
