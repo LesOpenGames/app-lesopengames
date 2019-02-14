@@ -143,10 +143,39 @@ class User(UserMixin, db.Model):
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True ) 
     teamname =  db.Column(db.String(80), unique=True, nullable=False)
+    team_number = db.Column(db.Integer, unique=True)
     players = db.relationship("User", backref='team', order_by="User.player_rank", collection_class=ordering_list('player_rank'))
     racket_sport_type = db.Column(db.Integer )
     collective_sport_type = db.Column(db.Integer )
     sport_level = db.Column(db.Integer )
+
+    def unset_team_number(self):
+        self.team_number = None
+
+    def set_team_number(self):
+        if ( self.team_number is not None):
+            return 0
+        # get all team_numbers
+        team_numbers = [ tn for tn, in db.session.query(Team.team_number).all() if tn is not None]
+        # set to 1 if no numbered teams
+        if( len(team_numbers) == 0):
+            self.team_number = 1
+            return 0
+        # or get the smallest available number
+        team_numbers.sort()
+        i = 0
+        for n in team_numbers:
+            i = i+1
+            if( n == i ):
+                continue
+            elif( n > i):
+                self.team_number = i
+                return 0
+            else:
+                raise RunTimeError("Wrong team number")
+        # if list was complete, we exited for loop without finding smallest available
+        # set to last + 1
+        self.team_number = i+1
 
     def racket_sport_name(self):
         return "none" if self.racket_sport_type is None else RacketSportType(self.racket_sport_type)

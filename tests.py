@@ -9,6 +9,127 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
+class TeamModelCase(unittest.TestCase):
+    def setUp(self):
+        # 
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_team_subscribe(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
+        u3 = User(username='mary', email='mary@example.com')
+        u4 = User(username='david', email='david@example.com')
+        t1 = Team(teamname='cathares')
+        db.session.add_all([u1, u2, u3, u4, t1])
+        db.session.commit()
+
+        self.assertEqual(t1.players, [])
+
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+        t1.subscribe(u4)
+
+        self.assertEqual(t1.players, [u1, u2, u3, u4])
+
+
+        self.assertTrue(t1.is_player(u1))
+        self.assertTrue(t1.is_player(u2))
+        self.assertTrue(t1.is_player(u3))
+        self.assertTrue(t1.is_player(u4))
+
+        t2 = Team(teamname='pelutes')
+        u5 = User(username='joseph', email='joseph@example.com')
+        t2.subscribe(u5)
+        db.session.add_all([t2, u5])
+
+        self.assertFalse(t1.is_player(u5))
+        self.assertTrue(t2.is_player(u5))
+
+    def test_team_isleader(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='sarah', email='sarah@example.com')
+        u3 = User(username='cedric', email='cedric@example.com')
+        t1 = Team(teamname='cathares')
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        db.session.add(t1)
+        db.session.commit()
+        self.assertTrue(t1.is_leader(u1))
+        self.assertFalse(t1.is_leader(u2))
+        self.assertFalse(t1.is_leader(u3))
+
+    def test_team_sportstype(self):
+        t0 = Team(teamname='pelutes')
+        t0.racket_sport_type = RacketSportType.PINGPONG
+        t0.collective_sport_type = CollectiveSportType.HAND
+        t0.sport_level = SportLevel.EASY
+
+        t1 = Team(teamname='cathares')
+        t1.racket_sport_type = RacketSportType.BADMINGTON
+        t1.collective_sport_type = CollectiveSportType.FLAG
+        t1.sport_level = SportLevel.TOUGH
+
+        db.session.add_all([t1, t0])
+        db.session.commit()
+
+        s0  = Team.query.filter_by(teamname='pelutes').one()
+        self.assertEqual(s0.racket_sport_type, RacketSportType.PINGPONG)
+        self.assertEqual(s0.collective_sport_type, CollectiveSportType.HAND)
+        self.assertEqual(s0.sport_level, SportLevel.EASY)
+        s1  = Team.query.filter_by(teamname='cathares').one()
+        self.assertEqual(s1.racket_sport_type, RacketSportType.BADMINGTON)
+        self.assertEqual(s1.collective_sport_type, CollectiveSportType.FLAG)
+        self.assertEqual(s1.sport_level, SportLevel.TOUGH)
+
+    def test_team_noteam_number(self):
+        t1 = Team(teamname='cathares')
+        t2 = Team(teamname='pelutes')
+        db.session.add_all([t1, t2])
+        db.session.commit()
+
+        self.assertTrue(t1.team_number is None)
+        self.assertTrue(t2.team_number is None)
+        
+    def test_team_set_team_number(self):
+        t1 = Team(teamname='cathares')
+        t2 = Team(teamname='pelutes')
+        t3 = Team(teamname='chatons')
+
+        db.session.add_all([t1, t2, t3])
+        db.session.commit()
+
+        self.assertTrue(t1.team_number is None)
+        self.assertTrue(t2.team_number is None)
+        self.assertTrue(t3.team_number is None)
+
+        t1.set_team_number()
+        t2.set_team_number()
+        t3.set_team_number()
+        db.session.commit()
+
+        self.assertEqual(t1.team_number , 1 )
+        self.assertEqual(t2.team_number , 2 )
+        self.assertEqual(t3.team_number , 3 )
+
+        t1.set_team_number()
+        t2.unset_team_number()
+        t3.unset_team_number()
+        t3.set_team_number()
+        db.session.commit()
+
+        self.assertEqual(t1.team_number , 1 )
+        self.assertEqual(t2.team_number , None )
+        self.assertEqual(t3.team_number , 2 )
+
 class UserModelCase(unittest.TestCase):
     def setUp(self):
         # 
@@ -95,74 +216,6 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
 
-    def test_team_subscribe(self):
-        u1 = User(username='john', email='john@example.com')
-        u2 = User(username='susan', email='susan@example.com')
-        u3 = User(username='mary', email='mary@example.com')
-        u4 = User(username='david', email='david@example.com')
-        t1 = Team(teamname='cathares')
-        db.session.add_all([u1, u2, u3, u4, t1])
-        db.session.commit()
-
-        self.assertEqual(t1.players, [])
-
-        t1.subscribe(u1)
-        t1.subscribe(u2)
-        t1.subscribe(u3)
-        t1.subscribe(u4)
-
-        self.assertEqual(t1.players, [u1, u2, u3, u4])
-
-
-        self.assertTrue(t1.is_player(u1))
-        self.assertTrue(t1.is_player(u2))
-        self.assertTrue(t1.is_player(u3))
-        self.assertTrue(t1.is_player(u4))
-
-        t2 = Team(teamname='pelutes')
-        u5 = User(username='joseph', email='joseph@example.com')
-        t2.subscribe(u5)
-        db.session.add_all([t2, u5])
-
-        self.assertFalse(t1.is_player(u5))
-        self.assertTrue(t2.is_player(u5))
-
-    def test_team_isleader(self):
-        u1 = User(username='john', email='john@example.com')
-        u2 = User(username='sarah', email='sarah@example.com')
-        u3 = User(username='cedric', email='cedric@example.com')
-        t1 = Team(teamname='cathares')
-        t1.subscribe(u1)
-        t1.subscribe(u2)
-        db.session.add(t1)
-        db.session.commit()
-        self.assertTrue(t1.is_leader(u1))
-        self.assertFalse(t1.is_leader(u2))
-        self.assertFalse(t1.is_leader(u3))
-
-    def test_team_sportstype(self):
-        t0 = Team(teamname='pelutes')
-        t0.racket_sport_type = RacketSportType.PINGPONG
-        t0.collective_sport_type = CollectiveSportType.HAND
-        t0.sport_level = SportLevel.EASY
-
-        t1 = Team(teamname='cathares')
-        t1.racket_sport_type = RacketSportType.BADMINGTON
-        t1.collective_sport_type = CollectiveSportType.FLAG
-        t1.sport_level = SportLevel.TOUGH
-
-        db.session.add_all([t1, t0])
-        db.session.commit()
-
-        s0  = Team.query.filter_by(teamname='pelutes').one()
-        self.assertEqual(s0.racket_sport_type, RacketSportType.PINGPONG)
-        self.assertEqual(s0.collective_sport_type, CollectiveSportType.HAND)
-        self.assertEqual(s0.sport_level, SportLevel.EASY)
-        s1  = Team.query.filter_by(teamname='cathares').one()
-        self.assertEqual(s1.racket_sport_type, RacketSportType.BADMINGTON)
-        self.assertEqual(s1.collective_sport_type, CollectiveSportType.FLAG)
-        self.assertEqual(s1.sport_level, SportLevel.TOUGH)
-        
     def test_user_roles(self):
         u0 = User(username='david', email='david@example.com')
         u0.role = RolesType.ADMIN
