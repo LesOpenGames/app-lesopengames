@@ -42,6 +42,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a></li>
                     <li><a href="{{ url_for('auth.login') }}">{{_('Login')}}</a></li>
                     {% else %}
                         {% if current_user.is_admin() %}

@@ -84,7 +84,7 @@ msgstr "Se connecter"
 
 #: app/forms.py:46 app/templates/register.html:5
 msgid "Register"
-msgstr "S'inscrire"
+msgstr "Créer un Compte"
 
 #: app/forms.py:51
 msgid "Please use a different username"
