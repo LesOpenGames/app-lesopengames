@@ -3,6 +3,9 @@
             <a href="{{ url_for('main.team', team_id=team.id)}}"> {{ team.teamname }} </a>
         </td>
         <td>
+            {% include '_team_number.html'%}
+        </td>
+        <td>
             {{ team.get_players() | map(attribute="username") | join(", ")}}
         </td>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}

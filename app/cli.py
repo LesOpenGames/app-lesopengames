@@ -50,8 +50,9 @@ def register(app):
     def show_teams():
         """List all teams in base"""
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:14}".format(
+            print ("{0:4} {1:4} {2:14}".format(
                 str(t.id or '---'),
+                str(t.team_number or '---'),
                 str(t.teamname or '---')
                 ))
 
