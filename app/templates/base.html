@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block title %}
-    {% if title %} {{title}} - OpenGames{% else %}{{_('Default Title')}}{% endif %}
+     LesOpenGames - {% if title %} {{title}} {% else %}{{_('Default Title')}}{% endif %}
 {% endblock %}
 
 {% block navbar %}
@@ -36,10 +36,13 @@
                 <ul class="nav navbar-nav">
                     {% if current_user.is_anonymous or not current_user.team %}
                     <li><a href="{{ url_for('main.create_team') }}">{{_('Participate')}}</a></li>
+                    {% elif current_user.team %}
+                    <li><a href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a></li>
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a></li>
                     <li><a href="{{ url_for('auth.login') }}">{{_('Login')}}</a></li>
                     {% else %}
                         {% if current_user.is_admin() %}

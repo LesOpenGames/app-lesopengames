@@ -22,7 +22,7 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
     teams = Team.query.all()
-    return render_template('index.html', teams=teams)
+    return render_template('index.html', title='Home Page', teams=teams)
 
 def old_index():
     form = PostForm()
@@ -78,7 +78,7 @@ def user(user_id):
         if posts.has_next else None
     prev_url = url_for('main.user', username=user.username, page_num=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('user.html', user=user, posts=posts.items,
+    return render_template('user.html', title=_('User Profile'), user=user, posts=posts.items,
                            next_url=next_url, prev_url=prev_url)
 
 #TODO: merge some code between create_profile and edit_profile
@@ -94,7 +94,7 @@ def create_profile():
         team = Team.query.get(team_id)
         if ( team is None ):
             flash( _('No such team'))
-            return render_template('index.html')
+            return render_template('index.html', title=_('Home Page'))
     if form.validate_on_submit():
         user = User()
         user.role = int(RolesType.PLAYER)
@@ -111,7 +111,7 @@ def create_profile():
         else:
             flash(_('Sucessfully created user'))
             return redirect( url_for('main.user', user_id=user.id) )
-    return render_template('edit_profile.html', title='Create User', form=form)
+    return render_template('edit_profile.html', title=_('Create User'), form=form)
 
 @bp.route('/check_docs/<int:user_id>', methods=['GET', 'POST'])
 @login_required
@@ -193,7 +193,7 @@ def users():
 @bp.route('/team/<team_id>')
 def team(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
-    return render_template('team.html', team=team)
+    return render_template('team.html', title=_('Team'), team=team)
 
 ##
 # First create team with name and level

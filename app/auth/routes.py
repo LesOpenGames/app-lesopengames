@@ -27,7 +27,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page=url_for('main.index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title=_('Sign In'), form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
