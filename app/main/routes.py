@@ -269,10 +269,15 @@ def edit_team(team_id):
         form.sportlevel.data = team.sport_level
         form.racksport.data = team.racket_sport_type
         form.collsport.data = team.collective_sport_type
-    # Check valid players 
-    if( ( team.team_number is None ) and ( team.is_valid() ) ):
-        team.set_team_number()
-        db.session.commit()
+    # Check valid players  or Unvalidate team
+    if( team.team_number is None ):
+        if ( team.is_valid() ):
+            team.set_team_number()
+            db.session.commit()
+    else:
+        if ( not team.is_valid() ):
+            team.unset_team_number()
+            db.session.commit()
     return render_template('edit_team.html', title='Edit Team', form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
