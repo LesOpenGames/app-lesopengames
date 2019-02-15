@@ -130,6 +130,39 @@ class TeamModelCase(unittest.TestCase):
         self.assertEqual(t2.team_number , None )
         self.assertEqual(t3.team_number , 2 )
 
+    def test_team_is_valid(self):
+        u1 = User(username='jos', email='jos@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
+        u2 = User(username='fab', email='fab@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
+        u3 = User(username='luc', email='luc@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
+        u4 = User(username='ing', email='ing@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
+
+        t1 = Team(teamname='cathares')
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+
+        # not enough users
+        self.assertFalse(t1.is_valid())
+
+        t1.subscribe(u4)
+        
+        self.assertTrue(t1.is_valid())
+
+    def test_team_is_not_valid(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
+        u3 = User(username='mary', email='mary@example.com')
+        u4 = User(username='david', email='david@example.com')
+
+        t1 = Team(teamname='cathares')
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+        t1.subscribe(u4)
+        
+        self.assertFalse(t1.is_valid())
+
+
 class UserModelCase(unittest.TestCase):
     def setUp(self):
         # 
@@ -309,13 +342,23 @@ class UserModelCase(unittest.TestCase):
     def test_user_is_valid(self):
         u1 = User(username='jeune', email='j@example.com', valid_auth = True, valid_health = False)
         u2 = User(username='age', email='ag@example.com', valid_auth = False, valid_health = True)
-        u3 = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        u3 = User(username='shon', email='sh@example.com', birthdate=datetime(1970, 12, 9))
+        u4 = User(username='ing', email='ig@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
+
+        db.session.add_all([u1, u2, u3, u4])
+        db.session.commit()
+
+        self.assertFalse( u1.is_valid() )
         self.assertTrue( u1.is_valid_auth() )
+
         self.assertFalse( u1.is_valid_health() )
         self.assertFalse( u2.is_valid_auth() )
         self.assertTrue( u2.is_valid_health() )
+
         # even with valid_auth false, mayor player is_authorized
         self.assertTrue( u1.is_valid_auth() )
+
+        self.assertTrue( u4.is_valid() )
 
     def test_user_is_mayor(self):
         u1 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))

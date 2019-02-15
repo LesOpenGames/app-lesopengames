@@ -157,10 +157,10 @@ class Team(db.Model):
     def is_valid(self):
         team_players = self.get_players()
         if(  len( team_players ) == 4):
-            return  ( team_players[0].is_valid and
-                    team_players[1].is_valid and
-                    team_players[2].is_valid and
-                    team_players[3].is_valid  )
+            return  ( team_players[0].is_valid() and
+                    team_players[1].is_valid() and
+                    team_players[2].is_valid() and
+                    team_players[3].is_valid()  )
         else:
             return False
 
