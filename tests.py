@@ -255,6 +255,13 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue( u2.is_admin() )
         self.assertFalse( u3.is_admin() )
 
+    def test_user_is_valid_age_withnoteam(self):
+        u1 = User(username='ing', email='ig@example.com',  birthdate=datetime(1970, 12, 9))
+        u2 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        
+        self.assertTrue( u1.is_valid_age() )
+        self.assertFalse( u2.is_valid_age() )
+
     def test_user_is_valid_age(self):
         u0 = User(username='trestresjeune', email='ttj@example.com', birthdate=datetime(2008, 12, 9))
         u1 = User(username='tresjeune', email='tj@example.com', birthdate=datetime(2007, 12, 9))

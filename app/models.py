@@ -73,7 +73,7 @@ class User(UserMixin, db.Model):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
     def is_valid(self):
-        return self.is_valid_health and self.is_valid_auth and self.is_valid_age
+        return self.is_valid_health() and self.is_valid_auth() and self.is_valid_age()
 
     def is_valid_health(self):
         return self.valid_health
@@ -84,7 +84,9 @@ class User(UserMixin, db.Model):
     def is_valid_age(self):
         if ( self.birthdate is None ):
             return False
-        if ( self.team ):
+        elif( self.is_mayor() ):
+            return True
+        elif ( self.team ):
             if( self.team.sport_level == int( SportLevel.EASY) ):
                 return self.birthdate.year <= 2007
             elif( self.team.sport_level == int( SportLevel.TOUGH) ):
