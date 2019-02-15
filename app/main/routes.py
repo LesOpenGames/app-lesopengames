@@ -240,7 +240,7 @@ def edit_team(team_id):
         (( current_user.team is not None) and  current_user.team.id == team_id ) )):
         flash( _('Sorry, you cant modify team %(name)s', name=team.teamname))
         return redirect(url_for('main.index') )
-    # did we ask for delet ?
+    # did we ask for delete ?
     if( "delete" in request.path ):
         db.session.delete(team)
         db.session.commit()
@@ -269,6 +269,15 @@ def edit_team(team_id):
         form.sportlevel.data = team.sport_level
         form.racksport.data = team.racket_sport_type
         form.collsport.data = team.collective_sport_type
+    # Check valid players  or Unvalidate team
+    if( team.team_number is None ):
+        if ( team.is_valid() ):
+            team.set_team_number()
+            db.session.commit()
+    else:
+        if ( not team.is_valid() ):
+            team.unset_team_number()
+            db.session.commit()
     return render_template('edit_team.html', title='Edit Team', form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
