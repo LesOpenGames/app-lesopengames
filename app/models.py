@@ -62,6 +62,7 @@ class User(UserMixin, db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     valid_health = db.Column(db.Boolean, default=False)
     valid_auth = db.Column(db.Boolean, default=False)
+    student = db.Column(db.Boolean, default=False)
     # see before, the followers relationshup
     followed = db.relationship(
             'User', secondary=followers,
@@ -71,6 +72,16 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
+
+    def get_billing(self):
+        if( ( not self.is_mayor() ) or self.student  ):
+            return 25
+        else:
+            return 30
+
+    def gender_str(self):
+        gender = [_("M"), _("F")]
+        return "none" if self.gender is None else gender[self.gender]
 
     def is_valid(self):
         return self.is_valid_health() and self.is_valid_auth() and self.is_valid_age()

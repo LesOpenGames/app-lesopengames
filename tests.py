@@ -375,5 +375,28 @@ class UserModelCase(unittest.TestCase):
         db.session.add_all([u1, u2, u3])
         db.session.commit()
 
+    def test_user_isstudent(self):
+        u1 = User(username='romain', email='r@example.com', student=True)
+        u2 = User(username='david', email='d@example.com', student=False)
+        db.session.add_all([u1, u2])
+        db.session.commit()
+
+        r  = User.query.filter_by(username='romain').one()
+        d  = User.query.filter_by(username='david').one()
+
+        self.assertTrue(r.student)
+        self.assertFalse(d.student)
+
+    def test_user_billing(self):
+        young = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        old = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        student = User(username='romain', email='r@example.com', student=True)
+        notStudent = User(username='david', email='d@example.com', student=False, birthdate=datetime(1970, 12, 9))
+
+        self.assertEqual(young.get_billing(), 25)
+        self.assertEqual(old.get_billing(), 30)
+        self.assertEqual(student.get_billing(), 25)
+        self.assertEqual(notStudent.get_billing(), 30)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

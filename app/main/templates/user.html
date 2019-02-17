@@ -5,7 +5,6 @@
         <tr valign="top">
             <td><img src="{{ user.avatar(128) }}"></td>
             <td><h1>{{_('User:')}} {{ user.username }}</h1>
-            {% if user.about_me %}<p> {{ user.about_me }}</p>{% endif %}
             {% if user.last_seen %}<p> {{_('Last seen on:')}} {{ moment(user.last_seen).format('LLL') }}</p>{% endif %}
             </td>
         </tr>
@@ -18,31 +17,51 @@
         {%else%}
         <p><a href="{{ url_for('main.create_team') }}">{{_('Participate to team')}}</a></p>
         {%endif%}
-    {% elif current_user.is_following(user) %}
-        <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{_('Unfollow')}}</a></p>
-    {% else %}
-    <p><a href="{{ url_for('main.follow', username=user.username) }}">{{_('Follow')}}</a></p>
     {% endif %}
 
-    {% if posts %}
-        {% for post in posts %}
-            {% include '_post.html' %}
-        {% endfor %}
-          <nav aria-label="...">
-              <ul class="pager">
-                  <li class="previous{% if not prev_url %} disabled{% endif %}">
-                      <a href="{{ prev_url or '#' }}">
-                          <span aria-hidden="true">&larr;</span>{{_('Newer posts')}}
-                      </a>
-                  </li>
-                  <li class="next{% if not next_url %} disabled{% endif %}">
-                      <a href="{{ next_url or '#' }}">
-                          <span aria-hidden="true">&rarr;</span>{{_('Older posts')}}
-                      </a>
-                  </li>
-              </ul>
-          </ nav>
-    {% else %}
-        <h1>{{_('No posts')}}</h1>
-    {% endif %}
+    <br/>
+
+    <table class="table table-hover">
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Pseudo')}}:</h4></td>
+            <td class="col-xs-4">{{user.username}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('First Name')}}:</h4></td>
+            <td class="col-xs-4">{{user.firstname}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Second Name')}}:</h4></td>
+            <td class="col-xs-4">{{user.secondname}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Student')}}:</h4></td>
+            <td class="col-xs-4">{% if user.student %}{{_('Yes')}}{%else%}{{_('No')}}{%endif%}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Gender')}}:</h4></td>
+            <td class="col-xs-4">{{user.gender_str()}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Birth Date')}}:</h4></td>
+            <td class="col-xs-4">{{user.birthdate}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Email')}}:</h4></td>
+            <td class="col-xs-4">{{user.email}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Phone Number')}}:</h4></td>
+            <td class="col-xs-4">{{user.phonenumberstr}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+    </table>
+
 {% endblock %}

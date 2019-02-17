@@ -27,6 +27,7 @@ class EditProfileForm(FlaskForm):
     username = StringField(_l('Pseudo'), validators=[DataRequired()])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
+    student = BooleanField(_l('Student'), validators=[Optional()])
     gender = RadioField(_l('Gender'), coerce=int, choices=[(0, _l('M')), (1, _l('F')) ] , validators=[Optional()])
     birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
