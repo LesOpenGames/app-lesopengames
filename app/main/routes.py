@@ -172,7 +172,6 @@ def edit_profile(user_id=-1):
 
 def form2user(form, user):
     user.username = form.username.data
-    user.about_me = form.about_me.data
     user.firstname = form.firstname.data
     user.secondname = form.secondname.data
     user.gender = form.gender.data

@@ -24,8 +24,7 @@ class SetAuthForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     next_page = HiddenField('NextPage')
-    username = StringField(_l('Username'), validators=[DataRequired()])
-    about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=140)])
+    username = StringField(_l('Pseudo'), validators=[DataRequired()])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
     gender = RadioField(_l('Gender'), coerce=int, choices=[(0, _l('M')), (1, _l('F')) ] , validators=[Optional()])
@@ -58,10 +57,6 @@ class EditProfileForm(FlaskForm):
             return True
         else:
             raise ValidationError(_l('Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233'))
-#    def validate_birthdate(self, date):
-#        raise ValidationError(date.data)
-#        if( date is None)
-#            raise ValidationError(_l('Birthdate required'))
     def validate_email(self, email):
         if email.data != self.original_email:
             user = User.query.filter_by(email=self.email.data).first()
