@@ -73,6 +73,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
+    def get_billing(self):
+        if( ( not self.is_mayor() ) or self.student  ):
+            return 25
+        else:
+            return 30
+
     def gender_str(self):
         gender = [_("M"), _("F")]
         return "none" if self.gender is None else gender[self.gender]

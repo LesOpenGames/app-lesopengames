@@ -387,5 +387,16 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue(r.student)
         self.assertFalse(d.student)
 
+    def test_user_billing(self):
+        young = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        old = User(username='age', email='ag@example.com', birthdate=datetime(1970, 12, 9))
+        student = User(username='romain', email='r@example.com', student=True)
+        notStudent = User(username='david', email='d@example.com', student=False, birthdate=datetime(1970, 12, 9))
+
+        self.assertEqual(young.get_billing(), 25)
+        self.assertEqual(old.get_billing(), 30)
+        self.assertEqual(student.get_billing(), 25)
+        self.assertEqual(notStudent.get_billing(), 30)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
