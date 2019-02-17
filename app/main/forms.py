@@ -65,7 +65,9 @@ class EditProfileForm(FlaskForm):
 #        raise ValidationError(date.data)
 #        if( date is None)
 #            raise ValidationError(_('Birthdate required'))
-#    def validate_email(self, email):
-#        if email.data != self.
-#        email = User.query.filter
+    def validate_email(self, email):
+        if email.data != self.original_email:
+            user = User.query.filter_by(email=self.email.data).first()
+            if user is not None:
+                raise ValidationError(_('Please use a different email'))
 
