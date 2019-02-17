@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-17 11:38+0100\n"
+"POT-Creation-Date: 2019-02-17 12:09+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -26,11 +26,27 @@ msgstr "S'il vous plait, connectez vous pour accéder à la page"
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
-#: app/main/forms.py:18 app/models.py:200
+#: app/main/forms.py:20 app/models.py:196
+msgid "PingPong"
+msgstr "Tennis de table"
+
+#: app/main/forms.py:20 app/models.py:196
+msgid "Badmington"
+msgstr "Badmington"
+
+#: app/main/forms.py:19 app/models.py:199
+msgid "Handball"
+msgstr "Handball"
+
+#: app/main/forms.py:19 app/models.py:199
+msgid "Flag"
+msgstr "Flag"
+
+#: app/main/forms.py:18 app/models.py:202
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:200
+#: app/models.py:202
 msgid "Sport"
 msgstr "Sportif"
 
@@ -78,7 +94,7 @@ msgstr "Créer un Compte"
 msgid "Please use a different username"
 msgstr "S'il vous plait, utilisez un autre nom"
 
-#: app/auth/forms.py:38
+#: app/auth/forms.py:38 app/main/forms.py:72
 msgid "Please use a different email"
 msgstr "S'il vous plait, utilisez un autre courriel"
 
@@ -164,25 +180,9 @@ msgstr "Sportif"
 msgid "Collective Sport"
 msgstr "Sport Collectif"
 
-#: app/main/forms.py:19
-msgid "Flag"
-msgstr "Flag"
-
-#: app/main/forms.py:19
-msgid "Handball"
-msgstr "Handball"
-
 #: app/main/forms.py:20 app/main/templates/team.html:16
 msgid "Racket Sport"
 msgstr "Sport de Raquette"
-
-#: app/main/forms.py:20
-msgid "PingPong"
-msgstr "Tennis de table"
-
-#: app/main/forms.py:20
-msgid "Badmington"
-msgstr "Badmington"
 
 #: app/main/forms.py:21 app/main/forms.py:26
 #: app/main/templates/_team_users.html:50 app/main/templates/edit_team.html:35

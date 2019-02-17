@@ -12,12 +12,9 @@ class PostForm(FlaskForm):
 
 class EditTeamForm(FlaskForm):
     teamname = StringField(_l('Team Name'), validators=[DataRequired()])
-    #sportlevel = RadioField(_('Sport Level'), coerce=int, choices=[(0, _('Easy')), (1, _('Tough')) ] )
-    #collsport = RadioField(_('Racket Sport'), coerce=int, choices=[(0, _('Flag')), (1, _('Handball')) ] )
-    #racksport = RadioField(_('Collective Sport'), coerce=int, choices=[(0, _('PingPong')), (1, _('Badmington')) ] )
-    sportlevel = RadioField(_('Sport Level'), coerce=int, choices=[(int(SportLevel.EASY), _('Easy')), (int(SportLevel.TOUGH), _('Tough')) ] , validators=[Optional()])
-    collsport = RadioField(_('Collective Sport'), coerce=int, choices=[(int(CollectiveSportType.FLAG), _('Flag')), (int(CollectiveSportType.HAND), _('Handball')) ] , validators=[Optional()])
-    racksport = RadioField(_('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _('PingPong')), (int(RacketSportType.BADMINGTON), _('Badmington')) ] , validators=[Optional()])
+    sportlevel = RadioField(_l('Sport Level'), coerce=int, choices=[(int(SportLevel.EASY), _l('Easy')), (int(SportLevel.TOUGH), _l('Tough')) ] , validators=[Optional()])
+    collsport = RadioField(_l('Collective Sport'), coerce=int, choices=[(int(CollectiveSportType.FLAG), _l('Flag')), (int(CollectiveSportType.HAND), _l('Handball')) ] , validators=[Optional()])
+    racksport = RadioField(_l('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _l('PingPong')), (int(RacketSportType.BADMINGTON), _l('Badmington')) ] , validators=[Optional()])
     submit = SubmitField(_l('Validate'))
 
 class SetAuthForm(FlaskForm):
@@ -31,15 +28,15 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=140)])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
-    gender = RadioField(_('Gender'), coerce=int, choices=[(0, _('M')), (1, _('F')) ] , validators=[Optional()])
+    gender = RadioField(_l('Gender'), coerce=int, choices=[(0, _l('M')), (1, _l('F')) ] , validators=[Optional()])
     birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     phonenumberstr =  StringField(_l('Phone Number'), render_kw={'placeholder': '06-18-55-82-33 | 06 18 55 82 33 | 0618558233'}, validators=[Optional()])
     submit = SubmitField(_l('Submit'))
     # New constructor with param, called in routes.py       
-    def __init__(self, original_username='', *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
+    def __init__l(self, original_username='', *args, **kwargs):
+        super(EditProfileForm, self).__init__l(*args, **kwargs)
         self.original_username = ''
         self.original_email = ''
         if( kwargs.get('obj') is not None ):
@@ -50,7 +47,7 @@ class EditProfileForm(FlaskForm):
         if username.data != self.original_username:
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
-                raise ValidationError(_('Please use a different username.'))
+                raise ValidationError(_l('Please use a different username.'))
     def validate_phonenumberstr(self, phonenumberfield):
         phonenumber = phonenumberfield.data
         if( re.match('\d{10}$', phonenumber)):
@@ -60,14 +57,14 @@ class EditProfileForm(FlaskForm):
         elif( re.match('\d{10}$', "".join(phonenumber.split(' ')))):
             return True
         else:
-            raise ValidationError(_('Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233'))
+            raise ValidationError(_l('Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233'))
 #    def validate_birthdate(self, date):
 #        raise ValidationError(date.data)
 #        if( date is None)
-#            raise ValidationError(_('Birthdate required'))
+#            raise ValidationError(_l('Birthdate required'))
     def validate_email(self, email):
         if email.data != self.original_email:
             user = User.query.filter_by(email=self.email.data).first()
             if user is not None:
-                raise ValidationError(_('Please use a different email'))
+                raise ValidationError(_l('Please use a different email'))
 

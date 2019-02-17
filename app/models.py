@@ -193,9 +193,11 @@ class Team(db.Model):
         self.team_number = i+1
 
     def racket_sport_name(self):
-        return "none" if self.racket_sport_type is None else RacketSportType(self.racket_sport_type)
+        racket_sports = [_("PingPong"), _("Badmington")]
+        return "none" if self.racket_sport_type is None else racket_sports[self.racket_sport_type]
     def collective_sport_name(self):
-        return "none" if self.collective_sport_type is None else CollectiveSportType(self.collective_sport_type)
+        collective_sports = [_("Handball"), _("Flag")]
+        return "none" if self.collective_sport_type is None else collective_sports[self.collective_sport_type]
     def sport_level_name(self):
         levels = [_("Easy"), _("Sport")]
         #return "none" if self.sport_level is None else SportLevel(self.sport_level)
