@@ -71,6 +71,10 @@ def posts():
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
+    if( not ( user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
+        flash( _('Sorry, you cant view user') )
+        return redirect(url_for('main.index'))
+
     page_num = request.args.get('page_num', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
             page_num, current_app.config['POSTS_PER_PAGE'], False)
