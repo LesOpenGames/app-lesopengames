@@ -35,8 +35,8 @@ class EditProfileForm(FlaskForm):
     phonenumberstr =  StringField(_l('Phone Number'), render_kw={'placeholder': '06-18-55-82-33 | 06 18 55 82 33 | 0618558233'}, validators=[Optional()])
     submit = SubmitField(_l('Submit'))
     # New constructor with param, called in routes.py       
-    def __init__l(self, original_username='', *args, **kwargs):
-        super(EditProfileForm, self).__init__l(*args, **kwargs)
+    def __init__(self, original_username='', *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
         self.original_username = ''
         self.original_email = ''
         if( kwargs.get('obj') is not None ):
