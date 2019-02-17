@@ -88,7 +88,8 @@ def create_app(config_class=Config):
 @babel.localeselector
 def get_locale():
     # use requested languages by client
-    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
+    return 'fr'
+    #return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
 
 from app import models

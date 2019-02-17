@@ -172,7 +172,6 @@ def edit_profile(user_id=-1):
 
 def form2user(form, user):
     user.username = form.username.data
-    user.about_me = form.about_me.data
     user.firstname = form.firstname.data
     user.secondname = form.secondname.data
     user.gender = form.gender.data
@@ -191,8 +190,13 @@ def users():
     return render_template('users.html', title='Users Admin List', users=users, admin=True)
 
 @bp.route('/team/<team_id>')
+@login_required
 def team(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
+    if( not ( current_user.is_admin() or
+        (( current_user.team is not None) and  current_user.team.id != team_id ) )):
+        flash( _('Sorry, you cant see team %(name)s', name=team.teamname))
+        return redirect(url_for('main.index') )
     return render_template('team.html', title=_('Team'), team=team)
 
 ##
@@ -234,7 +238,7 @@ def edit_team(team_id):
     # check security
     team=Team.query.filter_by(id=team_id).first()
     if( team is None ):
-        flash( _('No such team for id %(team_id)', team_id=team_id))
+        flash( _('No such team for id %(team_id)s', team_id=team_id))
         return redirect(url_for('main.index') )
     if( not ( current_user.is_admin() or
         (( current_user.team is not None) and  current_user.team.id == team_id ) )):

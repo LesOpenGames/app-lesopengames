@@ -1,0 +1,7 @@
+<p>Dear {{ user.username }}</p>
+<p>You have successfully created your account</p>
+<p>To login, please go to 
+<a href="{{ url_for('auth.login', _external=True) }}">here</a>.
+</p>
+<p>Sincerely,</p>
+<p>LesOpenGames Team</p>

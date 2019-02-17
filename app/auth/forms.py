@@ -15,13 +15,13 @@ class ResetPasswordRequestForm(FlaskForm):
     submit = SubmitField(_l('Request Password Reset'))
 
 class LoginForm(FlaskForm):
-    username = StringField(_l('Username'), validators=[DataRequired()])
+    username = StringField(_l('Pseudo'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     remember_me = BooleanField(_l('Remember Me'), default='checked')
     submit = SubmitField(_l('Sign In'))
 
 class RegisterForm(FlaskForm):
-    username = StringField(_l('Username'), validators=[DataRequired()])
+    username = StringField(_l('Pseudo'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(_l('Repeat Password'), validators=[DataRequired(), EqualTo('password')])
@@ -30,7 +30,7 @@ class RegisterForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError(_('Please use a different username'))
+            raise ValidationError(_('Please use a different pseudo'))
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()

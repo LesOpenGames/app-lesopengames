@@ -1,0 +1,11 @@
+Dear {{ user.username }}
+
+You have successfully created your account
+
+To login, please go to 
+{{ url_for('auth.login', _external=True) }}
+
+
+Sincerely,
+
+LesOpenGames Team
