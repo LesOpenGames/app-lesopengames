@@ -2,11 +2,11 @@
     <h3>Users</h3>
     <table class="table table-hover">
         <tr class="row justify-content-start">
-            <th class="col-xs-1">{{_("Rank")}}</th>
-            <th class="col-xs-1">{{_("Name")}}</th>
-            <th class="col-xs-1">{{_("Age")}}</th>
-            <th class="col-xs-1">{{_("Auth")}}</th>
-            <th class="col-xs-1">{{_("Health")}}</th>
+            <th class="col-xs-1">{{ _('Rank') }}</th>
+            <th class="col-xs-1">{{ _('Name') }}</th>
+            <th class="col-xs-1">{{ _('Age') }}</th>
+            <th class="col-xs-1">{{ _('Auth') }}</th>
+            <th class="col-xs-1">{{ _('Health') }}</th>
         </tr>
     {% macro is_disabled(success) %}{% if  success %}disabled{% endif %}{% endmacro %}
     {% macro is_checked(success) %}{% if  success %}checked{% endif %}{% endmacro %}
@@ -30,7 +30,7 @@
                 {% else %}
                 <td class="col-xs-1"><a href="{{ url_for('main.user', user_id=u.id)}}" class="btn btn-block btn-default">{{u.username}}</a></td>
                 {%endif%}
-                <td class="col-xs-1"><span class="badge progress-bar-{{is_success(u.is_valid_age())}}">{{_("age")}}</span></td>
+                <td class="col-xs-1"><span class="badge progress-bar-{{is_success(u.is_valid_age())}}">{{ _("age") }}</span></td>
                 {% if edit and current_user.is_admin() %}
                 <form action="/check_docs/{{u.id}}" method="POST">
                 <td class="col-xs-1">
