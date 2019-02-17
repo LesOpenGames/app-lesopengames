@@ -375,5 +375,17 @@ class UserModelCase(unittest.TestCase):
         db.session.add_all([u1, u2, u3])
         db.session.commit()
 
+    def test_user_isstudent(self):
+        u1 = User(username='romain', email='r@example.com', student=True)
+        u2 = User(username='david', email='d@example.com', student=False)
+        db.session.add_all([u1, u2])
+        db.session.commit()
+
+        r  = User.query.filter_by(username='romain').one()
+        d  = User.query.filter_by(username='david').one()
+
+        self.assertTrue(r.student)
+        self.assertFalse(d.student)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
