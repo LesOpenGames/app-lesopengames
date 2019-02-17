@@ -131,7 +131,6 @@ class User(UserMixin, db.Model):
         own_posts = Post.query.filter_by( user_id = self.id)
         return followed_posts.union(own_posts).order_by( Post.timestamp.desc() )
 
-
     def get_reset_password_token(self, expires=600):
         return jwt.encode({'id_to_reset': self.id, 'exp': time() + expires},
                 current_app.config['SECRET_KEY'],

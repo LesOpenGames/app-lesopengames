@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-17 12:47+0100\n"
+"POT-Creation-Date: 2019-02-17 14:01+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -26,33 +26,53 @@ msgstr "S'il vous plait, connectez vous pour accéder à la page"
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
-#: app/main/forms.py:17 app/models.py:196
+#: app/main/forms.py:17 app/models.py:195
 msgid "PingPong"
 msgstr "Tennis de table"
 
-#: app/main/forms.py:17 app/models.py:196
+#: app/main/forms.py:17 app/models.py:195
 msgid "Badmington"
 msgstr "Badmington"
 
-#: app/main/forms.py:16 app/models.py:199
+#: app/main/forms.py:16 app/models.py:198
 msgid "Handball"
 msgstr "Handball"
 
-#: app/main/forms.py:16 app/models.py:199
+#: app/main/forms.py:16 app/models.py:198
 msgid "Flag"
 msgstr "Flag"
 
-#: app/main/forms.py:15 app/models.py:202
+#: app/main/forms.py:15 app/models.py:201
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:202
+#: app/models.py:201
 msgid "Sport"
 msgstr "Sportif"
 
-#: app/auth/email.py:8
-msgid "[Microblog] Password Reset"
-msgstr "[Microblog] Reset de mot de passe"
+#: app/auth/email.py:7
+msgid "[LesOpenGames] Account Created"
+msgstr "[LesOpenGames] Création de compte"
+
+#: app/auth/email.py:10
+msgid "account_created_email.txt"
+msgstr "account_created_email-fr.txt"
+
+#: app/auth/email.py:11
+msgid "account_created_email.html"
+msgstr "account_created_email-fr.html"
+
+#: app/auth/email.py:15
+msgid "[LesOpenGames] Password Reset"
+msgstr "[LesOpenGames] Mise à jour du mot de passe"
+
+#: app/auth/email.py:18
+msgid "reset_password_email.txt"
+msgstr "reset_password_email-fr.txt"
+
+#: app/auth/email.py:19
+msgid "reset_password_email.html"
+msgstr "reset_password_email-fr.html"
 
 #: app/auth/forms.py:9 app/auth/forms.py:19 app/auth/forms.py:26
 msgid "Password"
@@ -66,7 +86,7 @@ msgstr "Répéter le mot de Passe"
 msgid "Password Reset"
 msgstr "Reseter le mot de passe"
 
-#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:34
+#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:33
 msgid "Email"
 msgstr "Courriel"
 
@@ -75,8 +95,8 @@ msgid "Request Password Reset"
 msgstr "Demander un nouveau mot de passe"
 
 #: app/auth/forms.py:18 app/auth/forms.py:24 app/main/forms.py:27
-msgid "Username"
-msgstr "Nom d'utilisateur"
+msgid "Pseudo"
+msgstr "Pseudo"
 
 #: app/auth/forms.py:20
 msgid "Remember Me"
@@ -91,10 +111,10 @@ msgid "Register"
 msgstr "Créer un Compte"
 
 #: app/auth/forms.py:33
-msgid "Please use a different username"
-msgstr "S'il vous plait, utilisez un autre nom"
+msgid "Please use a different pseudo"
+msgstr "S'il vous plait, utilisez un autre"
 
-#: app/auth/forms.py:38 app/main/forms.py:69
+#: app/auth/forms.py:38 app/main/forms.py:64
 msgid "Please use a different email"
 msgstr "S'il vous plait, utilisez un autre courriel"
 
@@ -102,25 +122,25 @@ msgstr "S'il vous plait, utilisez un autre courriel"
 msgid "Invalid username or password"
 msgstr "Nom ou mot de passe invalide"
 
-#: app/auth/routes.py:43
+#: app/auth/routes.py:45
 #, python-format
 msgid "Congratulation %(username)s, you are registered"
 msgstr "Félicitations %(username)s, vous êtes inscrit"
 
-#: app/auth/routes.py:55
+#: app/auth/routes.py:57
 msgid "sorry, you cant reset passwd while connected"
 msgstr "Désolé, vous ne pouvez pas resetter en étant connecté"
 
-#: app/auth/routes.py:59
+#: app/auth/routes.py:61
 msgid "token not verified"
 msgstr "Token invalid"
 
-#: app/auth/routes.py:66
+#: app/auth/routes.py:68
 #, python-format
 msgid "For User: %(username)s Password resetted to: %(password)s "
 msgstr "Mot de pass mis à %(password)s pour l'utilisateur %(username)s"
 
-#: app/auth/routes.py:79
+#: app/auth/routes.py:81
 msgid "Email sent for password reset"
 msgstr "Courriel envoyé pour annulation de mot de passe"
 
@@ -198,50 +218,46 @@ msgid "Parent Auth"
 msgstr "Autorisation Parentale"
 
 #: app/main/forms.py:28
-msgid "About Me"
-msgstr "A propos"
-
-#: app/main/forms.py:29
 msgid "First Name"
 msgstr "Prénom"
 
-#: app/main/forms.py:30
+#: app/main/forms.py:29
 msgid "Second Name"
 msgstr "Nom"
 
-#: app/main/forms.py:31
+#: app/main/forms.py:30
 msgid "Gender"
 msgstr "Sexe"
 
-#: app/main/forms.py:31
+#: app/main/forms.py:30
 msgid "M"
 msgstr "M"
 
-#: app/main/forms.py:31
+#: app/main/forms.py:30
 msgid "F"
 msgstr "F"
 
-#: app/main/forms.py:32
+#: app/main/forms.py:31
 msgid "Birth Date"
 msgstr "Date de naissance"
 
-#: app/main/forms.py:33
+#: app/main/forms.py:32
 msgid "Weight"
 msgstr "Poids"
 
-#: app/main/forms.py:35
+#: app/main/forms.py:34
 msgid "Phone Number"
 msgstr "Numéro de téléphone"
 
-#: app/main/forms.py:36
+#: app/main/forms.py:35
 msgid "Submit"
 msgstr "Envoyer"
 
-#: app/main/forms.py:50
+#: app/main/forms.py:49
 msgid "Please use a different username."
 msgstr "S'il vous plait, utilisez un autre nom"
 
-#: app/main/forms.py:60
+#: app/main/forms.py:59
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
@@ -301,80 +317,80 @@ msgstr "Mise à jour du profile réussie"
 msgid "Edit Profile"
 msgstr "Éditer son profil"
 
-#: app/main/routes.py:188 app/main/routes.py:292
+#: app/main/routes.py:187 app/main/routes.py:291
 msgid "You dont have access to such page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
 
-#: app/main/routes.py:199
+#: app/main/routes.py:198
 #, python-format
 msgid "Sorry, you cant see team %(name)s"
 msgstr "Impossible de voir cette équipe %(name)s"
 
-#: app/main/routes.py:201
+#: app/main/routes.py:200
 msgid "Team"
 msgstr "Équipe"
 
-#: app/main/routes.py:225 app/main/routes.py:266
+#: app/main/routes.py:224 app/main/routes.py:265
 #, python-format
 msgid "Name %(newteamname)s already exist"
 msgstr "Le nom %(newteamname)s existe déjà"
 
-#: app/main/routes.py:228
+#: app/main/routes.py:227
 msgid "Problem Occured with creating team"
 msgstr "Un problème est survenu dans la création de l'équipe"
 
-#: app/main/routes.py:231
+#: app/main/routes.py:230
 #, python-format
 msgid "Team %(teamname)s created"
-msgstr "Équipe %(teamname) crée"
+msgstr "Équipe %(teamname)s crée"
 
-#: app/main/routes.py:233 app/main/templates/create_team.html:6
+#: app/main/routes.py:232 app/main/templates/create_team.html:6
 msgid "Create Team"
 msgstr "Créer une équipe"
 
-#: app/main/routes.py:242
+#: app/main/routes.py:241
 #, python-format
 msgid "No such team for id %(team_id)s"
 msgstr "Aucune équipe avec l'id %(team_id)"
 
-#: app/main/routes.py:246
+#: app/main/routes.py:245
 #, python-format
 msgid "Sorry, you cant modify team %(name)s"
 msgstr "Désolé, vous ne pouvez pas modifier l'équipe %(name)s"
 
-#: app/main/routes.py:252
+#: app/main/routes.py:251
 #, python-format
 msgid "Team %(teamname)s deleted"
 msgstr "Équipe %(teamname) supprimée"
 
-#: app/main/routes.py:269
+#: app/main/routes.py:268
 msgid "Problem Occured with modifying team"
 msgstr "Un problème est survenu dans la modification de l'équipe"
 
-#: app/main/routes.py:271
+#: app/main/routes.py:270
 #, python-format
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
 
-#: app/main/routes.py:302 app/main/routes.py:317
+#: app/main/routes.py:301 app/main/routes.py:316
 #, python-format
 msgid "User %(username)s not found"
 msgstr "Utilisateur %(username)s introuvable"
 
-#: app/main/routes.py:305
+#: app/main/routes.py:304
 msgid "Cannot follow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:309
+#: app/main/routes.py:308
 #, python-format
 msgid "You are following %(username)s"
 msgstr "Vous suivez %(username)s"
 
-#: app/main/routes.py:320
+#: app/main/routes.py:319
 msgid "Cannot unfollow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:324
+#: app/main/routes.py:323
 #, python-format
 msgid "You have unfollowed %(username)s"
 msgstr "Vous ne suivez plus %(username)s"
@@ -603,4 +619,16 @@ msgstr "Déconnexion"
 
 #~ msgid "No such team for id %(team_id)"
 #~ msgstr "Aucune équipe avec l'id %(team_id)"
+
+#~ msgid "[Microblog] Password Reset"
+#~ msgstr "[Microblog] Reset de mot de passe"
+
+#~ msgid "Username"
+#~ msgstr "Nom d'utilisateur"
+
+#~ msgid "Please use a different username"
+#~ msgstr "S'il vous plait, utilisez un autre nom"
+
+#~ msgid "About Me"
+#~ msgstr "A propos"
 
