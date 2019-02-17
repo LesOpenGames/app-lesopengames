@@ -19,4 +19,49 @@
         {%endif%}
     {% endif %}
 
+    <br/>
+
+    <table class="table table-hover">
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Pseudo')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.username}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('First Name')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.firstname}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Second Name')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.secondname}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Student')}}:</h4></td>
+            <td class="col-xs-4">{% if current_user.student %}{{_('Yes')}}{%else%}{{_('No')}}{%endif%}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Gender')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.gender_str()}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Birth Date')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.birthdate}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Email')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.email}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+        <tr class="row">
+            <td class="col-xs-2 success"><h4>{{_('Phone Number')}}:</h4></td>
+            <td class="col-xs-4">{{current_user.phonenumberstr}}</td>
+            <td class="col-xs-6"></td>
+        </tr>
+    </table>
+
 {% endblock %}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-17 14:01+0100\n"
+"POT-Creation-Date: 2019-02-17 16:34+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -26,27 +26,35 @@ msgstr "S'il vous plait, connectez vous pour accéder à la page"
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
-#: app/main/forms.py:17 app/models.py:195
+#: app/main/forms.py:31 app/models.py:77
+msgid "M"
+msgstr "M"
+
+#: app/main/forms.py:31 app/models.py:77
+msgid "F"
+msgstr "F"
+
+#: app/main/forms.py:17 app/models.py:200
 msgid "PingPong"
 msgstr "Tennis de table"
 
-#: app/main/forms.py:17 app/models.py:195
+#: app/main/forms.py:17 app/models.py:200
 msgid "Badmington"
 msgstr "Badmington"
 
-#: app/main/forms.py:16 app/models.py:198
+#: app/main/forms.py:16 app/models.py:203
 msgid "Handball"
 msgstr "Handball"
 
-#: app/main/forms.py:16 app/models.py:198
+#: app/main/forms.py:16 app/models.py:203
 msgid "Flag"
 msgstr "Flag"
 
-#: app/main/forms.py:15 app/models.py:201
+#: app/main/forms.py:15 app/models.py:206
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:201
+#: app/models.py:206
 msgid "Sport"
 msgstr "Sportif"
 
@@ -86,7 +94,8 @@ msgstr "Répéter le mot de Passe"
 msgid "Password Reset"
 msgstr "Reseter le mot de passe"
 
-#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:33
+#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:34
+#: app/main/templates/user.html:54
 msgid "Email"
 msgstr "Courriel"
 
@@ -95,6 +104,7 @@ msgid "Request Password Reset"
 msgstr "Demander un nouveau mot de passe"
 
 #: app/auth/forms.py:18 app/auth/forms.py:24 app/main/forms.py:27
+#: app/main/templates/user.html:24
 msgid "Pseudo"
 msgstr "Pseudo"
 
@@ -114,7 +124,7 @@ msgstr "Créer un Compte"
 msgid "Please use a different pseudo"
 msgstr "S'il vous plait, utilisez un autre"
 
-#: app/auth/forms.py:38 app/main/forms.py:64
+#: app/auth/forms.py:38 app/main/forms.py:65
 msgid "Please use a different email"
 msgstr "S'il vous plait, utilisez un autre courriel"
 
@@ -135,12 +145,12 @@ msgstr "Désolé, vous ne pouvez pas resetter en étant connecté"
 msgid "token not verified"
 msgstr "Token invalid"
 
-#: app/auth/routes.py:68
+#: app/auth/routes.py:67
 #, python-format
 msgid "For User: %(username)s Password resetted to: %(password)s "
 msgstr "Mot de pass mis à %(password)s pour l'utilisateur %(username)s"
 
-#: app/auth/routes.py:81
+#: app/auth/routes.py:80
 msgid "Email sent for password reset"
 msgstr "Courriel envoyé pour annulation de mot de passe"
 
@@ -217,47 +227,43 @@ msgstr "Certificat médical"
 msgid "Parent Auth"
 msgstr "Autorisation Parentale"
 
-#: app/main/forms.py:28
+#: app/main/forms.py:28 app/main/templates/user.html:29
 msgid "First Name"
 msgstr "Prénom"
 
-#: app/main/forms.py:29
+#: app/main/forms.py:29 app/main/templates/user.html:34
 msgid "Second Name"
 msgstr "Nom"
 
-#: app/main/forms.py:30
+#: app/main/forms.py:30 app/main/templates/user.html:39
+msgid "Student"
+msgstr "Étudiant"
+
+#: app/main/forms.py:31 app/main/templates/user.html:44
 msgid "Gender"
 msgstr "Sexe"
 
-#: app/main/forms.py:30
-msgid "M"
-msgstr "M"
-
-#: app/main/forms.py:30
-msgid "F"
-msgstr "F"
-
-#: app/main/forms.py:31
+#: app/main/forms.py:32 app/main/templates/user.html:49
 msgid "Birth Date"
 msgstr "Date de naissance"
 
-#: app/main/forms.py:32
+#: app/main/forms.py:33
 msgid "Weight"
 msgstr "Poids"
 
-#: app/main/forms.py:34
+#: app/main/forms.py:35 app/main/templates/user.html:59
 msgid "Phone Number"
-msgstr "Numéro de téléphone"
+msgstr "Téléphone"
 
-#: app/main/forms.py:35
+#: app/main/forms.py:36
 msgid "Submit"
 msgstr "Envoyer"
 
-#: app/main/forms.py:49
+#: app/main/forms.py:50
 msgid "Please use a different username."
 msgstr "S'il vous plait, utilisez un autre nom"
 
-#: app/main/forms.py:59
+#: app/main/forms.py:60
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
@@ -433,7 +439,7 @@ msgstr "autor."
 msgid "health"
 msgstr "santé"
 
-#: app/main/templates/posts.html:11 app/main/templates/user.html:46
+#: app/main/templates/posts.html:11
 msgid "No posts"
 msgstr "Pas de posts"
 
@@ -445,33 +451,25 @@ msgstr "Modifier l'équipe"
 msgid "User:"
 msgstr "Utilisateur:"
 
-#: app/main/templates/user.html:9
+#: app/main/templates/user.html:8
 msgid "Last seen on:"
 msgstr "Dernière visite:"
 
-#: app/main/templates/user.html:15
+#: app/main/templates/user.html:14
 msgid "Edit your profile"
 msgstr "Modifier votre profil"
 
-#: app/main/templates/user.html:19
+#: app/main/templates/user.html:18
 msgid "Participate to team"
-msgstr "Participer à l'équipe"
-
-#: app/main/templates/user.html:22
-msgid "Unfollow"
-msgstr "Désabonner"
-
-#: app/main/templates/user.html:24
-msgid "Follow"
-msgstr "S'Abonner"
-
-#: app/main/templates/user.html:35
-msgid "Newer posts"
-msgstr "Posts plus récents"
+msgstr "Rejoindre une équipe"
 
 #: app/main/templates/user.html:40
-msgid "Older posts"
-msgstr "Posts plus vieux"
+msgid "Yes"
+msgstr "Oui"
+
+#: app/main/templates/user.html:40
+msgid "No"
+msgstr "Non"
 
 #: app/main/templates/users.html:12
 msgid "No users"
@@ -552,10 +550,10 @@ msgstr "Déconnexion"
 #~ msgstr "Éditer votre profil"
 
 #~ msgid "Unfollow"
-#~ msgstr "Se désabonner"
+#~ msgstr "Désabonner"
 
 #~ msgid "Follow"
-#~ msgstr "S'abonner"
+#~ msgstr "S'Abonner"
 
 #~ msgid "Try Flask"
 #~ msgstr "Essayer Flask"
@@ -585,10 +583,10 @@ msgstr "Déconnexion"
 #~ msgstr "Salut,"
 
 #~ msgid "Newer posts"
-#~ msgstr "Plus récents"
+#~ msgstr "Posts plus récents"
 
 #~ msgid "Older posts"
-#~ msgstr "Plus anciens"
+#~ msgstr "Posts plus vieux"
 
 #~ msgid "Hello , not logged in yet"
 #~ msgstr "Salut, par encore connecté"
