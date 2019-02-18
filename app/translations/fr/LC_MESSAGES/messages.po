@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-17 17:33+0100\n"
+"POT-Creation-Date: 2019-02-18 09:10+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -267,9 +267,21 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
+#: app/main/routes.py:25 app/main/routes.py:42 app/main/routes.py:101
+msgid "Home Page"
+msgstr "Accueil"
+
 #: app/main/routes.py:33
 msgid "Post published"
 msgstr "Message publié"
+
+#: app/main/routes.py:54
+msgid "Explore"
+msgstr "Explorer"
+
+#: app/main/routes.py:68
+msgid "All Posts"
+msgstr "Tous Posts"
 
 #: app/main/routes.py:75
 msgid "Sorry, you cant view user"
@@ -282,10 +294,6 @@ msgstr "Profil Utilisateur"
 #: app/main/routes.py:100
 msgid "No such team"
 msgstr "Aucune équipe"
-
-#: app/main/routes.py:101
-msgid "Home Page"
-msgstr "Page d'accueil"
 
 #: app/main/routes.py:111
 msgid "Sucessfully added player to team"
@@ -330,6 +338,10 @@ msgstr "Éditer son profil"
 #: app/main/routes.py:191 app/main/routes.py:295
 msgid "You dont have access to such page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
+
+#: app/main/routes.py:194
+msgid "Users Admin List"
+msgstr "Liste Joueurs (admin)"
 
 #: app/main/routes.py:202
 #, python-format
@@ -381,6 +393,14 @@ msgstr "Un problème est survenu dans la modification de l'équipe"
 #, python-format
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
+
+#: app/main/routes.py:289
+msgid "Edit Team"
+msgstr "Modifier l'équipe"
+
+#: app/main/routes.py:298
+msgid "Teams Admin List"
+msgstr "Liste Équipes (admin)"
 
 #: app/main/routes.py:305 app/main/routes.py:320
 #, python-format
