@@ -162,6 +162,38 @@ class TeamModelCase(unittest.TestCase):
         
         self.assertFalse(t1.is_valid())
 
+    def test_team_get_billing(self):
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
+        u3 = User(username='mary', email='mary@example.com')
+        u4 = User(username='david', email='david@example.com')
+
+        v1 = User(username='jos', email='jos@example.com',  birthdate=datetime(1970, 12, 9))
+        v2 = User(username='fab', email='fab@example.com',  birthdate=datetime(1970, 12, 9))
+        v3 = User(username='luc', email='luc@example.com',  birthdate=datetime(1970, 12, 9))
+        v4 = User(username='ing', email='ing@example.com',  birthdate=datetime(1970, 12, 9))
+
+        t1 = Team(teamname='cathares')
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+        t1.subscribe(u3)
+
+        t2 = Team(teamname='clowns')
+        t2.subscribe(u1)
+        t2.subscribe(u2)
+        t2.subscribe(u3)
+        t2.subscribe(u4)
+
+        t3 = Team(teamname='peluts')
+        t3.subscribe(v1)
+        t3.subscribe(v2)
+        t3.subscribe(v3)
+        t3.subscribe(v4)
+
+        self.assertEqual(t1.get_billing(), 0)
+        self.assertEqual(t2.get_billing(), 100)
+        self.assertEqual(t3.get_billing(), 120)
+
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):

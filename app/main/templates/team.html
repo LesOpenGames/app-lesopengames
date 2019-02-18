@@ -18,4 +18,7 @@
     </div>
     <p><br/><a href="{{ url_for('main.edit_team', team_id=team.id) }}" class="btn btn-info">{{_('Edit team')}}</a></p>
     {% include '_team_users.html'%}
+    <hr/>
+    <h3>{{_('Billing')}}: {{team.get_billing()}} &euro;</h3>
+    <a href="" class="btn btn-info">{{_('Pay')}}</a>
 {% endblock %}
