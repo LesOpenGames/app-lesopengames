@@ -21,7 +21,7 @@ class RolesType(enum.IntEnum):
 
 class RacketSportType(enum.IntEnum):
     PINGPONG = 0
-    BADMINGTON = 1
+    BADMINTON = 1
 
 class CollectiveSportType(enum.IntEnum):
     HAND = 0
@@ -203,7 +203,7 @@ class Team(db.Model):
         self.team_number = i+1
 
     def racket_sport_name(self):
-        racket_sports = [_("PingPong"), _("Badmington")]
+        racket_sports = [_("PingPong"), _("Badminton")]
         return "none" if self.racket_sport_type is None else racket_sports[self.racket_sport_type]
     def collective_sport_name(self):
         collective_sports = [_("Handball"), _("Flag")]

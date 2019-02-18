@@ -39,8 +39,8 @@ msgid "PingPong"
 msgstr "Tennis de table"
 
 #: app/main/forms.py:17 app/models.py:206
-msgid "Badmington"
-msgstr "Badmington"
+msgid "Badminton"
+msgstr "Badminton"
 
 #: app/main/forms.py:16 app/models.py:209
 msgid "Handball"
@@ -297,7 +297,7 @@ msgstr "Aucune équipe"
 
 #: app/main/routes.py:111
 msgid "Sucessfully added player to team"
-msgstr "Jouer ajouté avec succés"
+msgstr "Joueur ajouté avec succès"
 
 #: app/main/routes.py:113 app/main/routes.py:168
 msgid "Warning: age is to low for this team level"
@@ -329,7 +329,7 @@ msgstr "Impossible d'éditer cet utilisateur"
 
 #: app/main/routes.py:163
 msgid "Sucessfully updated your profile"
-msgstr "Mise à jour du profile réussie"
+msgstr "Mise à jour du profil réussie"
 
 #: app/main/routes.py:175 app/main/templates/edit_profile.html:6
 msgid "Edit Profile"

@@ -74,7 +74,7 @@ class TeamModelCase(unittest.TestCase):
         t0.sport_level = SportLevel.EASY
 
         t1 = Team(teamname='cathares')
-        t1.racket_sport_type = RacketSportType.BADMINGTON
+        t1.racket_sport_type = RacketSportType.BADMINTON
         t1.collective_sport_type = CollectiveSportType.FLAG
         t1.sport_level = SportLevel.TOUGH
 
@@ -86,7 +86,7 @@ class TeamModelCase(unittest.TestCase):
         self.assertEqual(s0.collective_sport_type, CollectiveSportType.HAND)
         self.assertEqual(s0.sport_level, SportLevel.EASY)
         s1  = Team.query.filter_by(teamname='cathares').one()
-        self.assertEqual(s1.racket_sport_type, RacketSportType.BADMINGTON)
+        self.assertEqual(s1.racket_sport_type, RacketSportType.BADMINTON)
         self.assertEqual(s1.collective_sport_type, CollectiveSportType.FLAG)
         self.assertEqual(s1.sport_level, SportLevel.TOUGH)
 
