@@ -194,6 +194,22 @@ class TeamModelCase(unittest.TestCase):
         self.assertEqual(t2.get_billing(), 100)
         self.assertEqual(t3.get_billing(), 120)
 
+    def test_partner_get_billing(self):
+        v1 = User(username='jos', email='jos@example.com',  birthdate=datetime(1970, 12, 9))
+        v2 = User(username='fab', email='fab@example.com',  birthdate=datetime(1970, 12, 9))
+        v3 = User(username='luc', email='luc@example.com',  birthdate=datetime(1970, 12, 9))
+        v4 = User(username='ing', email='ing@example.com',  birthdate=datetime(1970, 12, 9))
+
+        t3 = Team(teamname='peluts')
+        t3.subscribe(v1)
+        t3.subscribe(v2)
+        t3.subscribe(v3)
+        t3.subscribe(v4)
+
+        self.assertEqual(t3.get_billing(), 120)
+        t3.is_partner = True
+        self.assertEqual(t3.get_billing(), 60)
+
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):

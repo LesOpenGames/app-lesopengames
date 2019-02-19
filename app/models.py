@@ -173,8 +173,9 @@ class Team(db.Model):
         if len( team_players ) == 4:
             for p in team_players:
                 bill = bill + p.get_billing()
+        if self.is_partner:
+            bill = bill/2
         return bill
-
 
     def is_valid(self):
         team_players = self.get_players()
