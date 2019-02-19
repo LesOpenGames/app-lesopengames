@@ -6,13 +6,13 @@
       <input id="cent_amount" name="cent_amount" type="hidden" value="{{cent_amount}}">
     <article>
       <label>
-          <span>Le montant est {{int_amount}} &euro;</span>
+          <span>{{_('Amount is ')}}{{int_amount}} &euro;</span>
       </label>
     </article>
 
     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
             data-key="{{ key }}"
-            data-description="Facture Les Open Games"
+            data-description="{{_('Billing Les Open Games')}}"
             data-amount="{{cent_amount}}"
             data-currency="eur"
             data-locale="fr"></script>
