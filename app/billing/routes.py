@@ -33,8 +33,11 @@ def charge():
         flash(_('Login pb'))
         return redirect(url_for('main.index'))
     user_email = current_user.email
+
+
     # Amount in cents
-    amount = 100*request.form['amount']
+    cent_amount = request.form['cent_amount']
+    eur_amount = int(cent_amount)/100
 
     customer = stripe.Customer.create(
         email=user_email,
@@ -43,10 +46,10 @@ def charge():
 
     charge = stripe.Charge.create(
         customer=customer.id,
-        amount=amount,
+        amount=cent_amount,
         currency='eur',
         receipt_email=user_email,
         description='Les Open Games'
     )
 
-    return render_template('stripe_charge.html', amount=amount)
+    return render_template('stripe_charge.html', amount=eur_amount)
