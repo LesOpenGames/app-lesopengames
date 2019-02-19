@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block app_content %}
+{% set int_amount = amount | int %}
+{% set cent_amount = int_amount * 100 %}
+  <form action="/charge" method="post">
+      <input id="cent_amount" name="cent_amount" type="hidden" value="{{cent_amount}}">
+    <article>
+      <label>
+          <span>{{_('Amount is ')}}{{int_amount}} &euro;</span>
+      </label>
+    </article>
+
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{ key }}"
+            data-description="{{_('Billing Les Open Games')}}"
+            data-amount="{{cent_amount}}"
+            data-currency="eur"
+            data-locale="fr"></script>
+  </form>
+{% endblock %}

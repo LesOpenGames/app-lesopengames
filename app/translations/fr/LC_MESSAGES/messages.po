@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-17 17:33+0100\n"
+"POT-Creation-Date: 2019-02-19 11:42+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Please log in to access page"
 msgstr "S'il vous plait, connectez vous pour accéder à la page"
 
-#: app/__init__.py:83
+#: app/__init__.py:86
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
@@ -34,27 +34,27 @@ msgstr "M"
 msgid "F"
 msgstr "F"
 
-#: app/main/forms.py:17 app/models.py:206
+#: app/main/forms.py:17 app/models.py:215
 msgid "PingPong"
 msgstr "Tennis de table"
 
-#: app/main/forms.py:17 app/models.py:206
-msgid "Badmington"
-msgstr "Badmington"
+#: app/main/forms.py:17 app/models.py:215
+msgid "Badminton"
+msgstr "Badminton"
 
-#: app/main/forms.py:16 app/models.py:209
+#: app/main/forms.py:16 app/models.py:218
 msgid "Handball"
 msgstr "Handball"
 
-#: app/main/forms.py:16 app/models.py:209
+#: app/main/forms.py:16 app/models.py:218
 msgid "Flag"
 msgstr "Flag"
 
-#: app/main/forms.py:15 app/models.py:212
+#: app/main/forms.py:15 app/models.py:221
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:212
+#: app/models.py:221
 msgid "Sport"
 msgstr "Sportif"
 
@@ -178,6 +178,26 @@ msgstr "Resetter le Mot de Passe"
 msgid "Request New Password"
 msgstr "Demander un nouveau mot de passe"
 
+#: app/billing/routes.py:33
+msgid "Login pb"
+msgstr "Problem de login"
+
+#: app/billing/templates/check_billing.html:5
+msgid "check paiement"
+msgstr "Paiment par Chéque"
+
+#: app/billing/templates/stripe_billing.html:9
+msgid "Amount is "
+msgstr "Le montant est "
+
+#: app/billing/templates/stripe_billing.html:15
+msgid "Billing Les Open Games"
+msgstr "Facture Les Open Games"
+
+#: app/billing/templates/stripe_charge.html:3
+msgid "Thanks, you paid "
+msgstr "Merci, vous avez payé "
+
 #: app/errors/templates/404.html:4
 msgid "File Not Found"
 msgstr "Fichier introuvable"
@@ -215,7 +235,7 @@ msgid "Racket Sport"
 msgstr "Sport de Raquette"
 
 #: app/main/forms.py:18 app/main/forms.py:23
-#: app/main/templates/_team_users.html:52 app/main/templates/edit_team.html:35
+#: app/main/templates/_team_users.html:51 app/main/templates/edit_team.html:35
 msgid "Validate"
 msgstr "Valider"
 
@@ -267,9 +287,21 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
+#: app/main/routes.py:25 app/main/routes.py:42 app/main/routes.py:101
+msgid "Home Page"
+msgstr "Accueil"
+
 #: app/main/routes.py:33
 msgid "Post published"
 msgstr "Message publié"
+
+#: app/main/routes.py:54
+msgid "Explore"
+msgstr "Explorer"
+
+#: app/main/routes.py:68
+msgid "All Posts"
+msgstr "Tous Posts"
 
 #: app/main/routes.py:75
 msgid "Sorry, you cant view user"
@@ -283,13 +315,9 @@ msgstr "Profil Utilisateur"
 msgid "No such team"
 msgstr "Aucune équipe"
 
-#: app/main/routes.py:101
-msgid "Home Page"
-msgstr "Page d'accueil"
-
 #: app/main/routes.py:111
 msgid "Sucessfully added player to team"
-msgstr "Jouer ajouté avec succés"
+msgstr "Joueur ajouté avec succès"
 
 #: app/main/routes.py:113 app/main/routes.py:168
 msgid "Warning: age is to low for this team level"
@@ -321,7 +349,7 @@ msgstr "Impossible d'éditer cet utilisateur"
 
 #: app/main/routes.py:163
 msgid "Sucessfully updated your profile"
-msgstr "Mise à jour du profile réussie"
+msgstr "Mise à jour du profil réussie"
 
 #: app/main/routes.py:175 app/main/templates/edit_profile.html:6
 msgid "Edit Profile"
@@ -330,6 +358,10 @@ msgstr "Éditer son profil"
 #: app/main/routes.py:191 app/main/routes.py:295
 msgid "You dont have access to such page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
+
+#: app/main/routes.py:194
+msgid "Users Admin List"
+msgstr "Liste Joueurs (admin)"
 
 #: app/main/routes.py:202
 #, python-format
@@ -382,6 +414,14 @@ msgstr "Un problème est survenu dans la modification de l'équipe"
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
 
+#: app/main/routes.py:289
+msgid "Edit Team"
+msgstr "Modifier l'équipe"
+
+#: app/main/routes.py:298
+msgid "Teams Admin List"
+msgstr "Liste Équipes (admin)"
+
 #: app/main/routes.py:305 app/main/routes.py:320
 #, python-format
 msgid "User %(username)s not found"
@@ -413,41 +453,41 @@ msgstr "Joueurs"
 msgid "Rank"
 msgstr "Rang"
 
-#: app/main/templates/_team_users.html:6
-msgid "Name"
-msgstr "Nom"
-
-#: app/main/templates/_team_users.html:7
-msgid "Age"
-msgstr "Age"
-
-#: app/main/templates/_team_users.html:8
-msgid "Auth"
-msgstr "Autor."
-
-#: app/main/templates/_team_users.html:9
-msgid "Health"
-msgstr "Santé"
-
-#: app/main/templates/_team_users.html:10
+#: app/main/templates/_team_users.html:7 app/main/templates/team.html:23
 msgid "Billing"
 msgstr "Prix"
 
-#: app/main/templates/_team_users.html:20
+#: app/main/templates/_team_users.html:9
+msgid "Name"
+msgstr "Nom"
+
+#: app/main/templates/_team_users.html:10
+msgid "Age"
+msgstr "Age"
+
+#: app/main/templates/_team_users.html:11
+msgid "Auth"
+msgstr "Autor."
+
+#: app/main/templates/_team_users.html:12
+msgid "Health"
+msgstr "Santé"
+
+#: app/main/templates/_team_users.html:21
 msgid "Add Player"
 msgstr "Ajouter un Joueur"
 
-#: app/main/templates/_team_users.html:35
+#: app/main/templates/_team_users.html:34
 msgid "age"
 msgstr "age"
 
-#: app/main/templates/_team_users.html:41
-#: app/main/templates/_team_users.html:55
+#: app/main/templates/_team_users.html:40
+#: app/main/templates/_team_users.html:54
 msgid "auth"
 msgstr "autor."
 
-#: app/main/templates/_team_users.html:48
-#: app/main/templates/_team_users.html:56
+#: app/main/templates/_team_users.html:47
+#: app/main/templates/_team_users.html:55
 msgid "health"
 msgstr "santé"
 
@@ -458,6 +498,14 @@ msgstr "Pas de posts"
 #: app/main/templates/team.html:19
 msgid "Edit team"
 msgstr "Modifier l'équipe"
+
+#: app/main/templates/team.html:27
+msgid "Pay with Stripe"
+msgstr "Payer par Stripe"
+
+#: app/main/templates/team.html:33
+msgid "Pay with Check"
+msgstr "Payer par Chéque"
 
 #: app/main/templates/user.html:7
 msgid "User:"

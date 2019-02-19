@@ -22,7 +22,7 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
     teams = Team.query.all()
-    return render_template('index.html', title='Home Page', teams=teams)
+    return render_template('index.html', title=_('Home Page'), teams=teams)
 
 def old_index():
     form = PostForm()
@@ -39,7 +39,7 @@ def old_index():
             if posts.has_next else None
     prev_url = url_for('main.index', page_num=posts.prev_num)\
             if posts.has_prev else None
-    return  render_template('index.html', title='Home Page', form=form, posts=posts.items,
+    return  render_template('index.html', title=_('Home Page'), form=form, posts=posts.items,
             next_url=next_url, prev_url=prev_url)
 
 @bp.route('/explore', methods=['GET', 'POST'])
@@ -51,7 +51,7 @@ def explore():
             if posts.has_next else None
     prev_url = url_for('main.explore', page_num=posts.prev_num)\
             if posts.has_prev else None
-    return  render_template('index.html', title='Explore', posts=posts.items,
+    return  render_template('index.html', title=_('Explore'), posts=posts.items,
             next_url=next_url, prev_url=prev_url)
 
 @bp.route('/notitle')
@@ -65,7 +65,7 @@ def posts():
     posts = []
     for u in all_users:
         posts.append( { 'author': u, 'body': 'This is my body' })
-    return render_template('posts.html', title='All Posts', posts=posts)
+    return render_template('posts.html', title=_('All Posts'), posts=posts)
 
 @bp.route('/user/<int:user_id>')
 @login_required
@@ -191,7 +191,7 @@ def users():
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index') )
     users = User.query.all()
-    return render_template('users.html', title='Users Admin List', users=users, admin=True)
+    return render_template('users.html', title=_('Users Admin List'), users=users, admin=True)
 
 @bp.route('/team/<team_id>')
 @login_required
@@ -286,7 +286,7 @@ def edit_team(team_id):
         if ( not team.is_valid() ):
             team.unset_team_number()
             db.session.commit()
-    return render_template('edit_team.html', title='Edit Team', form=form, team=team)
+    return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
 @login_required
@@ -295,7 +295,7 @@ def teams():
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index') )
     teams = Team.query.all()
-    return render_template('index.html', title='Teams Admin List', teams=teams, admin=True)
+    return render_template('index.html', title=_('Teams Admin List'), teams=teams, admin=True)
 
 @bp.route('/follow/<username>')
 @login_required

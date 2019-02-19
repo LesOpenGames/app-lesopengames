@@ -45,6 +45,9 @@ def create_app(config_class=Config):
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from app.billing import bp as billing_bp
+    app.register_blueprint(billing_bp)
+
     if not app.debug and not app.testing:
 
         # send ERROR by Mail if possible

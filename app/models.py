@@ -21,7 +21,7 @@ class RolesType(enum.IntEnum):
 
 class RacketSportType(enum.IntEnum):
     PINGPONG = 0
-    BADMINGTON = 1
+    BADMINTON = 1
 
 class CollectiveSportType(enum.IntEnum):
     HAND = 0
@@ -164,6 +164,15 @@ class Team(db.Model):
     collective_sport_type = db.Column(db.Integer )
     sport_level = db.Column(db.Integer )
 
+    def get_billing(self):
+        team_players = self.get_players()
+        bill = 0
+        if len( team_players ) == 4:
+            for p in team_players:
+                bill = bill + p.get_billing()
+        return bill
+
+
     def is_valid(self):
         team_players = self.get_players()
         if(  len( team_players ) == 4):
@@ -203,7 +212,7 @@ class Team(db.Model):
         self.team_number = i+1
 
     def racket_sport_name(self):
-        racket_sports = [_("PingPong"), _("Badmington")]
+        racket_sports = [_("PingPong"), _("Badminton")]
         return "none" if self.racket_sport_type is None else racket_sports[self.racket_sport_type]
     def collective_sport_name(self):
         collective_sports = [_("Handball"), _("Flag")]
