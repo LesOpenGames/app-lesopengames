@@ -25,7 +25,7 @@
     </div>
     <div class="row">
         {% if team.is_paid %}
-        <div class="col-xs-4"><h4>( {{_('paid')}} )</h4></div>
+        <div class="col-xs-4"><h4>( {{_('paiment validated')}} )</h4></div>
         {% elif team.is_striped %}
         <div class="col-xs-4"><h4>( {{_('Stripe paid, waiting for validation')}} )</h4></div>
         {% elif team.is_partner %}

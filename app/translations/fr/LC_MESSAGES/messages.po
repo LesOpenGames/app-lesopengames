@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-19 15:30+0100\n"
+"POT-Creation-Date: 2019-02-19 19:45+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -178,7 +178,7 @@ msgstr "Resetter le Mot de Passe"
 msgid "Request New Password"
 msgstr "Demander un nouveau mot de passe"
 
-#: app/billing/routes.py:33
+#: app/billing/routes.py:36
 msgid "Login pb"
 msgstr "Problem de login"
 
@@ -186,11 +186,11 @@ msgstr "Problem de login"
 msgid "check paiement"
 msgstr "Paiment par Chéque"
 
-#: app/billing/templates/stripe_billing.html:9
+#: app/billing/templates/stripe_billing.html:10
 msgid "Amount is "
 msgstr "Le montant est "
 
-#: app/billing/templates/stripe_billing.html:15
+#: app/billing/templates/stripe_billing.html:16
 msgid "Billing Les Open Games"
 msgstr "Facture Les Open Games"
 
@@ -363,92 +363,101 @@ msgstr "Mise à jour du profil réussie"
 msgid "Edit Profile"
 msgstr "Éditer son profil"
 
-#: app/main/routes.py:191 app/main/routes.py:299
+#: app/main/routes.py:191 app/main/routes.py:206 app/main/routes.py:314
 msgid "You dont have access to such page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
 
-#: app/main/routes.py:194
+#: app/main/routes.py:195
+msgid "No such user"
+msgstr "Utilisateur inconnu"
+
+#: app/main/routes.py:199
+#, python-format
+msgid "User %(username)s deleted"
+msgstr "Utilisateur %(username) supprimé"
+
+#: app/main/routes.py:209
 msgid "Users Admin List"
 msgstr "Liste Joueurs (admin)"
 
-#: app/main/routes.py:202
+#: app/main/routes.py:217
 #, python-format
 msgid "Sorry, you cant see team %(name)s"
 msgstr "Impossible de voir cette équipe %(name)s"
 
-#: app/main/routes.py:204
+#: app/main/routes.py:219
 msgid "Team"
 msgstr "Équipe"
 
-#: app/main/routes.py:228 app/main/routes.py:271
+#: app/main/routes.py:243 app/main/routes.py:286
 #, python-format
 msgid "Name %(newteamname)s already exist"
 msgstr "Le nom %(newteamname)s existe déjà"
 
-#: app/main/routes.py:231
+#: app/main/routes.py:246
 msgid "Problem Occured with creating team"
 msgstr "Un problème est survenu dans la création de l'équipe"
 
-#: app/main/routes.py:234
+#: app/main/routes.py:249
 #, python-format
 msgid "Team %(teamname)s created"
 msgstr "Équipe %(teamname)s crée"
 
-#: app/main/routes.py:236 app/main/templates/create_team.html:6
+#: app/main/routes.py:251 app/main/templates/create_team.html:6
 msgid "Create Team"
 msgstr "Créer une équipe"
 
-#: app/main/routes.py:245
+#: app/main/routes.py:260
 #, python-format
 msgid "No such team for id %(team_id)s"
 msgstr "Aucune équipe avec l'id %(team_id)"
 
-#: app/main/routes.py:249
+#: app/main/routes.py:264
 #, python-format
 msgid "Sorry, you cant modify team %(name)s"
 msgstr "Désolé, vous ne pouvez pas modifier l'équipe %(name)s"
 
-#: app/main/routes.py:255
+#: app/main/routes.py:270
 #, python-format
 msgid "Team %(teamname)s deleted"
 msgstr "Équipe %(teamname) supprimée"
 
-#: app/main/routes.py:274
+#: app/main/routes.py:289
 msgid "Problem Occured with modifying team"
 msgstr "Un problème est survenu dans la modification de l'équipe"
 
-#: app/main/routes.py:276
+#: app/main/routes.py:291
 #, python-format
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
 
-#: app/main/routes.py:293
+#: app/main/routes.py:308
 msgid "Edit Team"
 msgstr "Modifier l'équipe"
 
-#: app/main/routes.py:302
+#: app/main/routes.py:317
 msgid "Teams Admin List"
 msgstr "Liste Équipes (admin)"
 
-#: app/main/routes.py:309 app/main/routes.py:324
+#: app/main/routes.py:324 app/main/routes.py:339
 #, python-format
 msgid "User %(username)s not found"
 msgstr "Utilisateur %(username)s introuvable"
 
-#: app/main/routes.py:312
+#: app/main/routes.py:327
 msgid "Cannot follow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:316
+#: app/main/routes.py:331
 #, python-format
 msgid "You are following %(username)s"
 msgstr "Vous suivez %(username)s"
 
-#: app/main/routes.py:327
+#: app/main/routes.py:342
 msgid "Cannot unfollow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:331
+#: app/main/routes.py:346
 #, python-format
 msgid "You have unfollowed %(username)s"
 msgstr "Vous ne suivez plus %(username)s"
@@ -507,15 +516,23 @@ msgstr "Pas de posts"
 msgid "Edit team"
 msgstr "Modifier l'équipe"
 
-#: app/main/templates/team.html:26
+#: app/main/templates/team.html:28
+msgid "paiment validated"
+msgstr "Paiment Validé"
+
+#: app/main/templates/team.html:30
+msgid "Stripe paid, waiting for validation"
+msgstr "Payé par Stripe, en cours de validation"
+
+#: app/main/templates/team.html:32
 msgid "partner"
 msgstr "partenaire"
 
-#: app/main/templates/team.html:30
+#: app/main/templates/team.html:38
 msgid "Pay with Stripe"
 msgstr "Payer par Stripe"
 
-#: app/main/templates/team.html:36
+#: app/main/templates/team.html:46
 msgid "Pay with Check"
 msgstr "Payer par Chéque"
 
@@ -555,7 +572,7 @@ msgstr "à écrit"
 msgid "Edit"
 msgstr "Modifier"
 
-#: app/templates/_team.html:18 app/templates/_user.html:27
+#: app/templates/_team.html:18 app/templates/_user.html:26
 msgid "Delete"
 msgstr "Supprimer"
 
