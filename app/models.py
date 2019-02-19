@@ -165,8 +165,8 @@ class Team(db.Model):
     sport_level = db.Column(db.Integer )
     is_partner = db.Column(db.Boolean, default=False)
     is_paid = db.Column(db.Boolean, default=False)
+    is_striped = db.Column(db.Boolean, default=False)
     
-
     def get_billing(self):
         team_players = self.get_players()
         bill = 0

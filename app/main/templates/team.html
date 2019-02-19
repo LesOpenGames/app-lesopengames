@@ -20,20 +20,31 @@
     {% if team.get_players() |length == 4 %}
     <hr/>
     <div class="row">
-        <div class="col-xs-1"><h3>{{_('Billing')}}: </h3></div>
-        <div class="col-xs-1"><h3>{{team.get_billing()}} &euro;</h3></div>
-        {% if team.is_partner %}
-        <div class="col-xs-3"><h3>({{'-50%'}} {{_('partner')}})</h3></div>
+        <div class="col-xs-2"><h3>{{_('Billing')}}: </h3></div>
+        <div class="col-xs-4"><h3>{{team.get_billing()}} &euro;</h3></div>
+    </div>
+    <div class="row">
+        {% if team.is_paid %}
+        <div class="col-xs-4"><h4>( {{_('paid')}} )</h4></div>
+        {% elif team.is_striped %}
+        <div class="col-xs-4"><h4>( {{_('Stripe paid, waiting for validation')}} )</h4></div>
+        {% elif team.is_partner %}
+        <div class="col-xs-4"><h4>( {{'-50%'}} {{_('partner')}} )</h4></div>
         {% endif %}
     </div>
+    {% macro paiment_disabled() %}{% if  team.is_paid or team.is_striped %}disabled{% endif %}{% endmacro %}
     <div class="row">
-        <div class="col-xs-2"><a href="{{url_for('billing.stripe_billing', amount=team.get_billing())}}" class="btn btn-block btn-info">{{_('Pay with Stripe')}}</a></div>
+        <div class="col-xs-6">
+            <a href="{{url_for('billing.stripe_billing', team_id=team.id, amount=team.get_billing())}}" class="btn btn-block btn-info {{paiment_disabled()}}">{{_('Pay with Stripe')}}</a>
+        </div>
     </div>
     <div class="row">
-        <div class="col-xs-2"></div>
+        <div class="col-xs-6"></div>
     </div>
     <div class="row">
-        <div class="col-xs-2"><a href="{{url_for('billing.check_billing', amount=team.get_billing())}}" class="btn btn-block btn-info">{{_('Pay with Check')}}</a></div>
+        <div class="col-xs-6">
+            <a href="{{url_for('billing.check_billing', amount=team.get_billing())}}" class="btn btn-block btn-info {{paiment_disabled()}}" >{{_('Pay with Check')}}</a>
+        </div>
     </div>
     {% endif %}
     {% include '_team_users.html'%}

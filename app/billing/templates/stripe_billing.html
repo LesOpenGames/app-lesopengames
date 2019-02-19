@@ -3,6 +3,7 @@
 {% set float_amount = amount | float %}
 {% set cent_amount = float_amount * 100 %}
   <form action="/charge" method="post">
+      <input id="team_id" name="team_id" type="hidden" value="{{team_id}}">
       <input id="cent_amount" name="cent_amount" type="hidden" value="{{cent_amount}}">
     <article>
       <label>

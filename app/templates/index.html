@@ -4,6 +4,7 @@
    <table class="table table-hover">
       {% for team in teams %}
           {% if team.is_valid()
+             or ( not current_user.is_anonymous and team.is_player( current_user ) )
              or ( not current_user.is_anonymous and current_user.is_admin() ) %}
             {% include '_team.html' %}
           {% endif %}
