@@ -163,6 +163,9 @@ class Team(db.Model):
     racket_sport_type = db.Column(db.Integer )
     collective_sport_type = db.Column(db.Integer )
     sport_level = db.Column(db.Integer )
+    is_partner = db.Column(db.Boolean, default=False)
+    is_paid = db.Column(db.Boolean, default=False)
+    
 
     def get_billing(self):
         team_players = self.get_players()
@@ -170,18 +173,26 @@ class Team(db.Model):
         if len( team_players ) == 4:
             for p in team_players:
                 bill = bill + p.get_billing()
+        if self.is_partner:
+            bill = bill/2
         return bill
-
 
     def is_valid(self):
         team_players = self.get_players()
         if(  len( team_players ) == 4):
-            return  ( team_players[0].is_valid() and
+            return  ( self.is_paid  and
+                    team_players[0].is_valid() and
                     team_players[1].is_valid() and
                     team_players[2].is_valid() and
-                    team_players[3].is_valid()  )
+                    team_players[3].is_valid() )
         else:
             return False
+
+    def get_team_number(self):
+        if( self.is_valid() ):
+            return self.team_number
+        else:
+            return None
 
     def unset_team_number(self):
         self.team_number = None

@@ -52,7 +52,7 @@ def register(app):
         for t in Team.query.order_by(Team.id).all():
             print ("{0:4} {1:4} {2:14}".format(
                 str(t.id or '---'),
-                str(t.team_number or '---'),
+                str(t.get_team_number() or '---'),
                 str(t.teamname or '---')
                 ))
 

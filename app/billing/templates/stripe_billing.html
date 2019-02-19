@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block app_content %}
-{% set int_amount = amount | int %}
-{% set cent_amount = int_amount * 100 %}
+{% set float_amount = amount | float %}
+{% set cent_amount = float_amount * 100 %}
   <form action="/charge" method="post">
       <input id="cent_amount" name="cent_amount" type="hidden" value="{{cent_amount}}">
     <article>
       <label>
-          <span>{{_('Amount is ')}}{{int_amount}} &euro;</span>
+          <span>{{_('Amount is ')}}{{float_amount}} &euro;</span>
       </label>
     </article>
 

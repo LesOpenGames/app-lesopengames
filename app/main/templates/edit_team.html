@@ -29,6 +29,18 @@
             <div class="col-xs-4">{{ wtf.form_field(form.racksport) }}</div>
             <div class="col-xs-6"> </div>
         </div>
+        {% if current_user.is_admin() %}
+        <div class="row">
+            <div class="col-xs-2">{{ form.is_paid.label}}</div>
+            <div class="col-xs-4">{{ wtf.form_field(form.is_paid) }}</div>
+            <div class="col-xs-6"> </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">{{ form.is_partner.label}}</div>
+            <div class="col-xs-4">{{ wtf.form_field(form.is_partner) }}</div>
+            <div class="col-xs-6"> </div>
+        </div>
+        {% endif %}
         <br/>
         <div class="row">
             <div class="col-xs-2"></div>

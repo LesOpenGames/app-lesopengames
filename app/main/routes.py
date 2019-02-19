@@ -262,6 +262,8 @@ def edit_team(team_id):
         #team.sport_level = form.sportlevel.data
         team.racket_sport_type = form.racksport.data
         team.collective_sport_type = form.collsport.data
+        team.is_paid = form.is_paid.data
+        team.is_partner = form.is_partner.data
         try:
             db.session.commit()
         except IntegrityError as err:
@@ -277,8 +279,10 @@ def edit_team(team_id):
         form.sportlevel.data = team.sport_level
         form.racksport.data = team.racket_sport_type
         form.collsport.data = team.collective_sport_type
+        form.is_paid.data = team.is_paid
+        form.is_partner.data = team.is_partner
     # Check valid players  or Unvalidate team
-    if( team.team_number is None ):
+    if( team.get_team_number() is None ):
         if ( team.is_valid() ):
             team.set_team_number()
             db.session.commit()
@@ -326,5 +330,3 @@ def unfollow(username):
     db.session.commit()
     flash( _('You have unfollowed %(username)s', username=username))
     return redirect(url_for('main.user', username=username))
-
-
