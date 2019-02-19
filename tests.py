@@ -136,7 +136,7 @@ class TeamModelCase(unittest.TestCase):
         u3 = User(username='luc', email='luc@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
         u4 = User(username='ing', email='ing@example.com', valid_auth = True, valid_health = True, birthdate=datetime(1970, 12, 9))
 
-        t1 = Team(teamname='cathares')
+        t1 = Team(teamname='cathares', is_paid=True)
         t1.subscribe(u1)
         t1.subscribe(u2)
         t1.subscribe(u3)
