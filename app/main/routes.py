@@ -184,6 +184,21 @@ def form2user(form, user):
     user.email = form.email.data
     user.phonenumberstr = form.phonenumberstr.data
 
+@bp.route('/delete_user/<int:user_id>')
+@login_required
+def delete_user(user_id):
+    if( not current_user.is_admin() ):
+        flash( _('You dont have access to such page'))
+        return redirect(url_for('main.index'))
+    user = User.query.get(user_id)
+    if( user is None ):
+        flash( _('No such user') )
+        return redirect(url_for('main.index'))
+    db.session.delete(user)
+    db.session.commit()
+    flash( _('User %(username)s deleted', username=user.username))
+    return redirect(url_for('main.index'))
+
 @bp.route('/users')
 @login_required
 def users():
