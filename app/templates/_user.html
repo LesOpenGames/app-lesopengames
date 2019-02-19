@@ -23,9 +23,7 @@
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
         </td>
         <td>
-            <form action="delete_user/{{user.id}}" method="POST">
-                <button type="submit" class="btn btn-info">{{ _('Delete') }}</button>
-            </form>
+            <a href="{{ url_for('main.delete_user', user_id=user.id)}}" class="btn btn-info">{{ _('Delete') }} </a>
         </td>
     {% endif %}
     </tr>
