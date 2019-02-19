@@ -36,7 +36,7 @@ def charge():
 
 
     # Amount in cents
-    cent_amount = request.form['cent_amount']
+    cent_amount = int(float(request.form['cent_amount']))
     eur_amount = int(cent_amount)/100
 
     customer = stripe.Customer.create(
