@@ -83,7 +83,7 @@ def posts():
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    if( not ( user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
+    if( not ( current_user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
         flash( _('Sorry, you cant view user') )
         return redirect(url_for('main.index'))
 
@@ -236,6 +236,9 @@ def team(team_id):
 @bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
 def create_team():
+    if( current_user.team is not None):
+        flash( _('Sorry, you already belong to team %(name)s', name=current_user.team.teamname))
+        return redirect( url_for('main.index') )
     form = EditTeamForm()
     if form.validate_on_submit():
         teamname=form.teamname.data
