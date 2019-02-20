@@ -512,7 +512,7 @@ msgid ""
 "paiement pending. Edit for more info."
 msgstr ""
 "Des prérequis ne sont pas fournis. Peut-être l'age, les"
-" autorisation ou bien un paiement en attente. Modifier pour"
+" autorisation ou bien un paiement en attente. Modifier pour "
 "plus d'information"
 
 #: app/main/templates/_team_users.html:14
