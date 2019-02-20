@@ -83,7 +83,9 @@ def posts():
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    if( not ( current_user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
+    if( not ( current_user.is_admin()
+              or ( user.team is not None and user.team.is_leader(current_user) )
+              or current_user.id == user_id ) ):
         flash( _('Sorry, you cant view user') )
         return redirect(url_for('main.index'))
 

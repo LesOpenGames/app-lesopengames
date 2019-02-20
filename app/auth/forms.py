@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
+from app.models import User, RolesType
 
 
 class ResetPasswordForm(FlaskForm):
@@ -21,6 +21,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(_l('Sign In'))
 
 class RegisterForm(FlaskForm):
+    role = RadioField(_l('Role'), coerce=int, choices=[(int(RolesType.PLAYER), _l('Player')), (int(RolesType.JUGE), _l('Juge')) ] , default=int(RolesType.PLAYER), validators=[Optional()])
     username = StringField(_l('Pseudo'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])

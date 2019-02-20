@@ -7,7 +7,7 @@ from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegisterForm, \
     ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User
+from app.models import User, RolesType
 from app.auth.email import send_password_reset_email, send_account_created_email
 
 
@@ -35,15 +35,19 @@ def register():
         return redirect(url_for('main.index'))
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, role=form.role.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         if user:
             send_account_created_email(user)
-        #if user is None or not user.check_password(form.password.data):
-        flash(_('Congratulation %(username)s, you are registered', username=user.username))
-        return redirect(url_for('main.index'))
+        # if we choose role PLAYER, then go on editing profile
+        if( user.role == RolesType.PLAYER ):
+            flash(_('You are registered %(username)s. Now you can complete your profile.', username=user.username))
+            return redirect(url_for('main.edit_profile', user_id=user.id))
+        else:
+            flash(_('Congratulation %(username)s, you are registered. You will receive a confirmation email.', username=user.username))
+            return redirect(url_for('main.index'))
     return render_template('register.html', title='Register', form=form)
 
 @bp.route('/logout')
