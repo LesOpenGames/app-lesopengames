@@ -18,6 +18,18 @@ def before_request():
         db.session.commit()
     g.locale = str(get_locale())
 
+@bp.route('/documents')
+def documents():
+    return render_template('documents.html', title=_('Mandatory documents'))
+
+@bp.route('/rules')
+def rules():
+    return render_template('rules.html', title=_('Rules'))
+
+@bp.route('/contact')
+def contact():
+    return render_template('contact.html', title=_('Contact'))
+
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
@@ -71,7 +83,7 @@ def posts():
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    if( not ( user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
+    if( not ( current_user.is_admin() or user.team.is_leader(current_user) or current_user.id == user_id ) ):
         flash( _('Sorry, you cant view user') )
         return redirect(url_for('main.index'))
 
@@ -218,12 +230,36 @@ def team(team_id):
         return redirect(url_for('main.index') )
     return render_template('team.html', title=_('Team'), team=team)
 
+def flash_team_non_valid(team):
+    if team.is_valid():
+        return
+
+    message=""
+
+    if not team.is_paid:
+        if team.is_striped:
+            flash(_('Paiment striped, waiting for validation'), 'warning')
+        else:
+            flash(_('Waiting for Paiment'), 'warning')
+
+    for u in team.get_players():
+        if not u.is_valid():
+            if not u.is_valid_age():
+                flash(_('Wrong birthdate for %(username)s', username=u.username), 'warning')
+            if not u.is_valid_health():
+                flash(_('Missing health doc for %(username)s', username=u.username), 'warning')
+            if not u.is_valid_auth():
+                flash(_('Missing parent auth doc for %(username)s', username=u.username), 'warning')
+
 ##
 # First create team with name and level
 #  (later fill it with editing )
 @bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
 def create_team():
+    if( current_user.team is not None):
+        flash( _('Sorry, you already belong to team %(name)s', name=current_user.team.teamname))
+        return redirect( url_for('main.index') )
     form = EditTeamForm()
     if form.validate_on_submit():
         teamname=form.teamname.data
@@ -305,6 +341,7 @@ def edit_team(team_id):
         if ( not team.is_valid() ):
             team.unset_team_number()
             db.session.commit()
+    flash_team_non_valid(team)
     return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
