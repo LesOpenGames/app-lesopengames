@@ -235,15 +235,12 @@ def team(team_id):
 def flash_team_non_valid(team):
     if team.is_valid():
         return
-
     message=""
-
     if not team.is_paid:
         if team.is_striped:
             flash(_('Paiment striped, waiting for validation'), 'warning')
         else:
             flash(_('Waiting for Paiment'), 'warning')
-
     for u in team.get_players():
         if not u.is_valid():
             if not u.is_valid_age():
@@ -343,7 +340,7 @@ def edit_team(team_id):
         if ( not team.is_valid() ):
             team.unset_team_number()
             db.session.commit()
-    flash_team_non_valid(team)
+    #flash_team_non_valid(team)
     return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
