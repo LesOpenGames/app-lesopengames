@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-19 19:45+0100\n"
+"POT-Creation-Date: 2019-02-20 11:06+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -218,7 +218,7 @@ msgstr "Publier"
 msgid "Team Name"
 msgstr "Nom d'équipe"
 
-#: app/main/forms.py:15 app/main/templates/team.html:8
+#: app/main/forms.py:15 app/main/templates/team.html:14
 msgid "Sport Level"
 msgstr "Niveau"
 
@@ -226,11 +226,11 @@ msgstr "Niveau"
 msgid "Tough"
 msgstr "Sportif"
 
-#: app/main/forms.py:16 app/main/templates/team.html:12
+#: app/main/forms.py:16 app/main/templates/team.html:19
 msgid "Collective Sport"
 msgstr "Sport Collectif"
 
-#: app/main/forms.py:17 app/main/templates/team.html:16
+#: app/main/forms.py:17 app/main/templates/team.html:24
 msgid "Racket Sport"
 msgstr "Sport de Raquette"
 
@@ -243,7 +243,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #: app/main/forms.py:20 app/main/forms.py:25
-#: app/main/templates/_team_users.html:51 app/main/templates/edit_team.html:47
+#: app/main/templates/_team_users.html:52 app/main/templates/edit_team.html:47
 msgid "Validate"
 msgstr "Valider"
 
@@ -466,11 +466,7 @@ msgstr "Vous ne suivez plus %(username)s"
 msgid "Players"
 msgstr "Joueurs"
 
-#: app/main/templates/_team_users.html:5
-msgid "Rank"
-msgstr "Rang"
-
-#: app/main/templates/_team_users.html:7 app/main/templates/team.html:23
+#: app/main/templates/_team_users.html:7 app/main/templates/team.html:39
 msgid "Billing"
 msgstr "Prix"
 
@@ -490,21 +486,21 @@ msgstr "Autor."
 msgid "Health"
 msgstr "Santé"
 
-#: app/main/templates/_team_users.html:21
+#: app/main/templates/_team_users.html:22
 msgid "Add Player"
 msgstr "Ajouter un Joueur"
 
-#: app/main/templates/_team_users.html:34
+#: app/main/templates/_team_users.html:35
 msgid "age"
 msgstr "age"
 
-#: app/main/templates/_team_users.html:40
-#: app/main/templates/_team_users.html:54
+#: app/main/templates/_team_users.html:41
+#: app/main/templates/_team_users.html:55
 msgid "auth"
 msgstr "autor."
 
-#: app/main/templates/_team_users.html:47
-#: app/main/templates/_team_users.html:55
+#: app/main/templates/_team_users.html:48
+#: app/main/templates/_team_users.html:56
 msgid "health"
 msgstr "santé"
 
@@ -512,27 +508,27 @@ msgstr "santé"
 msgid "No posts"
 msgstr "Pas de posts"
 
-#: app/main/templates/team.html:19
+#: app/main/templates/team.html:31
 msgid "Edit team"
 msgstr "Modifier l'équipe"
 
-#: app/main/templates/team.html:28
+#: app/main/templates/team.html:45
 msgid "paiment validated"
 msgstr "Paiment Validé"
 
-#: app/main/templates/team.html:30
+#: app/main/templates/team.html:47
 msgid "Stripe paid, waiting for validation"
 msgstr "Payé par Stripe, en cours de validation"
 
-#: app/main/templates/team.html:32
+#: app/main/templates/team.html:49
 msgid "partner"
 msgstr "partenaire"
 
-#: app/main/templates/team.html:38
+#: app/main/templates/team.html:56
 msgid "Pay with Stripe"
 msgstr "Payer par Stripe"
 
-#: app/main/templates/team.html:46
+#: app/main/templates/team.html:66
 msgid "Pay with Check"
 msgstr "Payer par Chéque"
 
@@ -549,8 +545,8 @@ msgid "Edit your profile"
 msgstr "Modifier votre profil"
 
 #: app/main/templates/user.html:18
-msgid "Participate to team"
-msgstr "Rejoindre une équipe"
+msgid "Create new team"
+msgstr "Créer une équipe"
 
 #: app/main/templates/user.html:42
 msgid "Yes"
@@ -585,8 +581,8 @@ msgid "Toggle navigation"
 msgstr "Change la navigation"
 
 #: app/templates/base.html:38
-msgid "Participate"
-msgstr "Participer"
+msgid "Subscribe team"
+msgstr "Inscrire une équipe"
 
 #: app/templates/base.html:45
 msgid "Sign Up"
@@ -718,4 +714,13 @@ msgstr "Déconnexion"
 
 #~ msgid "About Me"
 #~ msgstr "A propos"
+
+#~ msgid "Rank"
+#~ msgstr "Rang"
+
+#~ msgid "Participate to team"
+#~ msgstr "Rejoindre une équipe"
+
+#~ msgid "Participate"
+#~ msgstr "Participer"
 

@@ -35,7 +35,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     {% if current_user.is_anonymous or not current_user.team %}
-                    <li><a href="{{ url_for('main.create_team') }}">{{_('Participate')}}</a></li>
+                    <li><a href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a></li>
                     {% elif current_user.team %}
                     <li><a href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a></li>
                     {% endif %}
