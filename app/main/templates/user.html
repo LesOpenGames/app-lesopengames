@@ -10,13 +10,21 @@
         </tr>
     </table>
 
+    <br/>
     {% if user == current_user %}
-    <p><a href="{{ url_for('main.edit_profile') }}">{{_('Edit your profile')}}</a></p>
+    <div class="row">
+        <div class="col-xs-2"><a href="{{ url_for('main.edit_profile') }}" class="btn btn-block btn-info">{{_('Edit your profile')}}</a></div>
+        <div class="col"></div>
+    </div>
+    <div class="row"> <div class="col"> </div></div>
+    <div class="row">
         {% if current_user.team %}
-        <p><a href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{ current_user.team.teamname}}</a></p>
+        <div class="col-xs-2"><a href="{{ url_for('main.team', team_id=current_user.team.id) }}" class="btn btn-block btn-info">{{ current_user.team.teamname}}</a></div>
         {%else%}
-        <p><a href="{{ url_for('main.create_team') }}">{{_('Create new team')}}</a></p>
+        <div class="col-xs-2"><a href="{{ url_for('main.create_team') }}" class="btn btn-block btn-info">{{_('Create new team')}}</a></div>
         {%endif%}
+        <div class="col"></div>
+    </div>
     {% endif %}
 
     <br/>
