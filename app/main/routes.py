@@ -18,6 +18,18 @@ def before_request():
         db.session.commit()
     g.locale = str(get_locale())
 
+@bp.route('/documents')
+def documents():
+    return render_template('documents.html')
+
+@bp.route('/rules')
+def rules():
+    return render_template('rules.html')
+
+@bp.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
