@@ -1,3 +1,15 @@
+   {% set ruleslink=url_for('main.rules')%}
+   {% set doclink=url_for('main.documents')%}
+   {% set contactlink=url_for('main.contact')%}
+    {% macro get_glyph_info(content, url)%}
+    <span role="button" class="glyphicon glyphicon-info-sign"
+          data-container="body"
+          data-trigger="click"
+          data-toggle="popover"
+          data-placement="top"
+          data-html=true
+          data-content='<strong>{{content}} </strong><br/><a href="{{ruleslink}}">rules</a>|<a href="{{doclink}}">documents</a>|<a href="{{contactlink}}">contact</a>'>
+    </span>{% endmacro %}
     <hr/>
     <h3>{{_('Players')}}:</h3>
     <table class="table table-hover">
@@ -6,10 +18,10 @@
             {% if not edit %}
             <th class="col">{{ _('Billing') }}</th>
             {% endif %}
-            <th class="col-xs-2 col-sm-2">{{ _('Name') }}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Age') }}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Auth') }}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Health') }}</th>
+            <th class="col-xs-2 col-sm-2" >{{ _('Name') }}</th>
+            <th class="col-xs-1 col-sm-1">{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 or 2007'))}}</th>
+            <th class="col-xs-1 col-sm-1">{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
+            <th class="col-xs-1 col-sm-1">{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
             <th class="col"></th>
         </tr>
     {% macro is_disabled(success) %}{% if  success %}disabled{% endif %}{% endmacro %}

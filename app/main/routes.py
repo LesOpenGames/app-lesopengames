@@ -20,15 +20,15 @@ def before_request():
 
 @bp.route('/documents')
 def documents():
-    return render_template('documents.html')
+    return render_template('documents.html', title=_('Mandatory documents'))
 
 @bp.route('/rules')
 def rules():
-    return render_template('rules.html')
+    return render_template('rules.html', title=_('Rules'))
 
 @bp.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', title=_('Contact'))
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
