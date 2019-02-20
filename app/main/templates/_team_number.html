@@ -1,6 +1,16 @@
 {% if team.get_team_number() != None%}
-    <span class="label label-success">{{team.get_team_number()}}</span>
+    <span class="label label-success"
+          role="button"
+          data-toggle="popover" 
+          data-html=true
+          data-content="{{_('Congratulation, Team is validated and subscribed to event')}}"
+          >{{team.get_team_number()}}</span>
 {% else %}
-        <span class="label label-warning glyphicon  glyphicon-alert"></span">
+        <span class="label label-warning glyphicon  glyphicon-alert" 
+          role="button"
+         data-toggle="popover" 
+         data-html=true
+         data-content="{{_('Some requirements were not fullfilled. Either age, authorizations, or paiement pending. Edit for more info.')}}"
+         ></span">
 {% endif %}
     </span>

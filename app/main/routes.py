@@ -230,6 +230,27 @@ def team(team_id):
         return redirect(url_for('main.index') )
     return render_template('team.html', title=_('Team'), team=team)
 
+def flash_team_non_valid(team):
+    if team.is_valid():
+        return
+
+    message=""
+
+    if not team.is_paid:
+        if team.is_striped:
+            flash(_('Paiment striped, waiting for validation'))
+        else:
+            flash(_('Waiting for Paiment'))
+
+    for u in team.get_players():
+        if not u.is_valid():
+            if not u.is_valid_age():
+                flash(_('Wrong birthdate for %(username)s', username=u.username))
+            if not u.is_valid_health():
+                flash(_('Missing health doc for %(username)s', username=u.username))
+            if not u.is_valid_auth():
+                flash(_('Missing parent auth doc for %(username)s', username=u.username))
+
 ##
 # First create team with name and level
 #  (later fill it with editing )
@@ -271,6 +292,7 @@ def create_team():
 def edit_team(team_id):
     # check security
     team=Team.query.filter_by(id=team_id).first()
+    flash_team_non_valid(team)
     if( team is None ):
         flash( _('No such team for id %(team_id)s', team_id=team_id))
         return redirect(url_for('main.index') )
