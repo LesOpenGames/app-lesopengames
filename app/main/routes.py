@@ -238,18 +238,18 @@ def flash_team_non_valid(team):
 
     if not team.is_paid:
         if team.is_striped:
-            flash(_('Paiment striped, waiting for validation'))
+            flash(_('Paiment striped, waiting for validation'), 'warning')
         else:
-            flash(_('Waiting for Paiment'))
+            flash(_('Waiting for Paiment'), 'warning')
 
     for u in team.get_players():
         if not u.is_valid():
             if not u.is_valid_age():
-                flash(_('Wrong birthdate for %(username)s', username=u.username))
+                flash(_('Wrong birthdate for %(username)s', username=u.username), 'warning')
             if not u.is_valid_health():
-                flash(_('Missing health doc for %(username)s', username=u.username))
+                flash(_('Missing health doc for %(username)s', username=u.username), 'warning')
             if not u.is_valid_auth():
-                flash(_('Missing parent auth doc for %(username)s', username=u.username))
+                flash(_('Missing parent auth doc for %(username)s', username=u.username), 'warning')
 
 ##
 # First create team with name and level
@@ -292,7 +292,6 @@ def create_team():
 def edit_team(team_id):
     # check security
     team=Team.query.filter_by(id=team_id).first()
-    flash_team_non_valid(team)
     if( team is None ):
         flash( _('No such team for id %(team_id)s', team_id=team_id))
         return redirect(url_for('main.index') )
@@ -342,6 +341,7 @@ def edit_team(team_id):
         if ( not team.is_valid() ):
             team.unset_team_number()
             db.session.commit()
+    flash_team_non_valid(team)
     return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 
 @bp.route('/teams', methods=['GET', 'POST'])
