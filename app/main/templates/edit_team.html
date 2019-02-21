@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
-
-
+{% set sport_info = _('Among 15 challenges, you have choice in racket and collective sport. Has the number is limmited, admin may modify your choice as long as team is not validated')%}
 {% block app_content %}
     <h1>{{team.teamname}}
         {% include '_team_number.html'%}
@@ -20,12 +19,12 @@
             <div class="col-xs-6"> </div>
         </div>
         <div class="row">
-            <div class="col-xs-2">{{ form.collsport.label}}</div>
+            <div class="col-xs-2">{{ form.collsport.label}} {{get_glyph_info(sport_info)}}</div>
             <div class="col-xs-4">{{ wtf.form_field(form.collsport) }}</div>
             <div class="col-xs-6"> </div>
         </div>
         <div class="row">
-            <div class="col-xs-2">{{ form.racksport.label}}</div>
+            <div class="col-xs-2">{{ form.racksport.label}}{{get_glyph_info(sport_info)}}</div>
             <div class="col-xs-4">{{ wtf.form_field(form.racksport) }}</div>
             <div class="col-xs-6"> </div>
         </div>

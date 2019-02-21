@@ -1,5 +1,18 @@
 {% extends 'bootstrap/base.html' %}
 
+{% set aproposlink=url_for('main.apropos')%}
+{% macro get_glyph_info(content, url)%}
+<span role="button" class="glyphicon glyphicon-question-sign" style="color:red"
+      data-container="body"
+      data-trigger="click"
+      data-toggle="popover"
+      data-placement="top"
+      data-html=true
+      data-content='{{content}}: <a href="{{aproposlink}}" class="btn btn-default">a propos</a>'
+</span> 
+{% endmacro %}
+
+
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}

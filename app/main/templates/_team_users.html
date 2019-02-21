@@ -1,13 +1,3 @@
-   {% set aproposlink=url_for('main.apropos')%}
-    {% macro get_glyph_info(content, url)%}
-    <span role="button" class="glyphicon glyphicon-question-sign" style="color:red"
-          data-container="body"
-          data-trigger="click"
-          data-toggle="popover"
-          data-placement="top"
-          data-html=true
-          data-content='<strong>{{content}}:</strong> <a href="{{aproposlink}}" class="btn btn-default">a propos</a>'
-    </span>{% endmacro %}
     <hr/>
     <h3>{{_('Players')}}:</h3>
     <table class="table table-hover">
