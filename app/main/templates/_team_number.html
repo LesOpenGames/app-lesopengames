@@ -6,11 +6,10 @@
           data-content="{{_('Congratulation, Team is validated and subscribed to event')}}"
           >{{team.get_team_number()}}</span>
 {% else %}
-        <span class="label label-warning glyphicon  glyphicon-alert" 
+<span  class="label label-warning glyphicon  glyphicon-alert" 
           role="button"
          data-toggle="popover" 
          data-html=true
-         data-content="{{_('Some requirements were not fullfilled. Either age, authorizations, or paiement pending.')}}"
-         ></span">
+         data-content="{{_('Some requirements may miss before subscription is completed: <ul><li>non valid age</li><li> minor authorizations</li><li>health document</li><li> paiement not done or pending.</li></ul> A team number will then be attributed.')}}"
+         > </span>
 {% endif %}
-    </span>
