@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 15:49+0100\n"
+"POT-Creation-Date: 2019-02-21 16:01+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -316,12 +316,11 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
-#: app/main/routes.py:23 app/templates/base.html:64
+#: app/main/routes.py:23 app/templates/base.html:62
 msgid "A Propos"
-msgstr "A Propos"
+msgstr "À Propos"
 
 #: app/main/routes.py:27 app/main/templates/apropos.html:11
-#: app/templates/base.html:69
 msgid "Health Certificat"
 msgstr "Certificat Médical"
 
@@ -330,12 +329,10 @@ msgid "Minor Authorisation"
 msgstr "Autorisation pour Mineur"
 
 #: app/main/routes.py:35 app/main/templates/apropos.html:16
-#: app/templates/base.html:67
 msgid "Rules"
 msgstr "Règlement"
 
 #: app/main/routes.py:39 app/main/templates/apropos.html:21
-#: app/templates/base.html:70
 msgid "Contact"
 msgstr "Nous Contacter"
 
@@ -575,7 +572,7 @@ msgstr "Age"
 
 #: app/main/templates/_team_users.html:10
 msgid "Year of birth limited to 2004 for Sportive level, or 2007 for Easy level"
-msgstr "Date de naissance limitée à 2004 pour le niveau Sportif, et 2007 pour le niveau Loisir."
+msgstr "Date de naissance limitée à 2004 pour le niveau Sportif, ou 2007 pour le niveau Loisir."
 
 #: app/main/templates/_team_users.html:11
 msgid "Auth"
@@ -714,27 +711,23 @@ msgstr "Change la navigation"
 msgid "Subscribe team"
 msgstr "Inscrire une équipe"
 
-#: app/templates/base.html:68
-msgid "Minor Authorization"
-msgstr "Autorisation Mineur"
-
-#: app/templates/base.html:74
+#: app/templates/base.html:64
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: app/templates/base.html:75
+#: app/templates/base.html:65
 msgid "Login"
 msgstr "Connexion"
 
-#: app/templates/base.html:78
+#: app/templates/base.html:68
 msgid "Teams"
 msgstr "Équipes"
 
-#: app/templates/base.html:79
+#: app/templates/base.html:69
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/base.html:82
+#: app/templates/base.html:72
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -901,4 +894,22 @@ msgstr "Déconnexion"
 #~ "Date de naissance limitée à 2007 "
 #~ "pour le niveau Sportif, ou 2004 "
 #~ "pour le niveau Loisir"
+
+#~ msgid ""
+#~ "Year of birth limited to 2004 for"
+#~ " Sportive level, or 2007 for Easy "
+#~ "level"
+#~ msgstr ""
+#~ "Date de naissance limitée à 2004 "
+#~ "pour le niveau Sportif, et 2007 "
+#~ "pour le niveau Loisir."
+
+#~ msgid "Minor Authorization"
+#~ msgstr "Autorisation Mineur"
+
+#~ msgid ""
+#~ "Year of birth limited to 2004 for"
+#~ " Sportive level, or 2011 for Easy "
+#~ "level"
+#~ msgstr "Année de naissance limitée à 2004 pour le nivea"
 

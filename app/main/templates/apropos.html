@@ -3,18 +3,18 @@
 <h2>{{_('Documents')}}:</h2>
 <br/>
     <div class="row">
-        <div class="col-xs-2 col-sm-2"><a href="{{url_for('main.autorisation')}}"><strong>{{ _('Minor Authorisation')}}:</strong></a></div>
-        <div class="col-xs-4 col-sm-2"> {% include '_autorisation_pdf.html'%} </div>
+        <div class="col-xs-4 col-sm-3"><a href="{{url_for('main.autorisation')}}"><strong>{{ _('Minor Authorisation')}}:</strong></a></div>
+        <div class="col-xs-6 col-sm-2"> {% include '_autorisation_pdf.html'%} </div>
         <div class="col"></div>
     </div>
     <div class="row">
-        <div class="col-xs-2 col-sm-2"><a href="{{url_for('main.certificat')}}"><strong>{{ _('Health Certificat')}}:</strong></a></div>
-        <div class="col-xs-4 col-sm-2"> {% include '_certificat_pdf.html'%} </div>
+        <div class="col-xs-4 col-sm-3"><a href="{{url_for('main.certificat')}}"><strong>{{ _('Health Certificat')}}:</strong></a></div>
+        <div class="col-xs-6 col-sm-2"> {% include '_certificat_pdf.html'%} </div>
         <div class="col"></div>
     </div>
     <div class="row">
-        <div class="col-xs-2 col-sm-2"><a href="{{url_for('main.rules')}}"><strong>{{ _('Rules')}}:</strong></a></div>
-        <div class="col-xs-4 col-sm-2"> {% include '_rules_pdf.html'%} </div>
+        <div class="col-xs-4 col-sm-3"><a href="{{url_for('main.rules')}}"><strong>{{ _('Rules')}}:</strong></a></div>
+        <div class="col-xs-6 col-sm-2"> {% include '_rules_pdf.html'%} </div>
         <div class="col"></div>
     </div>
     <hr/>
