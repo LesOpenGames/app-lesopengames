@@ -24,7 +24,12 @@
                 <td class="col"></td>
                 {% endif %}
             {% else %}
-                <td class="col-xs-1 col-sm-1">{{ i }}</td>
+            {% if i == 0 %}
+            {% set rank='cpt.'%}
+            {% else %}
+            {% set rank = i+1 %}
+            {% endif %}
+            <td class="col-xs-1 col-sm-1"><strong>{{ rank }}</strong></td>
                 {% set u = team.get_players()[i] %}
                 {% if edit %}
                 <td class="col-xs-2 col-sm-1"><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>
