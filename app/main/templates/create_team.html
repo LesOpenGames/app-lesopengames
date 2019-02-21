@@ -13,7 +13,7 @@
             <div class="col-xs-6"> </div>
         </div>
         <div class="row">
-            <div class="col-xs-2">{{ form.sportlevel.label}}</div>
+            <div class="col-xs-2">{{ form.sportlevel.label}} {{get_glyph_info(_('Be aware, that this level choice is final. You will not be able to change it.'))}}</div>
             <div class="col-xs-4">{{ wtf.form_field(form.sportlevel) }}</div>
             <div class="col-xs-6"> </div>
         </div>

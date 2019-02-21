@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 14:03+0100\n"
+"POT-Creation-Date: 2019-02-21 14:25+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -264,7 +264,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #: app/main/forms.py:20 app/main/forms.py:25
-#: app/main/templates/_team_users.html:52 app/main/templates/edit_team.html:46
+#: app/main/templates/_team_users.html:57 app/main/templates/edit_team.html:46
 msgid "Validate"
 msgstr "Valider"
 
@@ -599,17 +599,17 @@ msgstr "Certificat médical obligatoire, à envoyer par email"
 msgid "Add Player"
 msgstr "Ajouter un Joueur"
 
-#: app/main/templates/_team_users.html:35
+#: app/main/templates/_team_users.html:40
 msgid "age"
 msgstr "age"
 
-#: app/main/templates/_team_users.html:41
-#: app/main/templates/_team_users.html:55
+#: app/main/templates/_team_users.html:46
+#: app/main/templates/_team_users.html:60
 msgid "auth"
 msgstr "autor."
 
-#: app/main/templates/_team_users.html:48
-#: app/main/templates/_team_users.html:56
+#: app/main/templates/_team_users.html:53
+#: app/main/templates/_team_users.html:61
 msgid "health"
 msgstr "santé"
 
@@ -617,21 +617,24 @@ msgstr "santé"
 msgid "Documents"
 msgstr "Documents"
 
-#: app/main/templates/edit_team.html:22
+#: app/main/templates/create_team.html:16
+msgid ""
+"Be aware, that this level choice is final. You will not be able to change"
+" it."
+msgstr ""
+"Attention, ce choix de niveau est définitif. Vous ne "
+"pourrez pas le changer ultérieurement."
+
+#: app/main/templates/edit_team.html:3
 msgid ""
 "Among 15 challenges, you have choice in racket and collective sport. Has "
 "the number is limmited, admin may modify your choice as long as team is "
 "not validated"
 msgstr ""
-"Parmi la 15aine d épreuves, un choix vous est proposé en sport "
-"collectif et en sport de raquette. Le nombre est limité, et en cas "
-"de besoin, les administrateurs pourront changer ce choix, tant que "
-"l équipe n est pas définitivement validée"
-
-
-#: app/main/templates/edit_team.html:27
-msgid "a"
-msgstr ""
+"Parmi la 15aine d épreuves, un choix vous est proposé en sport collectif "
+"et en sport de raquette. Le nombre est limité, et en cas de besoin, les "
+"administrateurs pourront changer ce choix, tant que l équipe n est pas "
+"définitivement validée"
 
 #: app/main/templates/posts.html:11
 msgid "No posts"
@@ -888,4 +891,7 @@ msgstr "Déconnexion"
 
 #~ msgid "Year of birth limited to 2004 or 2007"
 #~ msgstr "Date de naissance limitée à 2004 ou 2007"
+
+#~ msgid "a"
+#~ msgstr ""
 
