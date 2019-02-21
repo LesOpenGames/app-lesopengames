@@ -1,15 +1,3 @@
-   {% set ruleslink=url_for('main.rules')%}
-   {% set doclink=url_for('main.documents')%}
-   {% set contactlink=url_for('main.contact')%}
-    {% macro get_glyph_info(content, url)%}
-    <span role="button" class="glyphicon glyphicon-info-sign"
-          data-container="body"
-          data-trigger="click"
-          data-toggle="popover"
-          data-placement="top"
-          data-html=true
-          data-content='<strong>{{content}} </strong><br/><a href="{{ruleslink}}">rules</a>|<a href="{{doclink}}">documents</a>|<a href="{{contactlink}}">contact</a>'>
-    </span>{% endmacro %}
     <hr/>
     <h3>{{_('Players')}}:</h3>
     <table class="table table-hover">
@@ -19,7 +7,7 @@
             <th class="col">{{ _('Billing') }}</th>
             {% endif %}
             <th class="col-xs-2 col-sm-2" >{{ _('Name') }}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 or 2007'))}}</th>
+            <th class="col-xs-1 col-sm-1">{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2007 for Sportive level, or 2004 for Easy level'))}}</th>
             <th class="col-xs-1 col-sm-1">{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
             <th class="col-xs-1 col-sm-1">{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
             <th class="col"></th>
@@ -36,7 +24,12 @@
                 <td class="col"></td>
                 {% endif %}
             {% else %}
-                <td class="col-xs-1 col-sm-1">{{ i }}</td>
+            {% if i == 0 %}
+            {% set rank='cpt.'%}
+            {% else %}
+            {% set rank = i+1 %}
+            {% endif %}
+            <td class="col-xs-1 col-sm-1"><strong>{{ rank }}</strong></td>
                 {% set u = team.get_players()[i] %}
                 {% if edit %}
                 <td class="col-xs-2 col-sm-1"><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>

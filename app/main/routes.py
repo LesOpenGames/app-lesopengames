@@ -18,9 +18,17 @@ def before_request():
         db.session.commit()
     g.locale = str(get_locale())
 
-@bp.route('/documents')
-def documents():
-    return render_template('documents.html', title=_('Mandatory documents'))
+@bp.route('/apropos')
+def apropos():
+    return render_template('apropos.html', title=_('A Propos'))
+
+@bp.route('/certificat')
+def certificat():
+    return render_template('certificat.html', title=_('Health Certificat'))
+
+@bp.route('/autorisation')
+def autorisation():
+    return render_template('autorisation.html', title=_('Minor Authorisation'))
 
 @bp.route('/rules')
 def rules():
