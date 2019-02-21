@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 13:43+0100\n"
+"POT-Creation-Date: 2019-02-21 13:52+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -544,10 +544,6 @@ msgstr "Télécharger en PDF"
 msgid "Congratulation, Team is validated and subscribed to event"
 msgstr "Félicitations, votre équipe est inscrite !"
 
-#: app/main/templates/_team_number.html:9
-msgid "Click for info"
-msgstr "Cliquer pour plus d'info"
-
 #: app/main/templates/_team_number.html:13
 msgid ""
 "Some requirements may miss before subscription is completed: <ul><li>non "
@@ -555,13 +551,11 @@ msgid ""
 "paiement not done or pending.</li></ul> A team number will then be "
 "attributed."
 msgstr ""
-"Ces éléments peuvent manquer pour finaliser l'inscription "
-"<ul><li>age non valide </li>"
-"<li>autorisation parentale si mineur non reçu </li>"
-"<li>certificat médical non reçu </li>"
-"<li>paiement non valide ou en attente </li></ul>"
-"Un numéro d'équipe sera attribué après validation de l'équipe "
-
+"Ces éléments peuvent manquer pour finaliser l'inscription <ul><li>age non"
+" valide </li><li>autorisation parentale si mineur non reçu "
+"</li><li>certificat médical non reçu </li><li>paiement non valide ou en "
+"attente </li></ul>Un numéro d'équipe sera attribué après validation de "
+"l'équipe "
 
 #: app/main/templates/_team_users.html:12
 msgid "Players"
@@ -580,8 +574,8 @@ msgid "Age"
 msgstr "Age"
 
 #: app/main/templates/_team_users.html:20
-msgid "Year of birth limited to 2004 or 2007"
-msgstr "Date de naissance limitée à 2004 ou 2007"
+msgid "Year of birth limited to 2007 for Sportive level, or 2004 for Easy level"
+msgstr "Date de naissance limitée à 2007 pour le niveau Sportif, ou 2004 pour le niveau Loisir"
 
 #: app/main/templates/_team_users.html:21
 msgid "Auth"
@@ -870,4 +864,10 @@ msgstr "Déconnexion"
 #~ "l'age est erroné, ou un certificat "
 #~ "manque, ou bien le paiment est en"
 #~ " attente"
+
+#~ msgid "Click for info"
+#~ msgstr "Cliquer pour plus d'info"
+
+#~ msgid "Year of birth limited to 2004 or 2007"
+#~ msgstr "Date de naissance limitée à 2004 ou 2007"
 
