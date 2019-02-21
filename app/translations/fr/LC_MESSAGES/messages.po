@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 14:25+0100\n"
+"POT-Creation-Date: 2019-02-21 15:49+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -574,10 +574,8 @@ msgid "Age"
 msgstr "Age"
 
 #: app/main/templates/_team_users.html:10
-msgid "Year of birth limited to 2007 for Sportive level, or 2004 for Easy level"
-msgstr ""
-"Date de naissance limitée à 2007 pour le niveau Sportif, ou 2004 pour le "
-"niveau Loisir"
+msgid "Year of birth limited to 2004 for Sportive level, or 2007 for Easy level"
+msgstr "Date de naissance limitée à 2004 pour le niveau Sportif, et 2007 pour le niveau Loisir."
 
 #: app/main/templates/_team_users.html:11
 msgid "Auth"
@@ -622,8 +620,8 @@ msgid ""
 "Be aware, that this level choice is final. You will not be able to change"
 " it."
 msgstr ""
-"Attention, ce choix de niveau est définitif. Vous ne "
-"pourrez pas le changer ultérieurement."
+"Attention, ce choix de niveau est définitif. Vous ne pourrez pas le "
+"changer ultérieurement."
 
 #: app/main/templates/edit_team.html:3
 msgid ""
@@ -894,4 +892,13 @@ msgstr "Déconnexion"
 
 #~ msgid "a"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Year of birth limited to 2007 for"
+#~ " Sportive level, or 2004 for Easy "
+#~ "level"
+#~ msgstr ""
+#~ "Date de naissance limitée à 2007 "
+#~ "pour le niveau Sportif, ou 2004 "
+#~ "pour le niveau Loisir"
 
