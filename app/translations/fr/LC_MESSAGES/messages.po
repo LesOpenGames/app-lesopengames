@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 16:01+0100\n"
+"POT-Creation-Date: 2019-02-21 16:08+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -203,9 +203,17 @@ msgstr "Demander un nouveau mot de passe"
 msgid "Login pb"
 msgstr "Problem de login"
 
-#: app/billing/templates/check_billing.html:5
+#: app/billing/templates/check_billing.html:6
 msgid "check paiement"
 msgstr "Paiment par Chéque"
+
+#: app/billing/templates/check_billing.html:9
+msgid "Payable to "
+msgstr "À l'ordre de "
+
+#: app/billing/templates/check_billing.html:12
+msgid "At the adress"
+msgstr "À l'addresse"
 
 #: app/billing/templates/stripe_billing.html:10
 msgid "Amount is "
@@ -572,7 +580,9 @@ msgstr "Age"
 
 #: app/main/templates/_team_users.html:10
 msgid "Year of birth limited to 2004 for Sportive level, or 2007 for Easy level"
-msgstr "Date de naissance limitée à 2004 pour le niveau Sportif, ou 2007 pour le niveau Loisir."
+msgstr ""
+"Date de naissance limitée à 2004 pour le niveau Sportif, ou 2007 pour le "
+"niveau Loisir."
 
 #: app/main/templates/_team_users.html:11
 msgid "Auth"
