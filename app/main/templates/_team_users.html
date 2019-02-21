@@ -1,14 +1,12 @@
-   {% set ruleslink=url_for('main.rules')%}
-   {% set doclink=url_for('main.autorisation')%}
-   {% set contactlink=url_for('main.contact')%}
+   {% set aproposlink=url_for('main.apropos')%}
     {% macro get_glyph_info(content, url)%}
-    <span role="button" class="glyphicon glyphicon-info-sign"
+    <span role="button" class="glyphicon glyphicon-question-sign" style="color:red"
           data-container="body"
           data-trigger="click"
           data-toggle="popover"
           data-placement="top"
           data-html=true
-          data-content='<strong>{{content}} </strong><br/><a href="{{ruleslink}}">rules</a>|<a href="{{doclink}}">documents</a>|<a href="{{contactlink}}">contact</a>'>
+          data-content='<strong>{{content}}:</strong> <a href="{{aproposlink}}" class="btn btn-default">a propos</a>'
     </span>{% endmacro %}
     <hr/>
     <h3>{{_('Players')}}:</h3>
