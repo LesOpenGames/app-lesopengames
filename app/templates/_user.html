@@ -1,8 +1,10 @@
-    <tr >
-        <td width='50%'>
+    <tr class="row">
+        <td class="col">
             <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
         </td>
-        <td>
+        <td class="col">{{user.firstname}}</td>
+        <td class="col">{{user.secondname}}</td>
+        <td class="col">
             {% if user.team != None %}
             {{ user.team.teamname }}
             {% else %}
@@ -10,19 +12,19 @@
             {% endif %}
         </td>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
-        <td>
+        <td class="col">
             {{ user.id }}
         </td>
-        <td>
+        <td class="col">
             {{ user.email }}
         </td>
-        <td>
+        <td class="col">
             {% if user.role %} {{ user.role }} {% else %} ---- {% endif %}
         </td>
-        <td>
+        <td class="col">
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
         </td>
-        <td>
+        <td class="col">
             <a href="{{ url_for('main.delete_user', user_id=user.id)}}" class="btn btn-info">{{ _('Delete') }} </a>
         </td>
     {% endif %}

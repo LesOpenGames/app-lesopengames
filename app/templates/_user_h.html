@@ -1,12 +1,14 @@
-    <tr >
-        <th> Username </th>
-        <th> Team </th>
+    <tr class="row">
+        <th class="col"> {{_('Username')}} </th>
+        <th class="col"> {{_('First Name')}} </th>
+        <th class="col"> {{_('Second Name')}} </th>
+        <th class="col"> {{_('Team')}} </th>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
-        <th> Id </th>
-        <th> Email </th>
-        <th> Role </th>
-        <th> Edit </th>
-        <th> Delete </th>
+        <th class="col"> {{_('Id')}} </th>
+        <th class="col"> {{_('Email')}} </th>
+        <th class="col"> {{_('Role')}} </th>
+        <th class="col"> {{_('Edit')}} </th>
+        <th class="col"> {{_('Delete')}} </th>
     {% endif %}
     </tr>
 
