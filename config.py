@@ -14,7 +14,8 @@ class Config(object):
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    ADMINS = ['hitier.richard@gmail.com']
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'hitier.richard@gmail.com'
+    DEV_EMAIL = os.environ.get('DEV_EMAIL') or 'hitier.richard@gmail.com'
 
     POSTS_PER_PAGE = 25
 
