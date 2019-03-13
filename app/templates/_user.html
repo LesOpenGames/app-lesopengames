@@ -6,7 +6,7 @@
         <td class="col">{{user.secondname}}</td>
         <td class="col">
             {% if user.team != None %}
-            {{ user.team.teamname }}
+            <a href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>
             {% else %}
             ----
             {% endif %}
