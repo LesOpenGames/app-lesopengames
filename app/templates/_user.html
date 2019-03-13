@@ -2,8 +2,8 @@
         <td class="col">
             <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
         </td>
-        <td class="col">{{user.firstname}}</td>
         <td class="col">{{user.secondname}}</td>
+        <td class="col">{{user.firstname}}</td>
         <td class="col">
             {% if user.team != None %}
             <a href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>

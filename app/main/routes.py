@@ -227,7 +227,7 @@ def users():
     if( current_user.role  != RolesType.ADMIN ):
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index') )
-    users = User.query.all()
+    users = User.query.order_by(User.secondname.asc()).all()
     return render_template('users.html', title=_('Users Admin List'), users=users, admin=True)
 
 @bp.route('/team/<team_id>')
