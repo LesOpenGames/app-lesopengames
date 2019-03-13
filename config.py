@@ -17,6 +17,9 @@ class Config(object):
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'hitier.richard@gmail.com'
     DEV_EMAIL = os.environ.get('DEV_EMAIL') or 'hitier.richard@gmail.com'
 
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+    STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+
     POSTS_PER_PAGE = 25
 
     LANGUAGES = ['en', 'es', 'fr']
