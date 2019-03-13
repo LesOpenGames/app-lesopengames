@@ -1,27 +1,20 @@
-import os
 import stripe
 
 from flask_login import current_user, login_required
-from flask import render_template, request
+from flask import render_template, request, current_app
 from flask_babel import _
 
 from app import db
 from app.billing import bp
 from app.models import Team
 
-stripe_keys = {
-  'stripe_secret_key': os.environ['STRIPE_SECRET_KEY'],
-  'stripe_publishable_key': os.environ['STRIPE_PUBLISHABLE_KEY']
-}
-
-stripe.api_key = stripe_keys['stripe_secret_key']
 
 @bp.route('/stripe_billing')
 @login_required
 def stripe_billing():
     team_id = request.args.get('team_id')
     amount = request.args.get('amount')
-    return render_template('stripe_billing.html', team_id=team_id, amount=amount, key=stripe_keys['stripe_publishable_key'])
+    return render_template('stripe_billing.html', team_id=team_id, amount=amount, key=current_app.config['STRIPE_PUBLISHABLE_KEY'])
 
 @bp.route('/check_billing')
 @login_required
@@ -32,6 +25,9 @@ def check_billing():
 @bp.route('/charge', methods=['POST'])
 @login_required
 def charge():
+
+    stripe.api_key = current_app.config['STRIPE_SECRET_KEY']
+
     if( current_user.email  is None ):
         flash(_('Login pb'))
         return redirect(url_for('main.index'))
