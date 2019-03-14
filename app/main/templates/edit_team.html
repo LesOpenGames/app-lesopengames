@@ -10,34 +10,34 @@
       {{ wtf.form_errors(form, hiddens="only") }}
       <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 col-6 "> {{ form.teamname.label }}</div>
+            <div class="col-md-3 col-6 font-weight-bold"> {{ form.teamname.label }}</div>
             <div class="col-md-4 col-2 "> {{ form.teamname }}</div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-6 ">{{ form.sportlevel.label}}</div>
+            <div class="col-md-3 col-6 font-weight-bold">{{ form.sportlevel.label}}</div>
             <div class="col-md-4 col-6 ">{{ team.sport_level_name() }}</div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-6 ">{{ form.collsport.label}} {{get_glyph_info(sport_info)}}</div>
+            <div class="col-md-3 col-6 font-weight-bold">{{ form.collsport.label}} {{get_glyph_info(sport_info)}}</div>
             <div class="col-md-4 col-6 ">{{ wtf.form_field(form.collsport) }}</div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-6 ">{{ form.racksport.label}}{{get_glyph_info(sport_info)}}</div>
+            <div class="col-md-3 col-6 font-weight-bold">{{ form.racksport.label}}{{get_glyph_info(sport_info)}}</div>
             <div class="col-md-4 col-6 ">{{ wtf.form_field(form.racksport) }}</div>
         </div>
         {% if current_user.is_admin() %}
         <div class="row">
-            <div class="col-md-2 col-6 ">{{ form.is_paid.label}}</div>
+            <div class="col-md-3 col-6 font-weight-bold">{{ form.is_paid.label}}</div>
             <div class="col-md-4 col-6 ">{{ wtf.form_field(form.is_paid) }}</div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-6 ">{{ form.is_partner.label}}</div>
+            <div class="col-md-3 col-6 font-weight-bold">{{ form.is_partner.label}}</div>
             <div class="col-md-4 col-6 ">{{ wtf.form_field(form.is_partner) }}</div>
         </div>
         {% endif %}
         <br/>
         <div class="row">
-            <div class="col-md-2 col-12"><button type="submit" class="btn btn-block btn-info">{{ _('Validate') }}</button></div>
+            <div class="col-md-3 col-12"><button type="submit" class="btn btn-block btn-info">{{ _('Validate') }}</button></div>
         </div>
       </div>
     </form>
