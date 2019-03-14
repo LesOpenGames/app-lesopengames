@@ -2,7 +2,7 @@
 
 {% block app_content %}
       {% if users %}
-      <table class="table table-hover">
+      <table class="table table-striped">
           {% include '_user_h.html' %}
           {% for user in users %}
             {% include '_user.html' %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-   <table class="table table-hover">
+   <table class="table table-striped table-responsive">
       {% for team in teams %}
           {% if team.is_valid()
              or ( not current_user.is_anonymous and team.is_player( current_user ) )
