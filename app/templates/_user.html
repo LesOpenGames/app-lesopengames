@@ -1,12 +1,12 @@
     <tr>
         <td>
-            <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
+            <a class="btn btn-block btn-light border" href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
         </td>
         <td>{{user.secondname}}</td>
         <td>{{user.firstname}}</td>
         <td>
             {% if user.team != None %}
-            <a href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>
+            <a class="btn btn-block btn-light border" href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>
             {% else %}
             ----
             {% endif %}

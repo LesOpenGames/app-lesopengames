@@ -13,15 +13,15 @@
     <br/>
     {% if user == current_user %}
     <div class="row">
-        <div class="col-xs-2"><a href="{{ url_for('main.edit_profile') }}" class="btn btn-block btn-info">{{_('Edit your profile')}}</a></div>
+        <div><a href="{{ url_for('main.edit_profile') }}" class="btn btn-block btn-info">{{_('Edit your profile')}}</a></div>
         <div class="col"></div>
     </div>
     <div class="row"> <div class="col"> </div></div>
     <div class="row">
         {% if current_user.team %}
-        <div class="col-xs-2"><a href="{{ url_for('main.team', team_id=current_user.team.id) }}" class="btn btn-block btn-info">{{ current_user.team.teamname}}</a></div>
+        <div><a href="{{ url_for('main.team', team_id=current_user.team.id) }}" class="btn btn-block btn-info">{{ current_user.team.teamname}}</a></div>
         {%else%}
-        <div class="col-xs-2"><a href="{{ url_for('main.create_team') }}" class="btn btn-block btn-info">{{_('Create new team')}}</a></div>
+        <div><a href="{{ url_for('main.create_team') }}" class="btn btn-block btn-info">{{_('Create new team')}}</a></div>
         {%endif%}
         <div class="col"></div>
     </div>
@@ -30,45 +30,45 @@
     <br/>
 
     <table class="table table-hover">
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Pseudo')}}:</h4></td>
-            <td class="col-xs-4">{{user.username}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Pseudo')}}:</h4></td>
+            <td>{{user.username}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('First Name')}}:</h4></td>
-            <td class="col-xs-4">{{user.firstname}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('First Name')}}:</h4></td>
+            <td>{{user.firstname}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Second Name')}}:</h4></td>
-            <td class="col-xs-4">{{user.secondname}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Second Name')}}:</h4></td>
+            <td>{{user.secondname}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Student')}}:</h4></td>
-            <td class="col-xs-4">{% if user.student %}{{_('Yes')}}{%else%}{{_('No')}}{%endif%}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Student')}}:</h4></td>
+            <td>{% if user.student %}{{_('Yes')}}{%else%}{{_('No')}}{%endif%}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Gender')}}:</h4></td>
-            <td class="col-xs-4">{{user.gender_str()}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Gender')}}:</h4></td>
+            <td>{{user.gender_str()}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Birth Date')}}:</h4></td>
-            <td class="col-xs-4">{{user.birthdate}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Birth Date')}}:</h4></td>
+            <td>{{user.birthdate}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Email')}}:</h4></td>
-            <td class="col-xs-4">{{user.email}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Email')}}:</h4></td>
+            <td>{{user.email}}</td>
+            <td></td>
         </tr>
-        <tr class="row">
-            <td class="col-xs-2 success"><h4>{{_('Phone Number')}}:</h4></td>
-            <td class="col-xs-4">{{user.phonenumberstr}}</td>
-            <td class="col-xs-6"></td>
+        <tr >
+            <td class="success"><h4>{{_('Phone Number')}}:</h4></td>
+            <td>{{user.phonenumberstr}}</td>
+            <td></td>
         </tr>
     </table>
 
