@@ -8,20 +8,16 @@
       {{ form.hidden_tag() }}
       {{ wtf.form_errors(form, hiddens="only") }}
         <div class="row">
-            <div class="col-xs-2"> {{ form.teamname.label }}</div>
-            <div class="col-xs-4"> {{ form.teamname }}</div>
-            <div class="col-xs-6"> </div>
+            <div class="col-md-2 col-4"> {{ form.teamname.label }}</div>
+            <div class="col-md-2 col-8"> {{ form.teamname }}</div>
         </div>
         <div class="row">
-            <div class="col-xs-2">{{ form.sportlevel.label}} {{get_glyph_info(_('Be aware, that this level choice is final. You will not be able to change it.'))}}</div>
-            <div class="col-xs-4">{{ wtf.form_field(form.sportlevel) }}</div>
-            <div class="col-xs-6"> </div>
+            <div class="col-md-2 col-4">{{ form.sportlevel.label}} {{get_glyph_info(_('Be aware, that this level choice is final. You will not be able to change it.'))}}</div>
+            <div class="col-md-2 col-8">{{ wtf.form_field(form.sportlevel) }}</div>
         </div>
         <br/>
         <div class="row">
-            <div class="col-xs-2"> </div>
-            <div class="col-xs-4"> {{ wtf.form_field(form.submit) }} </div>
-            <div class="col-xs-6"> </div>
+            <div class="col-md-2 col-12 btn btn-block btn-primary"> {{ wtf.form_field(form.submit) }} </div>
         </div>
     </form>
 {% endblock %}
