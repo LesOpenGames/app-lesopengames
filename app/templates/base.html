@@ -4,13 +4,13 @@
 
 {% set aproposlink=url_for('main.apropos')%}
 {% macro get_glyph_info(content, url)%}
-<span role="button" class="fas fa-question-circle" style="color:red"
+<span role="button" class="fas fa-question-circle text-danger" 
       data-container="body"
       data-trigger="click"
       data-toggle="popover"
       data-placement="top"
       data-html=true
-      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-default">A Propos</a>'>
+      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-light border">A Propos</a>'>
 </span> 
 {% endmacro %}
 
