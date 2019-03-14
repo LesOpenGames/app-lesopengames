@@ -1,14 +1,16 @@
 {% extends 'bootstrap/base.html' %}
 
+
+
 {% set aproposlink=url_for('main.apropos')%}
 {% macro get_glyph_info(content, url)%}
-<span role="button" class="glyphicon glyphicon-question-sign" style="color:red"
+<span role="button" class="fas fa-question-circle" style="color:red"
       data-container="body"
       data-trigger="click"
       data-toggle="popover"
       data-placement="top"
       data-html=true
-      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-default">A Propos</a>'
+      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-default">A Propos</a>'>
 </span> 
 {% endmacro %}
 
@@ -30,7 +32,8 @@
 {% endblock %}
 
 {% block styles %}
-{{super()}}
+    {{super()}}
+    {{ fontawesome_html() }}
     <link rel="stylesheet" href="{{url_for('static', filename='opengames.css')}}">
 {% endblock %}
 

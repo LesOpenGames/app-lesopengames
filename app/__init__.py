@@ -7,6 +7,8 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, _ , lazy_gettext as _l
+from flask_fontawesome import FontAwesome
+
 
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -25,6 +27,8 @@ babel = Babel()
 def create_app(config_class=Config):
 
     app = Flask(__name__)
+    fa = FontAwesome(app)
+
     app.config.from_object(config_class)
 
     db.init_app(app)

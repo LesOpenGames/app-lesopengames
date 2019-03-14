@@ -1,27 +1,27 @@
     <hr/>
     <h3>{{_('Players')}}:</h3>
     <table class="table table-hover">
-        <tr class="row justify-content-start">
-            <th class="col-xs-1 col-sm-1">N.</th>
+        <tr>
+            <th>N.</th>
             {% if not edit %}
-            <th class="col">{{ _('Billing') }}</th>
+            <th>{{ _('Billing') }}</th>
             {% endif %}
-            <th class="col-xs-2 col-sm-2" >{{ _('Name') }}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 for Sportive level, or 2007 for Easy level'))}}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
-            <th class="col-xs-1 col-sm-1">{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
-            <th class="col"></th>
+            <th>{{ _('Name') }}</th>
+            <th>{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 for Sportive level, or 2007 for Easy level'))}}</th>
+            <th>{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
+            <th>{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
+            <th></th>
         </tr>
     {% macro is_disabled(success) %}{% if  success %}disabled{% endif %}{% endmacro %}
     {% macro is_checked(success) %}{% if  success %}checked{% endif %}{% endmacro %}
     {% macro is_success(success) %}{% if  success %}success{% else%}warning{% endif %}{% endmacro %}
     {% for i in range(4) %}
-        <tr class="row justify-content-start">
+        <tr>
             {% if team.get_players() |length < i+1 %}
                 {% if edit %}
-                <td class="col"><a href="{{ url_for('main.create_profile', team_id=team.id)}}" class="btn btn-info">{{ _('Add Player') }} </a></td>
+                <td><a href="{{ url_for('main.create_profile', team_id=team.id)}}" class="btn btn-info">{{ _('Add Player') }} </a></td>
                 {% else %}
-                <td class="col"></td>
+                <td></td>
                 {% endif %}
             {% else %}
             {% if i == 0 %}
@@ -29,37 +29,37 @@
             {% else %}
             {% set rank = i+1 %}
             {% endif %}
-            <td class="col-xs-1 col-sm-1"><strong>{{ rank }}</strong></td>
+            <td><strong>{{ rank }}</strong></td>
                 {% set u = team.get_players()[i] %}
                 {% if edit %}
-                <td class="col-xs-2 col-sm-1"><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>
+                <td><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>
                 {% else %}
-                <td class="col-xs-2 col-sm-1">{{u.get_billing()}} &euro;</td>
-                <td class="col-xs-2 col-sm-1"><a href="{{ url_for('main.user', user_id=u.id)}}" class="btn btn-block btn-default">{{u.username}}</a></td>
+                <td>{{u.get_billing()}} &euro;</td>
+                <td><a href="{{ url_for('main.user', user_id=u.id)}}" class="btn btn-block btn-light border">{{u.username}}</a></td>
                 {%endif%}
-                <td class="col-xs-1 col-sm-1"><span class="badge progress-bar-{{is_success(u.is_valid_age())}}">{{ _("age") }}</span></td>
+                <td><span class="badge badge-{{is_success(u.is_valid_age())}}">{{ _("age") }}</span></td>
                 {% if edit and current_user.is_admin() %}
                 <form action="/check_docs/{{u.id}}" method="POST">
-                <td class="col-xs-1 col-sm-1">
+                <td>
                     <div> <input type="checkbox" id="auth" name="auth" {{is_checked(u.is_valid_auth())}} {{is_disabled(u.is_mayor())}}>
                         <label for="auth">
-                            <span class="badge progress-bar-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span>
+                            <span class="badge badge-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span>
                         </label>
                     </div>
                 </td>
-                <td class="col-xs-1 col-sm-1">
+                <td>
                     <div> <input type="checkbox" id="health" name="health" {{is_checked(u.is_valid_health())}}>
                         <label for="health">
-                            <span class="badge progress-bar-{{is_success(u.is_valid_health())}}">{{_("health")}}</span>
+                            <span class="badge badge-{{is_success(u.is_valid_health())}}">{{_("health")}}</span>
                         </label>
                     </div>
                 </td>
-                <td class="col"> <button type="submit" class="btn btn-info">{{ _('Validate') }}</button></td>
+                <td> <button type="submit" class="btn btn-info">{{ _('Validate') }}</button></td>
                 </form>
                 {% else %}
-                <td class="col-xs-1 col-sm-1"><span class="badge progress-bar-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span></td>
-                <td class="col-xs-1 col-sm-1"><span class="badge progress-bar-{{is_success(u.is_valid_health())}}">{{_("health")}}</span></td>
-                <td class="col"></td>
+                <td><span class="badge badge-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span></td>
+                <td><span class="badge badge-{{is_success(u.is_valid_health())}}">{{_("health")}}</span></td>
+                <td></td>
                 {% endif %}
             {% endif %}
         </tr>
