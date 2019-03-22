@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-02-21 16:08+0100\n"
+"POT-Creation-Date: 2019-03-22 14:52+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: app/__init__.py:19
+#: app/__init__.py:21
 msgid "Please log in to access page"
 msgstr "S'il vous plait, connectez vous pour accéder à la page"
 
-#: app/__init__.py:86
+#: app/__init__.py:90
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
@@ -95,7 +95,7 @@ msgid "Password Reset"
 msgstr "Reseter le mot de passe"
 
 #: app/auth/forms.py:14 app/auth/forms.py:26 app/main/forms.py:36
-#: app/main/templates/user.html:64
+#: app/main/templates/user.html:62 app/templates/_user_h.html:7
 msgid "Email"
 msgstr "Courriel"
 
@@ -104,7 +104,7 @@ msgid "Request Password Reset"
 msgstr "Demander un nouveau mot de passe"
 
 #: app/auth/forms.py:18 app/auth/forms.py:25 app/main/forms.py:29
-#: app/main/templates/user.html:34
+#: app/main/templates/user.html:32 app/templates/_user_h.html:2
 msgid "Pseudo"
 msgstr "Pseudo"
 
@@ -199,7 +199,7 @@ msgstr "Resetter le Mot de Passe"
 msgid "Request New Password"
 msgstr "Demander un nouveau mot de passe"
 
-#: app/billing/routes.py:36
+#: app/billing/routes.py:32
 msgid "Login pb"
 msgstr "Problem de login"
 
@@ -255,11 +255,11 @@ msgstr "Niveau"
 msgid "Tough"
 msgstr "Sportif"
 
-#: app/main/forms.py:16 app/main/templates/team.html:19
+#: app/main/forms.py:16 app/main/templates/team.html:18
 msgid "Collective Sport"
 msgstr "Sport Collectif"
 
-#: app/main/forms.py:17 app/main/templates/team.html:24
+#: app/main/forms.py:17 app/main/templates/team.html:22
 msgid "Racket Sport"
 msgstr "Sport de Raquette"
 
@@ -272,7 +272,7 @@ msgid "Partner"
 msgstr "Partenaire"
 
 #: app/main/forms.py:20 app/main/forms.py:25
-#: app/main/templates/_team_users.html:57 app/main/templates/edit_team.html:46
+#: app/main/templates/_team_users.html:57 app/main/templates/edit_team.html:40
 msgid "Validate"
 msgstr "Valider"
 
@@ -284,23 +284,25 @@ msgstr "Certificat médical"
 msgid "Parent Auth"
 msgstr "Autorisation Parentale"
 
-#: app/main/forms.py:30 app/main/templates/user.html:39
+#: app/main/forms.py:30 app/main/templates/user.html:37
+#: app/templates/_user_h.html:4
 msgid "First Name"
 msgstr "Prénom"
 
-#: app/main/forms.py:31 app/main/templates/user.html:44
+#: app/main/forms.py:31 app/main/templates/user.html:42
+#: app/templates/_user_h.html:3
 msgid "Second Name"
 msgstr "Nom"
 
-#: app/main/forms.py:32 app/main/templates/user.html:49
+#: app/main/forms.py:32 app/main/templates/user.html:47
 msgid "Student"
 msgstr "Étudiant"
 
-#: app/main/forms.py:33 app/main/templates/user.html:54
+#: app/main/forms.py:33 app/main/templates/user.html:52
 msgid "Gender"
 msgstr "Sexe"
 
-#: app/main/forms.py:34 app/main/templates/user.html:59
+#: app/main/forms.py:34 app/main/templates/user.html:57
 msgid "Birth Date"
 msgstr "Date de naissance"
 
@@ -308,7 +310,7 @@ msgstr "Date de naissance"
 msgid "Weight"
 msgstr "Poids"
 
-#: app/main/forms.py:37 app/main/templates/user.html:69
+#: app/main/forms.py:37 app/main/templates/user.html:67
 msgid "Phone Number"
 msgstr "Téléphone"
 
@@ -324,11 +326,11 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
-#: app/main/routes.py:23 app/templates/base.html:62
+#: app/main/routes.py:23 app/templates/base.html:60
 msgid "A Propos"
 msgstr "À Propos"
 
-#: app/main/routes.py:27 app/main/templates/apropos.html:11
+#: app/main/routes.py:27 app/main/templates/apropos.html:10
 msgid "Health Certificat"
 msgstr "Certificat Médical"
 
@@ -336,11 +338,11 @@ msgstr "Certificat Médical"
 msgid "Minor Authorisation"
 msgstr "Autorisation pour Mineur"
 
-#: app/main/routes.py:35 app/main/templates/apropos.html:16
+#: app/main/routes.py:35 app/main/templates/apropos.html:14
 msgid "Rules"
 msgstr "Règlement"
 
-#: app/main/routes.py:39 app/main/templates/apropos.html:21
+#: app/main/routes.py:39 app/main/templates/apropos.html:18
 msgid "Contact"
 msgstr "Nous Contacter"
 
@@ -434,7 +436,7 @@ msgstr "Liste Joueurs (admin)"
 msgid "Sorry, you cant see team %(name)s"
 msgstr "Impossible de voir cette équipe %(name)s"
 
-#: app/main/routes.py:241
+#: app/main/routes.py:241 app/templates/_user_h.html:5
 msgid "Team"
 msgstr "Équipe"
 
@@ -566,7 +568,7 @@ msgstr ""
 msgid "Players"
 msgstr "Joueurs"
 
-#: app/main/templates/_team_users.html:7 app/main/templates/team.html:39
+#: app/main/templates/_team_users.html:7 app/main/templates/team.html:35
 msgid "Billing"
 msgstr "Prix"
 
@@ -622,7 +624,7 @@ msgstr "santé"
 msgid "Documents"
 msgstr "Documents"
 
-#: app/main/templates/create_team.html:16
+#: app/main/templates/create_team.html:15
 msgid ""
 "Be aware, that this level choice is final. You will not be able to change"
 " it."
@@ -645,27 +647,27 @@ msgstr ""
 msgid "No posts"
 msgstr "Pas de posts"
 
-#: app/main/templates/team.html:31
+#: app/main/templates/team.html:28
 msgid "Edit team"
 msgstr "Modifier l'équipe"
 
-#: app/main/templates/team.html:45
+#: app/main/templates/team.html:40
 msgid "paiment validated"
 msgstr "Paiment Validé"
 
-#: app/main/templates/team.html:47
+#: app/main/templates/team.html:42
 msgid "Stripe paid, waiting for validation"
 msgstr "Payé par Stripe, en cours de validation"
 
-#: app/main/templates/team.html:49
+#: app/main/templates/team.html:44
 msgid "partner"
 msgstr "partenaire"
 
-#: app/main/templates/team.html:56
+#: app/main/templates/team.html:50
 msgid "Pay with Stripe"
 msgstr "Payer par Stripe"
 
-#: app/main/templates/team.html:66
+#: app/main/templates/team.html:58
 msgid "Pay with Check"
 msgstr "Payer par Chéque"
 
@@ -678,18 +680,18 @@ msgid "Last seen on:"
 msgstr "Dernière visite:"
 
 #: app/main/templates/user.html:16
-msgid "Edit your profile"
-msgstr "Modifier votre profil"
+msgid "Edit profile"
+msgstr "Changer le profil"
 
-#: app/main/templates/user.html:24
+#: app/main/templates/user.html:23
 msgid "Create new team"
 msgstr "Créer une équipe"
 
-#: app/main/templates/user.html:50
+#: app/main/templates/user.html:48
 msgid "Yes"
 msgstr "Oui"
 
-#: app/main/templates/user.html:50
+#: app/main/templates/user.html:48
 msgid "No"
 msgstr "Non"
 
@@ -701,43 +703,45 @@ msgstr "Pas d'utilisateur"
 msgid "said"
 msgstr "à écrit"
 
-#: app/templates/_team.html:14 app/templates/_user.html:23
+#: app/templates/_team.html:14 app/templates/_user.html:19
+#: app/templates/_user_h.html:8
 msgid "Edit"
 msgstr "Modifier"
 
-#: app/templates/_team.html:18 app/templates/_user.html:26
+#: app/templates/_team.html:19 app/templates/_user.html:23
+#: app/templates/_user_h.html:10
 msgid "Delete"
 msgstr "Supprimer"
 
-#: app/templates/base.html:38
+#: app/templates/base.html:41
 msgid "Default Title"
 msgstr "Titre par défaut"
 
-#: app/templates/base.html:46
+#: app/templates/base.html:48
 msgid "Toggle navigation"
 msgstr "Change la navigation"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:54
 msgid "Subscribe team"
 msgstr "Inscrire une équipe"
 
-#: app/templates/base.html:64
+#: app/templates/base.html:62
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: app/templates/base.html:65
+#: app/templates/base.html:63
 msgid "Login"
 msgstr "Connexion"
 
-#: app/templates/base.html:68
+#: app/templates/base.html:66
 msgid "Teams"
 msgstr "Équipes"
 
-#: app/templates/base.html:69
+#: app/templates/base.html:67
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/base.html:72
+#: app/templates/base.html:70
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -769,7 +773,7 @@ msgstr "Déconnexion"
 #~ msgstr "Abonnements"
 
 #~ msgid "Edit your profile"
-#~ msgstr "Éditer votre profil"
+#~ msgstr "Modifier votre profil"
 
 #~ msgid "Unfollow"
 #~ msgstr "Désabonner"
