@@ -13,10 +13,12 @@
         <td>
             <a href="{{ url_for('main.edit_team', team_id=team.id)}}" class="btn btn-info ">{{ _('Edit') }} </a>
         </td>
+        {% if false %}
         <td>
             <form action="delete_team/{{team.id}}" method="POST">
                 <button type="submit" class="btn btn-info">{{ _('Delete') }}</button>
             </form>
         </td>
         {% endif %}
+    {% endif %}
     </tr>
