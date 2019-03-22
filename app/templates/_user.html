@@ -13,13 +13,7 @@
         </td>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
         <td>
-            {{ user.id }}
-        </td>
-        <td>
             {{ user.email }}
-        </td>
-        <td>
-            {% if user.role %} {{ user.role }} {% else %} ---- {% endif %}
         </td>
         <td>
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>

@@ -4,9 +4,7 @@
         <th> {{_('First Name')}} </th>
         <th> {{_('Team')}} </th>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
-        <th> {{_('Id')}} </th>
         <th> {{_('Email')}} </th>
-        <th> {{_('Role')}} </th>
         <th> {{_('Edit')}} </th>
         {% if false %}
         <th> {{_('Delete')}} </th>
