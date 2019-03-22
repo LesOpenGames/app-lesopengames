@@ -1,14 +1,16 @@
 {% extends 'bootstrap/base.html' %}
 
+
+
 {% set aproposlink=url_for('main.apropos')%}
 {% macro get_glyph_info(content, url)%}
-<span role="button" class="glyphicon glyphicon-question-sign" style="color:red"
+<span role="button" class="fas fa-question-circle text-danger" 
       data-container="body"
       data-trigger="click"
       data-toggle="popover"
       data-placement="top"
       data-html=true
-      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-default">A Propos</a>'
+      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-light border">A Propos</a>'>
 </span> 
 {% endmacro %}
 
@@ -30,7 +32,8 @@
 {% endblock %}
 
 {% block styles %}
-{{super()}}
+    {{super()}}
+    {{ fontawesome_html() }}
     <link rel="stylesheet" href="{{url_for('static', filename='opengames.css')}}">
 {% endblock %}
 
@@ -39,41 +42,36 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="nav-bar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">{{_('Toggle navigation')}}</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">Les Open Games</a>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">Les Open Games</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#log-navbar" aria-controls="log-navbar" aria-expanded="false" aria-label="{{_('Toggle navigation')}}">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="log-navbar">
+            <div class="navbar-nav">
+                {% if current_user.is_anonymous or not current_user.team %}
+                <a class="nav-item nav-link" href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a>
+                {% elif current_user.team %}
+                <a class="nav-item nav-link" href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a>
+                {% endif %}
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    {% if current_user.is_anonymous or not current_user.team %}
-                    <li><a href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a></li>
-                    {% elif current_user.team %}
-                    <li><a href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a></li>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" href="{{ url_for('main.apropos') }}">{{_('A Propos')}}</a>
+                {% if current_user.is_anonymous %}
+                <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_('Login')}}</a>
+                {% else %}
+                    {% if current_user.is_admin() %}
+                        <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a>
+                        <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{ _('Users')}}</a>
                     {% endif %}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('main.apropos') }}">{{_('A Propos')}}</a></li>
-                    {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a></li>
-                    <li><a href="{{ url_for('auth.login') }}">{{_('Login')}}</a></li>
-                    {% else %}
-                        {% if current_user.is_admin() %}
-                            <li><a href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a></li>
-                            <li><a href="{{ url_for('main.users') }}">{{ _('Users')}}</a></li>
-                        {% endif %}
-                    <li><a href="{{ url_for('main.user', user_id=current_user.id) }}">{{current_user.username}}</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">{{_('Logout')}}</a></li>
-                    {% endif %}
-                </ul>
+                <a class="nav-item nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{current_user.username}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">{{_('Logout')}}</a>
+                {% endif %}
             </div>
         </div>
+    </div>
     </nav>
 {% endblock %}
 

@@ -1,14 +1,14 @@
-    <tr class="row">
-        <th class="col"> {{_('Pseudo')}} </th>
-        <th class="col"> {{_('Second Name')}} </th>
-        <th class="col"> {{_('First Name')}} </th>
-        <th class="col"> {{_('Team')}} </th>
+    <tr>
+        <th> {{_('Pseudo')}} </th>
+        <th> {{_('Second Name')}} </th>
+        <th> {{_('First Name')}} </th>
+        <th> {{_('Team')}} </th>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
-        <th class="col"> {{_('Id')}} </th>
-        <th class="col"> {{_('Email')}} </th>
-        <th class="col"> {{_('Role')}} </th>
-        <th class="col"> {{_('Edit')}} </th>
-        <th class="col"> {{_('Delete')}} </th>
+        <th> {{_('Id')}} </th>
+        <th> {{_('Email')}} </th>
+        <th> {{_('Role')}} </th>
+        <th> {{_('Edit')}} </th>
+        <th> {{_('Delete')}} </th>
     {% endif %}
     </tr>
 

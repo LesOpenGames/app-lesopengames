@@ -1,30 +1,30 @@
-    <tr class="row">
-        <td class="col">
-            <a href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
+    <tr>
+        <td>
+            <a class="btn btn-block btn-light border" href="{{ url_for('main.user', user_id=user.id)}}"> {{ user.username }} </a>
         </td>
-        <td class="col">{{user.secondname}}</td>
-        <td class="col">{{user.firstname}}</td>
-        <td class="col">
+        <td>{{user.secondname}}</td>
+        <td>{{user.firstname}}</td>
+        <td>
             {% if user.team != None %}
-            <a href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>
+            <a class="btn btn-block btn-light border" href="{{ url_for('main.team', team_id=user.team.id) }}">{{ user.team.teamname }}</a>
             {% else %}
             ----
             {% endif %}
         </td>
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
-        <td class="col">
+        <td>
             {{ user.id }}
         </td>
-        <td class="col">
+        <td>
             {{ user.email }}
         </td>
-        <td class="col">
+        <td>
             {% if user.role %} {{ user.role }} {% else %} ---- {% endif %}
         </td>
-        <td class="col">
+        <td>
             <a href="{{ url_for('main.edit_profile', user_id=user.id)}}" class="btn btn-info">{{ _('Edit') }} </a>
         </td>
-        <td class="col">
+        <td>
             <a href="{{ url_for('main.delete_user', user_id=user.id)}}" class="btn btn-info">{{ _('Delete') }} </a>
         </td>
     {% endif %}
