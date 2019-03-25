@@ -38,6 +38,10 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
+@bp.route('/challenges')
+def challenges():
+    return render_template('challenges.html', title=_('Contact'))
+
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
