@@ -40,7 +40,7 @@ def contact():
 
 @bp.route('/challenges')
 def challenges():
-    return render_template('challenges.html', title=_('Contact'))
+    return render_template('challenges.html', title=_('Challenges'))
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
