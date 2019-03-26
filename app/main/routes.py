@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 
 from sqlalchemy.exc import IntegrityError
 from app import db
-from app.models import User, Post, Team, RolesType
+from app.models import User, Post, Team, RolesType, Challenge
 
 from app.main.forms import EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
@@ -40,7 +40,8 @@ def contact():
 
 @bp.route('/challenges')
 def challenges():
-    return render_template('challenges.html', title=_('Challenges'))
+    challenges=Challenge.query.all()
+    return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
