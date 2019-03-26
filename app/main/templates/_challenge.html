@@ -1,5 +1,9 @@
 <tr>
     <td>
-        {{ challenge.challenge_name }}
+        <a class="btn btn-block btn-light border" href="{{ url_for('main.challenge', challenge_id=challenge.id) }}">
+            {{ challenge.challenge_name }}</a>
     </td>
+    <td> {{challenge.score_type}}</td>
+    <td> {{challenge.team_type}}</td>
+    <td> {{challenge.juge_id}}</td>
 </tr>

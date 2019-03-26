@@ -38,6 +38,17 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
+@bp.route('/challenge/<int:challenge_id>')
+@login_required
+def challenge(challenge_id):
+    challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    if( not ( current_user.is_admin()
+        or ( challenge.juge_id == current_user.id ) ) ):
+        flash( _('Sorry, you cant view challenge') )
+        return redirect(url_for('main.index'))
+    return render_template('challenge.html', title=_('Challenge'), challenge=challenge )
+
+
 @bp.route('/challenges')
 def challenges():
     challenges=Challenge.query.all()
