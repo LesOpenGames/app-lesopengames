@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+   <table class="table table-hover table-responsive">
+      {% for team in teams %}
+        {% with join_team=True %}
+        {% include '_team.html' %}
+        {% endwith %}
+      {% endfor %}
+  </table>
+{% endblock %}

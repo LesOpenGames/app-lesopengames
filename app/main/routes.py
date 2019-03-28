@@ -309,6 +309,35 @@ def create_team():
         return redirect( url_for('main.edit_team', team_id=team.id) )
     return render_template('create_team.html', title=_('Create Team'), form=form)
 
+@bp.route('/join_team')
+@bp.route('/join_team/<int:team_id>')
+@login_required
+def join_team(team_id=-1):
+    if( team_id == -1 ):
+        teams = Team.query.filter_by(is_open=True).all()
+        if( len( teams ) == 0 ):
+            flash(_('Sorry, no open team available') )
+        return render_template('join_team.html', title=_('Join Team'), teams=teams)
+    else:
+        team = Team.query.get(team_id)
+        if( team is None ):
+            flash(_('No such Team'))
+            return redirect( url_for('main.join_team'))
+        elif( current_user.has_team() ):
+            flash(_('You cant join a team as you already have one'))
+            return redirect( url_for('main.join_team'))
+        elif( len( team.get_players() >= 4 )):
+            flash(_('You cant join team as it is already full'))
+            return redirect( url_for('main.join_team'))
+        elif( not team.is_open ):
+            flash(_('You cant join team as it is not open to subscribing'))
+            return redirect( url_for('main.join_team'))
+        else:
+            team.subscribe(current_user)
+            flash(_('Successfully joined team'))
+            return redirect(url_for('main.team', team_id=team_id) )
+
+
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
 @bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
 @login_required
