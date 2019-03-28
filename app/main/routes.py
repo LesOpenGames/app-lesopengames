@@ -326,7 +326,7 @@ def join_team(team_id=-1):
         elif( current_user.has_team() ):
             flash(_('You cant join a team as you already have one'))
             return redirect( url_for('main.join_team'))
-        elif( len( team.get_players() >= 4 )):
+        elif( len( team.get_players() ) >= 4 ):
             flash(_('You cant join team as it is already full'))
             return redirect( url_for('main.join_team'))
         elif( not team.is_open ):
@@ -334,6 +334,7 @@ def join_team(team_id=-1):
             return redirect( url_for('main.join_team'))
         else:
             team.subscribe(current_user)
+            db.session.commit()
             flash(_('Successfully joined team'))
             return redirect(url_for('main.team', team_id=team_id) )
 
