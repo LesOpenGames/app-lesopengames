@@ -62,7 +62,9 @@
                 <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_('Login')}}</a>
                 {% else %}
+                    {%if false %}
                     <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
+                    {% endif %}
                     {% if current_user.is_admin() %}
                         <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{ _('Users')}}</a>
