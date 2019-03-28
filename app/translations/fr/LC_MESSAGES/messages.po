@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-26 15:03+0100\n"
+"POT-Creation-Date: 2019-03-28 15:10+0100\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -26,35 +26,35 @@ msgstr "S'il vous plait, connectez vous pour accéder à la page"
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
-#: app/main/forms.py:33 app/models.py:83
+#: app/main/forms.py:33 app/models.py:102
 msgid "M"
 msgstr "M"
 
-#: app/main/forms.py:33 app/models.py:83
+#: app/main/forms.py:33 app/models.py:102
 msgid "F"
 msgstr "F"
 
-#: app/main/forms.py:17 app/models.py:226
+#: app/main/forms.py:17 app/models.py:246
 msgid "PingPong"
 msgstr "Tennis de table"
 
-#: app/main/forms.py:17 app/models.py:226
+#: app/main/forms.py:17 app/models.py:246
 msgid "Badminton"
 msgstr "Badminton"
 
-#: app/main/forms.py:16 app/models.py:229
+#: app/main/forms.py:16 app/models.py:249
 msgid "Handball"
 msgstr "Handball"
 
-#: app/main/forms.py:16 app/models.py:229
+#: app/main/forms.py:16 app/models.py:249
 msgid "Flag"
 msgstr "Flag"
 
-#: app/main/forms.py:15 app/models.py:232
+#: app/main/forms.py:15 app/models.py:252
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:232
+#: app/models.py:252
 msgid "Sport"
 msgstr "Sportif"
 
@@ -326,7 +326,7 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
-#: app/main/routes.py:23 app/templates/base.html:60
+#: app/main/routes.py:23 app/templates/base.html:61
 msgid "A Propos"
 msgstr "À Propos"
 
@@ -346,201 +346,237 @@ msgstr "Règlement"
 msgid "Contact"
 msgstr "Nous Contacter"
 
-#: app/main/routes.py:43 app/templates/base.html:65
+#: app/main/routes.py:47
+msgid "Sorry, you cant view challenge"
+msgstr "Désolé, vous ne pouvez pas voir cette épreuve"
+
+#: app/main/routes.py:49
+msgid "Challenge"
+msgstr "Épreuve"
+
+#: app/main/routes.py:55 app/templates/base.html:67
 msgid "Challenges"
 msgstr "Épreuves"
 
-#: app/main/routes.py:49 app/main/routes.py:66 app/main/routes.py:127
+#: app/main/routes.py:61 app/main/routes.py:78 app/main/routes.py:139
 msgid "Home Page"
 msgstr "Accueil"
 
-#: app/main/routes.py:57
+#: app/main/routes.py:69
 msgid "Post published"
 msgstr "Message publié"
 
-#: app/main/routes.py:78
+#: app/main/routes.py:90
 msgid "Explore"
 msgstr "Explorer"
 
-#: app/main/routes.py:92
+#: app/main/routes.py:104
 msgid "All Posts"
 msgstr "Tous Posts"
 
-#: app/main/routes.py:101
+#: app/main/routes.py:113
 msgid "Sorry, you cant view user"
 msgstr "Désolé, vous ne pouvez visualiser ce joueur"
 
-#: app/main/routes.py:111
+#: app/main/routes.py:123
 msgid "User Profile"
 msgstr "Profil Utilisateur"
 
-#: app/main/routes.py:126
+#: app/main/routes.py:138
 msgid "No such team"
 msgstr "Aucune équipe"
 
-#: app/main/routes.py:137
+#: app/main/routes.py:149
 msgid "Sucessfully added player to team"
 msgstr "Joueur ajouté avec succès"
 
-#: app/main/routes.py:139 app/main/routes.py:194
+#: app/main/routes.py:151 app/main/routes.py:206
 msgid "Warning: age is to low for this team level"
 msgstr "Attention: trop jeune pour ce niveau d'équipe"
 
-#: app/main/routes.py:142
+#: app/main/routes.py:154
 msgid "Sucessfully created user"
 msgstr "Utilisateur créé avec succès"
 
-#: app/main/routes.py:144
+#: app/main/routes.py:156
 msgid "Create User"
 msgstr "Créer un utilisateur"
 
-#: app/main/routes.py:150
+#: app/main/routes.py:162
 msgid "Sorry, you cant check players docs"
 msgstr "Désolé, vous ne pouvez pas valider les documents"
 
-#: app/main/routes.py:155 app/main/routes.py:176
+#: app/main/routes.py:167 app/main/routes.py:188
 msgid "No such User"
 msgstr "Aucun d'utilisateur"
 
-#: app/main/routes.py:163
+#: app/main/routes.py:175
 msgid "You cant call that page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
 
-#: app/main/routes.py:182
+#: app/main/routes.py:194
 msgid "Unable to edit such User "
 msgstr "Impossible d'éditer cet utilisateur"
 
-#: app/main/routes.py:189
+#: app/main/routes.py:201
 msgid "Sucessfully updated your profile"
 msgstr "Mise à jour du profil réussie"
 
-#: app/main/routes.py:201 app/main/templates/edit_profile.html:6
+#: app/main/routes.py:213 app/main/templates/edit_profile.html:6
 msgid "Edit Profile"
 msgstr "Éditer son profil"
 
-#: app/main/routes.py:217 app/main/routes.py:232 app/main/routes.py:362
+#: app/main/routes.py:229 app/main/routes.py:244 app/main/routes.py:404
 msgid "You dont have access to such page"
 msgstr "Vous n'avez pas les droits d'accès à cette page"
 
-#: app/main/routes.py:221
+#: app/main/routes.py:233
 msgid "No such user"
 msgstr "Utilisateur inconnu"
 
-#: app/main/routes.py:225
+#: app/main/routes.py:237
 #, python-format
 msgid "User %(username)s deleted"
 msgstr "Utilisateur %(username) supprimé"
 
-#: app/main/routes.py:235
+#: app/main/routes.py:247
 msgid "Users Admin List"
 msgstr "Liste Joueurs (admin)"
 
-#: app/main/routes.py:243
+#: app/main/routes.py:255
 #, python-format
 msgid "Sorry, you cant see team %(name)s"
 msgstr "Impossible de voir cette équipe %(name)s"
 
-#: app/main/routes.py:245 app/templates/_user_h.html:5
+#: app/main/routes.py:257 app/templates/_user_h.html:5
 msgid "Team"
 msgstr "Équipe"
 
-#: app/main/routes.py:253
+#: app/main/routes.py:265
 msgid "Paiment striped, waiting for validation"
 msgstr "Payé par stripe, en attente de validation"
 
-#: app/main/routes.py:255
+#: app/main/routes.py:267
 msgid "Waiting for Paiment"
 msgstr "En attente de Paiement"
 
-#: app/main/routes.py:259
+#: app/main/routes.py:271
 #, python-format
 msgid "Wrong birthdate for %(username)s"
 msgstr "%(username)s trop jeune"
 
-#: app/main/routes.py:261
+#: app/main/routes.py:273
 #, python-format
 msgid "Missing health doc for %(username)s"
 msgstr "Manque certificat médical pour %(username)s"
 
-#: app/main/routes.py:263
+#: app/main/routes.py:275
 #, python-format
 msgid "Missing parent auth doc for %(username)s"
 msgstr "Manque autorisation parentale pour %(username)s"
 
-#: app/main/routes.py:272
+#: app/main/routes.py:284
 #, python-format
 msgid "Sorry, you already belong to team %(name)s"
 msgstr "Désolé, vous êtes déjà dans l'équipe %(name)s"
 
-#: app/main/routes.py:290 app/main/routes.py:333
+#: app/main/routes.py:302 app/main/routes.py:375
 #, python-format
 msgid "Name %(newteamname)s already exist"
 msgstr "Le nom %(newteamname)s existe déjà"
 
-#: app/main/routes.py:293
+#: app/main/routes.py:305
 msgid "Problem Occured with creating team"
 msgstr "Un problème est survenu dans la création de l'équipe"
 
-#: app/main/routes.py:296
+#: app/main/routes.py:308
 #, python-format
 msgid "Team %(teamname)s created"
 msgstr "Équipe %(teamname)s crée"
 
-#: app/main/routes.py:298 app/main/templates/create_team.html:6
+#: app/main/routes.py:310 app/main/templates/create_team.html:6
 msgid "Create Team"
 msgstr "Créer une équipe"
 
-#: app/main/routes.py:307
+#: app/main/routes.py:319
+msgid "Sorry, no open team available"
+msgstr "Désolé, pas d'équipe ouverte disponible"
+
+#: app/main/routes.py:320
+msgid "Join Team"
+msgstr "Rejoindre une équipe"
+
+#: app/main/routes.py:324
+msgid "No such Team"
+msgstr "Pas d'équipe correspondante"
+
+#: app/main/routes.py:327
+msgid "You cant join a team as you already have one"
+msgstr "Vous ne pouvez pas rejoindre une équipe quand vous en avez déjà une"
+
+#: app/main/routes.py:330
+msgid "You cant join team as it is already full"
+msgstr "Vous ne pouvez pas rejoindre une équipe déjà pleine"
+
+#: app/main/routes.py:333
+msgid "You cant join team as it is not open to subscribing"
+msgstr "Vous ne pouvez pas rejoindre une équipe fermée"
+
+#: app/main/routes.py:338
+msgid "Successfully joined team"
+msgstr "Bravo, Inscription à l'équipe"
+
+#: app/main/routes.py:349
 #, python-format
 msgid "No such team for id %(team_id)s"
 msgstr "Aucune équipe avec l'id %(team_id)"
 
-#: app/main/routes.py:311
+#: app/main/routes.py:353
 #, python-format
 msgid "Sorry, you cant modify team %(name)s"
 msgstr "Désolé, vous ne pouvez pas modifier l'équipe %(name)s"
 
-#: app/main/routes.py:317
+#: app/main/routes.py:359
 #, python-format
 msgid "Team %(teamname)s deleted"
 msgstr "Équipe %(teamname) supprimée"
 
-#: app/main/routes.py:336
+#: app/main/routes.py:378
 msgid "Problem Occured with modifying team"
 msgstr "Un problème est survenu dans la modification de l'équipe"
 
-#: app/main/routes.py:338
+#: app/main/routes.py:380
 #, python-format
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
 
-#: app/main/routes.py:356
+#: app/main/routes.py:398
 msgid "Edit Team"
 msgstr "Modifier l'équipe"
 
-#: app/main/routes.py:365
+#: app/main/routes.py:407
 msgid "Teams Admin List"
 msgstr "Liste Équipes (admin)"
 
-#: app/main/routes.py:372 app/main/routes.py:387
+#: app/main/routes.py:414 app/main/routes.py:429
 #, python-format
 msgid "User %(username)s not found"
 msgstr "Utilisateur %(username)s introuvable"
 
-#: app/main/routes.py:375
+#: app/main/routes.py:417
 msgid "Cannot follow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:379
+#: app/main/routes.py:421
 #, python-format
 msgid "You are following %(username)s"
 msgstr "Vous suivez %(username)s"
 
-#: app/main/routes.py:390
+#: app/main/routes.py:432
 msgid "Cannot unfollow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:394
+#: app/main/routes.py:436
 #, python-format
 msgid "You have unfollowed %(username)s"
 msgstr "Vous ne suivez plus %(username)s"
@@ -707,12 +743,16 @@ msgstr "Pas d'utilisateur"
 msgid "said"
 msgstr "à écrit"
 
-#: app/templates/_team.html:14 app/templates/_user.html:19
+#: app/templates/_team.html:14
+msgid "Join"
+msgstr "Rejoindre"
+
+#: app/templates/_team.html:19 app/templates/_user.html:19
 #: app/templates/_user_h.html:8
 msgid "Edit"
 msgstr "Modifier"
 
-#: app/templates/_team.html:19 app/templates/_user.html:23
+#: app/templates/_team.html:24 app/templates/_user.html:23
 #: app/templates/_user_h.html:10
 msgid "Delete"
 msgstr "Supprimer"
@@ -729,23 +769,27 @@ msgstr "Change la navigation"
 msgid "Subscribe team"
 msgstr "Inscrire une équipe"
 
-#: app/templates/base.html:62
+#: app/templates/base.html:55
+msgid "Join team"
+msgstr "Rejoindre une équipe"
+
+#: app/templates/base.html:63
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: app/templates/base.html:63
+#: app/templates/base.html:64
 msgid "Login"
 msgstr "Connexion"
 
-#: app/templates/base.html:67
+#: app/templates/base.html:70
 msgid "Teams"
 msgstr "Équipes"
 
-#: app/templates/base.html:68
+#: app/templates/base.html:71
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/base.html:71
+#: app/templates/base.html:74
 msgid "Logout"
 msgstr "Déconnexion"
 

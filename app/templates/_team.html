@@ -11,7 +11,7 @@
         </td>
     {% if join_team %}
         <td>
-            <a href="{{ url_for('main.join_team', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ _('Join Team') }} </a>
+            <a href="{{ url_for('main.join_team', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ _('Join') }} </a>
         </td>
     {% endif %}
     {% if current_user.is_authenticated and current_user.is_admin() and admin %}
