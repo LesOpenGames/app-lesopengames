@@ -446,5 +446,21 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(student.get_billing(), 25)
         self.assertEqual(notStudent.get_billing(), 30)
 
+    def test_user_has_team(self):
+        t1 = Team(teamname='Sportif', sport_level = SportLevel.TOUGH)
+        u1 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        db.session.add(t1)
+        db.session.add(u1)
+
+        self.assertFalse(u1.has_team())
+
+        t1.subscribe(u1)
+        self.assertTrue(u1.has_team())
+        self.assertTrue(t1.is_player(u1))
+
+        t1.unsubscribe(u1)
+        self.assertFalse(t1.is_player(u1))
+        self.assertFalse(u1.has_team())
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

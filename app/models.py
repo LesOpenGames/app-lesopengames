@@ -89,6 +89,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
+    def has_team(self):
+        return self.team is not None
+
     def get_billing(self):
         if( ( not self.is_mayor() ) or self.student  ):
             return 25
@@ -182,6 +185,7 @@ class Team(db.Model):
     is_partner = db.Column(db.Boolean, default=False)
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
+    is_open = db.Column(db.Boolean, default=False)
     
     def get_billing(self):
         team_players = self.get_players()
