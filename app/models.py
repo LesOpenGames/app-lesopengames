@@ -14,6 +14,15 @@ from flask_babel import _, lazy_gettext as _l
 
 from app import db, login
 
+class ChallScoreType(enum.IntEnum):
+    POINTS = 0
+    CHRONO = 1
+    TOURNAMENT = 2
+
+class ChallTeamType(enum.IntEnum):
+    INDIV = 0
+    TEAM = 1
+
 class RolesType(enum.IntEnum):
     ADMIN = 0
     JUGE = 1
@@ -42,6 +51,13 @@ followers = db.Table('followers',
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class Challenge(db.Model):
+    id = db.Column(db.Integer, primary_key=True )
+    challenge_name = db.Column(db.String(64), index=True, unique=True)
+    score_type = db.Column(db.Integer)
+    team_type = db.Column(db.Integer)
+    juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )

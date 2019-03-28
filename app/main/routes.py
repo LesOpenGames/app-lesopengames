@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 
 from sqlalchemy.exc import IntegrityError
 from app import db
-from app.models import User, Post, Team, RolesType
+from app.models import User, Post, Team, RolesType, Challenge
 
 from app.main.forms import EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
@@ -37,6 +37,22 @@ def rules():
 @bp.route('/contact')
 def contact():
     return render_template('contact.html', title=_('Contact'))
+
+@bp.route('/challenge/<int:challenge_id>')
+@login_required
+def challenge(challenge_id):
+    challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    if( not ( current_user.is_admin()
+        or ( challenge.juge_id == current_user.id ) ) ):
+        flash( _('Sorry, you cant view challenge') )
+        return redirect(url_for('main.index'))
+    return render_template('challenge.html', title=_('Challenge'), challenge=challenge )
+
+
+@bp.route('/challenges')
+def challenges():
+    challenges=Challenge.query.all()
+    return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])

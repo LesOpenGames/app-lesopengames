@@ -1,11 +1,38 @@
 import os
 import click
-from app.models import User, Post, Team, RolesType
+from app.models import User, Post, Team, Challenge
+from app.models import RolesType, ChallScoreType, ChallTeamType
 from app import db
 
 
 
 def register(app):
+    @app.cli.group()
+    def og_seed():
+        """Database seeding"""
+
+    @og_seed.command()
+    def rm_challenges():
+        """Remove all challenges"""
+        for c in Challenge.query.all():
+            db.session.delete(c)
+
+    @og_seed.command()
+    def init_challenges():
+        """Add all challenges"""
+        db.session.add_all(
+                [
+                Challenge(challenge_name='Badminton/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) ,
+                Challenge(challenge_name='Badminton/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
+                Challenge(challenge_name='Judo/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
+                Challenge(challenge_name='Judo/Chrono', score_type=int(ChallScoreType.CHRONO), team_type=int(ChallTeamType.TEAM)) ,
+                Challenge(challenge_name='Tennis de Table/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
+                Challenge(challenge_name='Tennis de Table/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) 
+                ]
+            )
+        db.session.commit()
+
+
     @app.cli.group()
     def og_adm():
         """Administration for opengames app"""
