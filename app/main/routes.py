@@ -221,6 +221,7 @@ def form2user(form, user):
     user.weight = form.weight.data
     user.email = form.email.data
     user.phonenumberstr = form.phonenumberstr.data
+    user.student = form.student.data
 
 @bp.route('/delete_user/<int:user_id>')
 @login_required
