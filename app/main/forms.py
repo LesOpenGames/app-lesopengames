@@ -31,7 +31,7 @@ class EditProfileForm(FlaskForm):
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
     student = BooleanField(_l('Student'), validators=[Optional()])
     gender = RadioField(_l('Gender'), coerce=int, choices=[(0, _l('M')), (1, _l('F')) ] , validators=[Optional()])
-    birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})
+    birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'}, validators=[DataRequired()])
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     phonenumberstr =  StringField(_l('Phone Number'), render_kw={'placeholder': '06-18-55-82-33 | 06 18 55 82 33 | 0618558233'}, validators=[Optional()])
