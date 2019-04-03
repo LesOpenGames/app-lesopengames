@@ -1,4 +1,24 @@
+// Colors
+$color_one: #44d89e
+$color_two: #0c71c3
+
 
 h1, h2, h3
-  color: #44d89e
+  color: $color_one
   font-family: Poppins
+
+h1
+  margin-top: 1em
+  font-weight: 600
+  &:after
+    content: ""
+    border-bottom: 3px #e4e4e4 solid
+    max-width: 70%
+    display: block
+    margin: 30px auto 30px 0
+
+.navbar
+  margin-bottom: 5em
+
+label
+  color: $color_two
