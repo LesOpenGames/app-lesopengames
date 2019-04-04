@@ -271,6 +271,7 @@ class Team(db.Model):
     def subscribe(self, player):
         if not self.is_player( player ):
             self.players.append(player)
+        self.players.reorder()
 
     def unsubscribe(self, player):
         if self.is_player( player ):
