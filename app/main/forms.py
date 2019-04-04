@@ -17,6 +17,7 @@ class EditTeamForm(FlaskForm):
     racksport = RadioField(_l('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _l('PingPong')), (int(RacketSportType.BADMINTON), _l('Badminton')) ] , validators=[Optional()])
     is_paid = BooleanField(_l('Paiment'), validators=[Optional()])
     is_partner = BooleanField(_l('Partner'), validators=[Optional()])
+    is_open = BooleanField(_l('Open Team'), validators=[Optional()])
     submit = SubmitField(_l('Validate'))
 
 class SetAuthForm(FlaskForm):

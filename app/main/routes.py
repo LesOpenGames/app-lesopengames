@@ -369,6 +369,7 @@ def edit_team(team_id):
         team.collective_sport_type = form.collsport.data
         team.is_paid = form.is_paid.data
         team.is_partner = form.is_partner.data
+        team.is_open = form.is_open.data
         try:
             db.session.commit()
         except IntegrityError as err:
@@ -386,6 +387,7 @@ def edit_team(team_id):
         form.collsport.data = team.collective_sport_type
         form.is_paid.data = team.is_paid
         form.is_partner.data = team.is_partner
+        form.is_open.data = team.is_open
     # Check valid players  or Unvalidate team
     if( team.get_team_number() is None ):
         if ( team.is_valid() ):
