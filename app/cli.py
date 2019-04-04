@@ -76,18 +76,20 @@ def register(app):
     @og_adm.command()
     def show_teams():
         """List all teams in base"""
-        print ("{0:4} {1:4} {2:14}".format(
+        print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
             str('id'),
-            str('number'),
+            str('num.'),
             str('name'),
             str('players'),
+            str('open'),
             ))
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:4} {2:14} {3}".format(
+            print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
                 str(t.id or '---'),
                 str(t.get_team_number() or '---'),
                 str(t.teamname or '---'),
-                str(t.get_players())
+                str(t.get_players()),
+                str("open" if t.is_open else "closed"),
                 ))
 
     @og_adm.command()
