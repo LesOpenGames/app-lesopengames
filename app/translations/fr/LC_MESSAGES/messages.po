@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-04 13:33+0200\n"
+"POT-Creation-Date: 2019-04-11 15:42+0200\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -26,35 +26,35 @@ msgstr "S'il vous plait, connectez vous pour accéder à la page"
 msgid "OpenGames startup"
 msgstr "Démarrage d'OpenGames"
 
-#: app/main/forms.py:34 app/models.py:102
+#: app/main/forms.py:34 app/models.py:103
 msgid "M"
 msgstr "M"
 
-#: app/main/forms.py:34 app/models.py:102
+#: app/main/forms.py:34 app/models.py:103
 msgid "F"
 msgstr "F"
 
-#: app/main/forms.py:17 app/models.py:246
+#: app/main/forms.py:17 app/models.py:247
 msgid "PingPong"
 msgstr "Tennis de table"
 
-#: app/main/forms.py:17 app/models.py:246
+#: app/main/forms.py:17 app/models.py:247
 msgid "Badminton"
 msgstr "Badminton"
 
-#: app/main/forms.py:16 app/models.py:249
+#: app/main/forms.py:16 app/models.py:250
 msgid "Handball"
 msgstr "Handball"
 
-#: app/main/forms.py:16 app/models.py:249
+#: app/main/forms.py:16 app/models.py:250
 msgid "Flag"
 msgstr "Flag"
 
-#: app/main/forms.py:15 app/models.py:252
+#: app/main/forms.py:15 app/models.py:253
 msgid "Easy"
 msgstr "Loisir"
 
-#: app/models.py:252
+#: app/models.py:253
 msgid "Sport"
 msgstr "Sportif"
 
@@ -199,9 +199,13 @@ msgstr "Resetter le Mot de Passe"
 msgid "Request New Password"
 msgstr "Demander un nouveau mot de passe"
 
-#: app/billing/routes.py:32
+#: app/billing/routes.py:33
 msgid "Login pb"
 msgstr "Problem de login"
+
+#: app/billing/routes.py:65
+msgid "Error in stripe request, please contact admins"
+msgstr ""
 
 #: app/billing/templates/check_billing.html:6
 msgid "check paiement"
@@ -215,11 +219,11 @@ msgstr "À l'ordre de "
 msgid "At the adress"
 msgstr "À l'addresse"
 
-#: app/billing/templates/stripe_billing.html:10
+#: app/billing/templates/stripe_billing.html:11
 msgid "Amount is "
 msgstr "Le montant est "
 
-#: app/billing/templates/stripe_billing.html:16
+#: app/billing/templates/stripe_billing.html:17
 msgid "Billing Les Open Games"
 msgstr "Facture Les Open Games"
 
@@ -276,7 +280,7 @@ msgid "Open Team"
 msgstr "Ouvert à tous"
 
 #: app/main/forms.py:21 app/main/forms.py:26
-#: app/main/templates/_team_users.html:57 app/main/templates/edit_team.html:44
+#: app/main/templates/_team_users.html:56 app/main/templates/edit_team.html:44
 msgid "Validate"
 msgstr "Valider"
 
@@ -612,57 +616,65 @@ msgstr ""
 msgid "Players"
 msgstr "Joueurs"
 
-#: app/main/templates/_team_users.html:7 app/main/templates/team.html:35
+#: app/main/templates/_team_users.html:6 app/main/templates/team.html:35
 msgid "Billing"
 msgstr "Prix"
 
-#: app/main/templates/_team_users.html:9
+#: app/main/templates/_team_users.html:7
 msgid "Name"
 msgstr "Nom"
 
-#: app/main/templates/_team_users.html:10
+#: app/main/templates/_team_users.html:8
 msgid "Age"
 msgstr "Age"
 
-#: app/main/templates/_team_users.html:10
+#: app/main/templates/_team_users.html:8
 msgid "Year of birth limited to 2004 for Sportive level, or 2007 for Easy level"
 msgstr ""
 "Date de naissance limitée à 2004 pour le niveau Sportif, ou 2007 pour le "
 "niveau Loisir."
 
-#: app/main/templates/_team_users.html:11
+#: app/main/templates/_team_users.html:9
 msgid "Auth"
 msgstr "Autor."
 
-#: app/main/templates/_team_users.html:11
+#: app/main/templates/_team_users.html:9
 msgid "Parental Authorisation needed, to be sent by email"
 msgstr "Autorisation parentale obligatoire, à envoyer par email"
 
-#: app/main/templates/_team_users.html:12
+#: app/main/templates/_team_users.html:10
 msgid "Health"
 msgstr "Santé"
 
-#: app/main/templates/_team_users.html:12
+#: app/main/templates/_team_users.html:10
 msgid "Health Document needed to be sent by email"
 msgstr "Certificat médical obligatoire, à envoyer par email"
 
-#: app/main/templates/_team_users.html:22
+#: app/main/templates/_team_users.html:21
 msgid "Add Player"
 msgstr "Ajouter un Joueur"
 
-#: app/main/templates/_team_users.html:40
+#: app/main/templates/_team_users.html:39
 msgid "age"
 msgstr "age"
 
-#: app/main/templates/_team_users.html:46
-#: app/main/templates/_team_users.html:60
+#: app/main/templates/_team_users.html:45
+#: app/main/templates/_team_users.html:59
 msgid "auth"
 msgstr "autor."
 
-#: app/main/templates/_team_users.html:53
-#: app/main/templates/_team_users.html:61
+#: app/main/templates/_team_users.html:52
+#: app/main/templates/_team_users.html:60
 msgid "health"
 msgstr "santé"
+
+#: app/main/templates/_team_users.html:63
+msgid "Quit Team"
+msgstr "Quitter l'équipe"
+
+#: app/main/templates/_team_users.html:64
+msgid "Pay with CB"
+msgstr "Payer par CB"
 
 #: app/main/templates/apropos.html:3
 msgid "Documents"
