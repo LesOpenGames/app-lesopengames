@@ -223,13 +223,32 @@ def form2user(form, user):
     user.phonenumberstr = form.phonenumberstr.data
     user.student = form.student.data
 
+@bp.route('/leave_team/<int:user_id>')
+def leave_team(user_id):
+    user = User.query.get(user_id)
+    if( user is None ):
+        flash( _('No such user') )
+        return redirect(url_for('main.index'))
+    if( not current_user.is_admin() 
+              and ( current_user.id != user_id ) ):
+        flash( _('You dont have access to such page'))
+        return redirect(url_for('main.index'))
+    if( not user.has_team() ):
+        flash( _('You have no team to leave'))
+        return redirect(url_for('main.index'))
+
+    user.team.unsubscribe(user)
+    db.session.commit()
+    flash( _('Sucessfully quitted team'))
+    return redirect(url_for('main.index'))
+
 @bp.route('/delete_user/<int:user_id>')
 @login_required
 def delete_user(user_id):
     if( not current_user.is_admin() ):
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index'))
-    user = User.query.get(user_id)
+    user = User.query.get(user_ie)
     if( user is None ):
         flash( _('No such user') )
         return redirect(url_for('main.index'))

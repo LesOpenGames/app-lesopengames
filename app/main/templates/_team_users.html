@@ -60,7 +60,7 @@
                 <td><span class="badge badge-{{is_success(u.is_valid_health())}}">{{_("health")}}</span></td>
                 {% endif %}
                 {% if edit and current_user == u %}
-                <td><a href="{{ url_for('main.edit_profile', user_id=u.id) }}" class="btn btn-block btn-info ">{{_('Quit Team')}}</a></td>
+                <td><a href="{{ url_for('main.leave_team', user_id=u.id) }}" class="btn btn-block btn-info ">{{_('Quit Team')}}</a></td>
 				<td><a href="{{url_for('billing.stripe_billing', team_id=team.id, user_id=u.id, amount=u.get_billing())}}" class="btn btn-block btn-info {{u_paiment_dsbld(u)}}">{{_('Pay with CB')}}</a></td>
                 {% endif %}
             {% endif %}

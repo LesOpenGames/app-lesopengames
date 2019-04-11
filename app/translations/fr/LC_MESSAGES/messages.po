@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-11 15:42+0200\n"
+"POT-Creation-Date: 2019-04-11 16:15+0200\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -434,157 +434,166 @@ msgstr "Mise à jour du profil réussie"
 msgid "Edit Profile"
 msgstr "Éditer son profil"
 
-#: app/main/routes.py:230 app/main/routes.py:245 app/main/routes.py:407
-msgid "You dont have access to such page"
-msgstr "Vous n'avez pas les droits d'accès à cette page"
-
-#: app/main/routes.py:234
+#: app/main/routes.py:230 app/main/routes.py:253
 msgid "No such user"
 msgstr "Utilisateur inconnu"
 
-#: app/main/routes.py:238
+#: app/main/routes.py:234 app/main/routes.py:249 app/main/routes.py:264
+#: app/main/routes.py:426
+msgid "You dont have access to such page"
+msgstr "Vous n'avez pas les droits d'accès à cette page"
+
+#: app/main/routes.py:237
+msgid "You have no team to leave"
+msgstr "Vous n'appartenez à aucune équipe"
+
+#: app/main/routes.py:242
+msgid "Sucessfully quitted team"
+msgstr "Vous êtes sorti de l'équipe "
+
+#: app/main/routes.py:257
 #, python-format
 msgid "User %(username)s deleted"
 msgstr "Utilisateur %(username) supprimé"
 
-#: app/main/routes.py:248
+#: app/main/routes.py:267
 msgid "Users Admin List"
 msgstr "Liste Joueurs (admin)"
 
-#: app/main/routes.py:256
+#: app/main/routes.py:275
 #, python-format
 msgid "Sorry, you cant see team %(name)s"
 msgstr "Impossible de voir cette équipe %(name)s"
 
-#: app/main/routes.py:258 app/templates/_user_h.html:5
+#: app/main/routes.py:277 app/templates/_user_h.html:5
 msgid "Team"
 msgstr "Équipe"
 
-#: app/main/routes.py:266
+#: app/main/routes.py:285
 msgid "Paiment striped, waiting for validation"
 msgstr "Payé par stripe, en attente de validation"
 
-#: app/main/routes.py:268
+#: app/main/routes.py:287
 msgid "Waiting for Paiment"
 msgstr "En attente de Paiement"
 
-#: app/main/routes.py:272
+#: app/main/routes.py:291
 #, python-format
 msgid "Wrong birthdate for %(username)s"
 msgstr "%(username)s trop jeune"
 
-#: app/main/routes.py:274
+#: app/main/routes.py:293
 #, python-format
 msgid "Missing health doc for %(username)s"
 msgstr "Manque certificat médical pour %(username)s"
 
-#: app/main/routes.py:276
+#: app/main/routes.py:295
 #, python-format
 msgid "Missing parent auth doc for %(username)s"
 msgstr "Manque autorisation parentale pour %(username)s"
 
-#: app/main/routes.py:285
+#: app/main/routes.py:304
 #, python-format
 msgid "Sorry, you already belong to team %(name)s"
 msgstr "Désolé, vous êtes déjà dans l'équipe %(name)s"
 
-#: app/main/routes.py:303 app/main/routes.py:377
+#: app/main/routes.py:322 app/main/routes.py:396
 #, python-format
 msgid "Name %(newteamname)s already exist"
 msgstr "Le nom %(newteamname)s existe déjà"
 
-#: app/main/routes.py:306
+#: app/main/routes.py:325
 msgid "Problem Occured with creating team"
 msgstr "Un problème est survenu dans la création de l'équipe"
 
-#: app/main/routes.py:309
+#: app/main/routes.py:328
 #, python-format
 msgid "Team %(teamname)s created"
 msgstr "Équipe %(teamname)s crée"
 
-#: app/main/routes.py:311 app/main/templates/create_team.html:6
+#: app/main/routes.py:330 app/main/templates/create_team.html:6
 msgid "Create Team"
 msgstr "Créer une équipe"
 
-#: app/main/routes.py:320
+#: app/main/routes.py:339
 msgid "Sorry, no open team available"
 msgstr "Désolé, pas d'équipe ouverte disponible"
 
-#: app/main/routes.py:321
+#: app/main/routes.py:340
 msgid "Join Team"
 msgstr "Rejoindre une équipe"
 
-#: app/main/routes.py:325
+#: app/main/routes.py:344
 msgid "No such Team"
 msgstr "Pas d'équipe correspondante"
 
-#: app/main/routes.py:328
+#: app/main/routes.py:347
 msgid "You cant join a team as you already have one"
 msgstr "Vous ne pouvez pas rejoindre une équipe quand vous en avez déjà une"
 
-#: app/main/routes.py:331
+#: app/main/routes.py:350
 msgid "You cant join team as it is already full"
 msgstr "Vous ne pouvez pas rejoindre une équipe déjà pleine"
 
-#: app/main/routes.py:334
+#: app/main/routes.py:353
 msgid "You cant join team as it is not open to subscribing"
 msgstr "Vous ne pouvez pas rejoindre une équipe fermée"
 
-#: app/main/routes.py:339
+#: app/main/routes.py:358
 msgid "Successfully joined team"
 msgstr "Bravo, Inscription à l'équipe"
 
-#: app/main/routes.py:350
+#: app/main/routes.py:369
 #, python-format
 msgid "No such team for id %(team_id)s"
 msgstr "Aucune équipe avec l'id %(team_id)"
 
-#: app/main/routes.py:354
+#: app/main/routes.py:373
 #, python-format
 msgid "Sorry, you cant modify team %(name)s"
 msgstr "Désolé, vous ne pouvez pas modifier l'équipe %(name)s"
 
-#: app/main/routes.py:360
+#: app/main/routes.py:379
 #, python-format
 msgid "Team %(teamname)s deleted"
 msgstr "Équipe %(teamname) supprimée"
 
-#: app/main/routes.py:380
+#: app/main/routes.py:399
 msgid "Problem Occured with modifying team"
 msgstr "Un problème est survenu dans la modification de l'équipe"
 
-#: app/main/routes.py:382
+#: app/main/routes.py:401
 #, python-format
 msgid "Team %(teamname)s modified"
 msgstr "Équipe %(teamname)s modifiée"
 
-#: app/main/routes.py:401
+#: app/main/routes.py:420
 msgid "Edit Team"
 msgstr "Modifier l'équipe"
 
-#: app/main/routes.py:410
+#: app/main/routes.py:429
 msgid "Teams Admin List"
 msgstr "Liste Équipes (admin)"
 
-#: app/main/routes.py:417 app/main/routes.py:432
+#: app/main/routes.py:436 app/main/routes.py:451
 #, python-format
 msgid "User %(username)s not found"
 msgstr "Utilisateur %(username)s introuvable"
 
-#: app/main/routes.py:420
+#: app/main/routes.py:439
 msgid "Cannot follow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:424
+#: app/main/routes.py:443
 #, python-format
 msgid "You are following %(username)s"
 msgstr "Vous suivez %(username)s"
 
-#: app/main/routes.py:435
+#: app/main/routes.py:454
 msgid "Cannot unfollow yourself"
 msgstr "Impossible de vous suivre vous même"
 
-#: app/main/routes.py:439
+#: app/main/routes.py:458
 #, python-format
 msgid "You have unfollowed %(username)s"
 msgstr "Vous ne suivez plus %(username)s"
