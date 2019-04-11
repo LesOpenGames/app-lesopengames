@@ -79,6 +79,7 @@ class User(UserMixin, db.Model):
     valid_health = db.Column(db.Boolean, default=False)
     valid_auth = db.Column(db.Boolean, default=False)
     student = db.Column(db.Boolean, default=False)
+    is_striped = db.Column(db.Boolean, default=False)
     # see before, the followers relationshup
     followed = db.relationship(
             'User', secondary=followers,
