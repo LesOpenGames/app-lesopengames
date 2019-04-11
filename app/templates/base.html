@@ -52,6 +52,7 @@
             <div class="navbar-nav">
                 {% if current_user.is_anonymous or not current_user.team %}
                 <a class="nav-item nav-link" href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.join_team') }}">{{_('Join team')}}</a>
                 {% elif current_user.team %}
                 <a class="nav-item nav-link" href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a>
                 {% endif %}

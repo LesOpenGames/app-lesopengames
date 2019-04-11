@@ -27,3 +27,4 @@ class Config(object):
     #for heroku
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
 
+    BOOTSTRAP_SERVE_LOCAL = True 

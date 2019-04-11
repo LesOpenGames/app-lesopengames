@@ -221,6 +221,26 @@ def form2user(form, user):
     user.weight = form.weight.data
     user.email = form.email.data
     user.phonenumberstr = form.phonenumberstr.data
+    user.student = form.student.data
+
+@bp.route('/leave_team/<int:user_id>')
+def leave_team(user_id):
+    user = User.query.get(user_id)
+    if( user is None ):
+        flash( _('No such user') )
+        return redirect(url_for('main.index'))
+    if( not current_user.is_admin() 
+              and ( current_user.id != user_id ) ):
+        flash( _('You dont have access to such page'))
+        return redirect(url_for('main.index'))
+    if( not user.has_team() ):
+        flash( _('You have no team to leave'))
+        return redirect(url_for('main.index'))
+
+    user.team.unsubscribe(user)
+    db.session.commit()
+    flash( _('Sucessfully quitted team'))
+    return redirect(url_for('main.index'))
 
 @bp.route('/delete_user/<int:user_id>')
 @login_required
@@ -228,7 +248,7 @@ def delete_user(user_id):
     if( not current_user.is_admin() ):
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index'))
-    user = User.query.get(user_id)
+    user = User.query.get(user_ie)
     if( user is None ):
         flash( _('No such user') )
         return redirect(url_for('main.index'))
@@ -309,6 +329,36 @@ def create_team():
         return redirect( url_for('main.edit_team', team_id=team.id) )
     return render_template('create_team.html', title=_('Create Team'), form=form)
 
+@bp.route('/join_team')
+@bp.route('/join_team/<int:team_id>')
+@login_required
+def join_team(team_id=-1):
+    if( team_id == -1 ):
+        teams = Team.query.filter_by(is_open=True).all()
+        if( len( teams ) == 0 ):
+            flash(_('Sorry, no open team available') )
+        return render_template('join_team.html', title=_('Join Team'), teams=teams)
+    else:
+        team = Team.query.get(team_id)
+        if( team is None ):
+            flash(_('No such Team'))
+            return redirect( url_for('main.join_team'))
+        elif( current_user.has_team() ):
+            flash(_('You cant join a team as you already have one'))
+            return redirect( url_for('main.join_team'))
+        elif( len( team.get_players() ) >= 4 ):
+            flash(_('You cant join team as it is already full'))
+            return redirect( url_for('main.join_team'))
+        elif( not team.is_open ):
+            flash(_('You cant join team as it is not open to subscribing'))
+            return redirect( url_for('main.join_team'))
+        else:
+            team.subscribe(current_user)
+            db.session.commit()
+            flash(_('Successfully joined team'))
+            return redirect(url_for('main.team', team_id=team_id) )
+
+
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
 @bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
 @login_required
@@ -338,6 +388,7 @@ def edit_team(team_id):
         team.collective_sport_type = form.collsport.data
         team.is_paid = form.is_paid.data
         team.is_partner = form.is_partner.data
+        team.is_open = form.is_open.data
         try:
             db.session.commit()
         except IntegrityError as err:
@@ -355,6 +406,7 @@ def edit_team(team_id):
         form.collsport.data = team.collective_sport_type
         form.is_paid.data = team.is_paid
         form.is_partner.data = team.is_partner
+        form.is_open.data = team.is_open
     # Check valid players  or Unvalidate team
     if( team.get_team_number() is None ):
         if ( team.is_valid() ):

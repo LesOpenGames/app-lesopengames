@@ -19,8 +19,8 @@
     </div>
     <div class="row"> <div class="col"> </div></div>
     <div class="row">
-        {% if current_user.team %}
-        <div class="col col-md-4"><a href="{{ url_for('main.team', team_id=current_user.team.id) }}" class="btn btn-block btn-info">{{ current_user.team.teamname}}</a></div>
+        {% if user.team %}
+        <div class="col col-md-4"><a href="{{ url_for('main.team', team_id=user.team.id) }}" class="btn btn-block btn-info">{{ user.team.teamname}}</a></div>
         {%else%}
         <div class="col col-md-4"><a href="{{ url_for('main.create_team') }}" class="btn btn-block btn-info">{{_('Create new team')}}</a></div>
         {%endif%}

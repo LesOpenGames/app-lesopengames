@@ -17,6 +17,7 @@ class EditTeamForm(FlaskForm):
     racksport = RadioField(_l('Racket Sport'), coerce=int, choices=[(int(RacketSportType.PINGPONG), _l('PingPong')), (int(RacketSportType.BADMINTON), _l('Badminton')) ] , validators=[Optional()])
     is_paid = BooleanField(_l('Paiment'), validators=[Optional()])
     is_partner = BooleanField(_l('Partner'), validators=[Optional()])
+    is_open = BooleanField(_l('Open Team'), validators=[Optional()])
     submit = SubmitField(_l('Validate'))
 
 class SetAuthForm(FlaskForm):
@@ -31,7 +32,7 @@ class EditProfileForm(FlaskForm):
     secondname = StringField(_l('Second Name'), validators=[DataRequired()])
     student = BooleanField(_l('Student'), validators=[Optional()])
     gender = RadioField(_l('Gender'), coerce=int, choices=[(0, _l('M')), (1, _l('F')) ] , validators=[Optional()])
-    birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'})
+    birthdate = DateField(_l('Birth Date'), format='%d/%m/%Y', render_kw={'placeholder': '25/09/2003'}, validators=[DataRequired()])
     weight = IntegerField(_l('Weight'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     phonenumberstr =  StringField(_l('Phone Number'), render_kw={'placeholder': '06-18-55-82-33 | 06 18 55 82 33 | 0618558233'}, validators=[Optional()])

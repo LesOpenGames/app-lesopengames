@@ -79,6 +79,7 @@ class User(UserMixin, db.Model):
     valid_health = db.Column(db.Boolean, default=False)
     valid_auth = db.Column(db.Boolean, default=False)
     student = db.Column(db.Boolean, default=False)
+    is_striped = db.Column(db.Boolean, default=False)
     # see before, the followers relationshup
     followed = db.relationship(
             'User', secondary=followers,
@@ -88,6 +89,9 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
+
+    def has_team(self):
+        return self.team is not None
 
     def get_billing(self):
         if( ( not self.is_mayor() ) or self.student  ):
@@ -182,6 +186,7 @@ class Team(db.Model):
     is_partner = db.Column(db.Boolean, default=False)
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
+    is_open = db.Column(db.Boolean, default=False)
     
     def get_billing(self):
         team_players = self.get_players()
@@ -267,6 +272,7 @@ class Team(db.Model):
     def subscribe(self, player):
         if not self.is_player( player ):
             self.players.append(player)
+        self.players.reorder()
 
     def unsubscribe(self, player):
         if self.is_player( player ):

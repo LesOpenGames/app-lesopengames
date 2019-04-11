@@ -3,15 +3,14 @@
     <table class="table table-hover table-responsive">
         <tr>
             <th>N.</th>
-            {% if not edit %}
             <th>{{ _('Billing') }}</th>
-            {% endif %}
             <th>{{ _('Name') }}</th>
             <th>{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 for Sportive level, or 2007 for Easy level'))}}</th>
             <th>{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
             <th>{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
             <th></th>
         </tr>
+    {% macro u_paiment_dsbld(user) %}{% if  user.is_paid or user.is_striped %}disabled{% endif %}{% endmacro %}
     {% macro is_disabled(success) %}{% if  success %}disabled{% endif %}{% endmacro %}
     {% macro is_checked(success) %}{% if  success %}checked{% endif %}{% endmacro %}
     {% macro is_success(success) %}{% if  success %}success{% else%}warning{% endif %}{% endmacro %}
@@ -31,10 +30,10 @@
             {% endif %}
             <td><strong>{{ rank }}</strong></td>
                 {% set u = team.get_players()[i] %}
+                <td>{{u.get_billing()}} &euro;</td>
                 {% if edit %}
                 <td><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>
                 {% else %}
-                <td>{{u.get_billing()}} &euro;</td>
                 <td><a href="{{ url_for('main.user', user_id=u.id)}}" class="btn btn-block btn-light border">{{u.username}}</a></td>
                 {%endif%}
                 <td><span class="badge badge-{{is_success(u.is_valid_age())}}">{{ _("age") }}</span></td>
@@ -59,7 +58,10 @@
                 {% else %}
                 <td><span class="badge badge-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span></td>
                 <td><span class="badge badge-{{is_success(u.is_valid_health())}}">{{_("health")}}</span></td>
-                <td></td>
+                {% endif %}
+                {% if edit and current_user == u %}
+                <td><a href="{{ url_for('main.leave_team', user_id=u.id) }}" class="btn btn-block btn-info ">{{_('Quit Team')}}</a></td>
+				<td><a href="{{url_for('billing.stripe_billing', team_id=team.id, user_id=u.id, amount=u.get_billing())}}" class="btn btn-block btn-info {{u_paiment_dsbld(u)}}">{{_('Pay with CB')}}</a></td>
                 {% endif %}
             {% endif %}
         </tr>

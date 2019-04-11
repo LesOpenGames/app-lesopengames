@@ -67,6 +67,21 @@ class TeamModelCase(unittest.TestCase):
         self.assertFalse(t1.is_leader(u2))
         self.assertFalse(t1.is_leader(u3))
 
+    def test_team_two_leaders(self):
+        u1 = User(username='john', email='john@example.com', player_rank=0)
+        u2 = User(username='sarah', email='sarah@example.com', player_rank=0)
+        t1 = Team(teamname='cathares')
+
+        db.session.add(t1)
+        db.session.add_all([u1, u2])
+        db.session.commit()
+
+        t1.subscribe(u1)
+        t1.subscribe(u2)
+
+        self.assertTrue(t1.is_leader(u1))
+        self.assertFalse(t1.is_leader(u2))
+
     def test_team_sportstype(self):
         t0 = Team(teamname='pelutes')
         t0.racket_sport_type = RacketSportType.PINGPONG
@@ -445,6 +460,22 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(old.get_billing(), 30)
         self.assertEqual(student.get_billing(), 25)
         self.assertEqual(notStudent.get_billing(), 30)
+
+    def test_user_has_team(self):
+        t1 = Team(teamname='Sportif', sport_level = SportLevel.TOUGH)
+        u1 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
+        db.session.add(t1)
+        db.session.add(u1)
+
+        self.assertFalse(u1.has_team())
+
+        t1.subscribe(u1)
+        self.assertTrue(u1.has_team())
+        self.assertTrue(t1.is_player(u1))
+
+        t1.unsubscribe(u1)
+        self.assertFalse(t1.is_player(u1))
+        self.assertFalse(u1.has_team())
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
