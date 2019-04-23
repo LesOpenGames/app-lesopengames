@@ -130,6 +130,9 @@ class User(UserMixin, db.Model):
         age = ( datetime.today() - self.birthdate ) / timedelta(days=365.2425)
         return age >= 18.0
 
+    def is_juge(self):
+        return self.role is not None and RolesType(self.role) == RolesType.JUGE
+
     def is_admin(self):
         return self.role is not None and RolesType(self.role) == RolesType.ADMIN
 

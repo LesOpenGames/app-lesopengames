@@ -351,6 +351,17 @@ class UserModelCase(unittest.TestCase):
         self.assertTrue( u2.is_admin() )
         self.assertFalse( u3.is_admin() )
 
+    def test_user_is_juge(self):
+        u0 = User(username='david', email='david@example.com')
+        u0.role = int(RolesType.ADMIN)
+        u1 = User(username='josette', email='josette@example.com')
+        u1.role = RolesType.JUGE
+        u2 = User(username='alfred', email='alfred@example.com')
+
+        self.assertFalse( u0.is_juge() )
+        self.assertTrue( u1.is_juge() )
+        self.assertFalse( u2.is_juge() )
+
     def test_user_is_valid_age_withnoteam(self):
         u1 = User(username='ing', email='ig@example.com',  birthdate=datetime(1970, 12, 9))
         u2 = User(username='jeune', email='j@example.com', birthdate=datetime(2004, 12, 9))
