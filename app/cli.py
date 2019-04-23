@@ -93,6 +93,16 @@ def register(app):
                 ))
 
     @og_adm.command()
+    def show_challenges():
+        for c in Challenge.query.order_by(Challenge.id).all():
+            print("{0:4} {1:32} {2:32} {3:4}".format(
+            str(c.id),
+            str(c.challenge_name),
+            str(ChallScoreType(c.score_type)),
+            str(c.juge_id),
+            ))
+
+    @og_adm.command()
     @click.argument('user_id')
     def del_user(user_id):
         """Del user by id"""
