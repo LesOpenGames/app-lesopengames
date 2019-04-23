@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+{% if current_user.is_anonymous or not current_user.team %}
+   <div class="card">
+       <div class="card-header">
+             {{ _('Howto join the OpenGames event')}}
+       </div>
+       <div class="card-body">
+           <p class="card-text">{{ _('Your team has 4 players')}}:
+			<ul>
+                <li>{{_('Create your own team')}}</li>
+			</ul>
+           <p class="card-text">{{ _('Your team is incomplete or you are alone')}}:
+			<ul>
+                <li>{{_('Either create an open team')}}</li>
+                <li>{{_('Or join an open team')}}</li>
+			</ul>
+			</p>
+
+       </div>
+   </div>
+{% endif %}
+<br/>
    <table class="table table-hover table-responsive">
       {% for team in teams %}
         {% include '_team.html' %}
