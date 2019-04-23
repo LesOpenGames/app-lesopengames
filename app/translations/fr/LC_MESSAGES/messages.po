@@ -792,7 +792,7 @@ msgstr "Change la navigation"
 
 #: app/templates/base.html:54
 msgid "Subscribe team"
-msgstr "Inscrire une équipe"
+msgstr "Créer une équipe"
 
 #: app/templates/base.html:55
 msgid "Join team"
