@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-11 16:15+0200\n"
+"POT-Creation-Date: 2019-04-23 14:36+0200\n"
 "PO-Revision-Date: 2018-12-13 15:09+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -205,7 +205,7 @@ msgstr "Problem de login"
 
 #: app/billing/routes.py:65
 msgid "Error in stripe request, please contact admins"
-msgstr ""
+msgstr "Erreur dans la requête stripe, contacter u"
 
 #: app/billing/templates/check_billing.html:6
 msgid "check paiement"
@@ -334,7 +334,7 @@ msgstr "S'il vous plait, utilisez un autre nom"
 msgid "Use phone number format: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 msgstr "Utiliser un des formats: 06-18-55-82-33 | 06 18 55 82 33 | 0618558233"
 
-#: app/main/routes.py:23 app/templates/base.html:61
+#: app/main/routes.py:23 app/templates/base.html:64
 msgid "A Propos"
 msgstr "À Propos"
 
@@ -362,7 +362,7 @@ msgstr "Désolé, vous ne pouvez pas voir cette épreuve"
 msgid "Challenge"
 msgstr "Épreuve"
 
-#: app/main/routes.py:55 app/templates/base.html:67
+#: app/main/routes.py:55 app/templates/base.html:70
 msgid "Challenges"
 msgstr "Épreuves"
 
@@ -782,41 +782,65 @@ msgstr "Modifier"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: app/templates/base.html:41
+#: app/templates/base.html:44
 msgid "Default Title"
 msgstr "Titre par défaut"
 
-#: app/templates/base.html:48
+#: app/templates/base.html:51
 msgid "Toggle navigation"
 msgstr "Change la navigation"
 
-#: app/templates/base.html:54
+#: app/templates/base.html:57
 msgid "Subscribe team"
 msgstr "Créer une équipe"
 
-#: app/templates/base.html:55
+#: app/templates/base.html:58
 msgid "Join team"
 msgstr "Rejoindre une équipe"
 
-#: app/templates/base.html:63
+#: app/templates/base.html:66
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: app/templates/base.html:64
+#: app/templates/base.html:67
 msgid "Login"
 msgstr "Connexion"
 
-#: app/templates/base.html:70
+#: app/templates/base.html:73
 msgid "Teams"
 msgstr "Équipes"
 
-#: app/templates/base.html:71
+#: app/templates/base.html:74
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/base.html:74
+#: app/templates/base.html:77
 msgid "Logout"
 msgstr "Déconnexion"
+
+#: app/templates/index.html:7
+msgid "Howto join the OpenGames event"
+msgstr "Comment rejoindre l'évènement Les Open Games"
+
+#: app/templates/index.html:10
+msgid "Your team has 4 players"
+msgstr "Votre équipe a 4 joueurs"
+
+#: app/templates/index.html:12
+msgid "Create your own team"
+msgstr "Créez votre propre équipe"
+
+#: app/templates/index.html:14
+msgid "Your team is incomplete or you are alone"
+msgstr "Votre équipe est incomplète ou bien vous êtes seul"
+
+#: app/templates/index.html:16
+msgid "Either create an open team"
+msgstr "Soit vous créez une équipe ouverte"
+
+#: app/templates/index.html:17
+msgid "Or join an open team"
+msgstr "Soit vous rejoignez une équipe ouverte"
 
 #~ msgid "[Microblog] Reseter le mot de passe"
 #~ msgstr ""
@@ -999,4 +1023,7 @@ msgstr "Déconnexion"
 #~ " Sportive level, or 2011 for Easy "
 #~ "level"
 #~ msgstr "Année de naissance limitée à 2004 pour le nivea"
+
+#~ msgid "Either create your own open team"
+#~ msgstr "Soit vous créez votre propre équipe"
 
