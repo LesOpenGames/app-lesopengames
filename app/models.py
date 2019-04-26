@@ -71,6 +71,7 @@ class Challenge(db.Model):
     def score_type_name(self):
         score_types = [_("Points"), _("Chrono"), _("Tournament")]
         return _("none") if self.score_type is None else score_types[self.score_type]
+
     def team_type_name(self):
         team_types = [_("Individual"), _("Team")]
         return _("none") if self.team_type is None else team_types[self.team_type]

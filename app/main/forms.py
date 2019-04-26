@@ -2,13 +2,16 @@ import re
 from flask_wtf import FlaskForm
 from flask_babel import _, lazy_gettext as _l
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, RadioField
-from wtforms import IntegerField, DateField, HiddenField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
+from wtforms import IntegerField, DateField, HiddenField, SelectField
+from wtforms.validators import ValidationError, DataRequired, InputRequired, Email, EqualTo, Length, Optional, NumberRange
 from app.models import User, SportLevel, CollectiveSportType, RacketSportType, RolesType
 
 class PostForm(FlaskForm):
     post = TextAreaField(_l('Post Body'), validators=[DataRequired(), Length(min=0, max=140)])
     submit = SubmitField(_l('Publish'))
+
+class EditChallengeForm(FlaskForm):
+    juge_id = SelectField(_l('Juge'), coerce=int)#, choices=[(66, _l('John')), (67, _l('Macarel')) ] , validators=[Optional()])
 
 class EditTeamForm(FlaskForm):
     teamname = StringField(_l('Team Name'), validators=[DataRequired()])

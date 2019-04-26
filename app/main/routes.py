@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, RolesType, Challenge
 
-from app.main.forms import EditProfileForm, PostForm, EditTeamForm, SetAuthForm
+from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
 @bp.before_request
@@ -357,6 +357,30 @@ def join_team(team_id=-1):
             db.session.commit()
             flash(_('Successfully joined team'))
             return redirect(url_for('main.team', team_id=team_id) )
+
+@bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
+@login_required
+def edit_challenge(challenge_id):
+    #sanity checks
+    challenge = Challenge.query.get(challenge_id)
+    if( challenge is None):
+        flash(_('No such challenge for id %(id)s', id=challenge_id))
+        return redirect(url_for('main.index'))
+    if( not ( current_user.is_admin() )):
+        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.name))
+        return redirect(url_for('main.index') )
+    form = EditChallengeForm(meta={'csrf': False})
+    juges = User.query.filter(User.role==int(RolesType.JUGE)).filter( User.firstname!=None).filter( User.secondname!=None)
+    juges_list = [(int(j.id), j.firstname+" "+j.secondname) for j in juges ]
+    form.juge_id.choices=juges_list
+    if form.validate_on_submit():
+        challenge.set_juge(User.query.get(form.juge_id.data))
+        #challenge.score_type=form.score_type.data
+        db.session.commit()
+        flash( _('Juge successfully changed') )
+        return redirect( url_for('main.challenge', challenge_id=challenge.id) )
+    form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
+    return render_template('edit_challenge.html', title=_('Edit Challenge'), form=form, challenge=challenge)
 
 
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
