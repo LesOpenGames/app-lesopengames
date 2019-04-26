@@ -1,13 +1,49 @@
 from datetime import datetime, timedelta
 import unittest
 from app import db, create_app
-from app.models import User, Post, Team, RolesType, CollectiveSportType, RacketSportType, SportLevel
+from app.models import User, Post, Team, RolesType, Challenge
+from app.models import RolesType, CollectiveSportType, RacketSportType, SportLevel, ChallTeamType, ChallScoreType
 
 from config import Config
 
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+class ChallengeModelCase(unittest.TestCase):
+    def setUp(self):
+        # 
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_challenge_create(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        #c = Challenge(challenge_name='Badminton/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) ,
+
+    def test_challenge_get_juge(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        u = User(username='josette', email='josette@example.com', role = RolesType.JUGE)
+        db.session.add_all([u, c])
+        db.session.commit()
+        c.juge_id=u.id
+        self.assertEqual(u.id, c.get_juge().id)
+
+    def test_challenge_set_juge(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        u = User(username='josette', email='josette@example.com', role = RolesType.JUGE)
+        db.session.add_all([u, c])
+        db.session.commit()
+        c.set_juge(u)
+        self.assertEqual(u, c.get_juge())
+
+
 
 class TeamModelCase(unittest.TestCase):
     def setUp(self):

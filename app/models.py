@@ -59,6 +59,22 @@ class Challenge(db.Model):
     team_type = db.Column(db.Integer)
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def set_juge(self, juge):
+        self.juge_id = juge.id
+
+    def get_juge(self):
+        if( self.juge_id is None):
+            return None
+        juge = User.query.get(self.juge_id)
+        return  juge
+
+    def score_type_name(self):
+        score_types = [_("Points"), _("Chrono"), _("Tournament")]
+        return _("none") if self.score_type is None else score_types[self.score_type]
+    def team_type_name(self):
+        team_types = [_("Individual"), _("Team")]
+        return _("none") if self.team_type is None else team_types[self.team_type]
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
     username = db.Column(db.String(64), index=True, unique=True)
