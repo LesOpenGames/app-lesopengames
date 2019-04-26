@@ -16,6 +16,7 @@ def register(app):
         """Remove all challenges"""
         for c in Challenge.query.all():
             db.session.delete(c)
+        db.session.commit()
 
     @og_seed.command()
     def init_challenges():
@@ -94,6 +95,7 @@ def register(app):
 
     @og_adm.command()
     def show_challenges():
+        """List all challenges"""
         for c in Challenge.query.order_by(Challenge.id).all():
             print("{0:4} {1:32} {2:32} {3:4}".format(
             str(c.id),
