@@ -3,6 +3,7 @@
 {% block app_content %}
       {% if challenges %}
       <table class="table table-hover table-responsive">
+          {% include '_challenge_h.html' %}
           {% for challenge in challenges %}
             {% include '_challenge.html' %}
           {% endfor %}
