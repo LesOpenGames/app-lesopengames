@@ -47,6 +47,19 @@ followers = db.Table('followers',
         db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
         )
 
+# All Scores are a relation between Challenges and Users as Players
+#
+
+class Score(db.Model):
+    challenge_id   = db.Column(db.Integer, db.ForeignKey('challenge.id'), primary_key=True)
+    player_id      = db.Column( db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    score          = db.Column( db.Integer)
+    chrono_s       = db.Column(db.Integer)
+    tournament_pos = db.Column(db.Integer)
+
+    player = db.relationship("User", back_populates="challenges")
+    challenge = db.relationship("Challenge", back_populates="players")
+
 # used by the flask_login extension for db interaction
 @login.user_loader
 def load_user(id):
@@ -58,6 +71,7 @@ class Challenge(db.Model):
     score_type = db.Column(db.Integer)
     team_type = db.Column(db.Integer)
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    players = db.relationship( 'Score', back_populates="challenge")
 
     def set_juge(self, juge):
         self.juge_id = juge.id
@@ -103,6 +117,8 @@ class User(UserMixin, db.Model):
             primaryjoin=(followers.c.follower_id == id ),
             secondaryjoin=(followers.c.followed_id == id ),
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
+    challenges = db.relationship( 'Score', back_populates="player")
+            
 
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
