@@ -1,14 +1,68 @@
 from datetime import datetime, timedelta
 import unittest
 from app import db, create_app
-from app.models import User, Post, Team, RolesType, Challenge
+from app.models import User, Post, Team, RolesType, Challenge, Score
 from app.models import RolesType, CollectiveSportType, RacketSportType, SportLevel, ChallTeamType, ChallScoreType
 
 from config import Config
+def init_juges():
+    """Add all juges"""
+    db.session.add_all(
+            [
+                User(username='john1',  firstname="Perry", secondname="1-John",  email='john1@example.com',  role = int(RolesType.JUGE)),
+                User(username='susan1', firstname="Gavia", secondname="1-Susan", email='susan1@example.com', role = int(RolesType.JUGE)),
+                User(username='mary1',  firstname="Riley", secondname="1-Mary",  email='mary1@example.com',  role = int(RolesType.JUGE)),
+                User(username='david1', firstname="Getta", secondname="1-David", email='david1@example.com', role = int(RolesType.JUGE)),
+                ]
+            )
+    db.session.commit()
+
+def init_challenges():
+    db.session.add_all(
+	[
+	Challenge(challenge_name='Badminton/Tournoi', score_type= ChallScoreType.TOURNAMENT, team_type= ChallTeamType.TEAM ),
+	Challenge(challenge_name='Badminton/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Judo/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Judo/Chrono', score_type= ChallScoreType.CHRONO, team_type= ChallTeamType.TEAM ),
+	Challenge(challenge_name='Tennis de Table/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Tennis de Table/Tournoi', score_type= ChallScoreType.TOURNAMENT, team_type= ChallTeamType.TEAM )
+	]
+	)
+    db.session.commit()
+
+def init_scores():
+    with db.session.no_autoflush:
+        for c in Challenge.query.all():
+            for u in User.query.all():
+                s = Score(score=0)
+                s.player = u
+                c.players.append(s)
+    db.session.commit
 
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+class ScoreModelCase(unittest.TestCase):
+    def setUp(self):
+        # 
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+        init_challenges()
+        init_juges()
+        init_scores()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_score_init(self):
+        self.assertEqual( db.session.query(User).count(), 4)
+        self.assertEqual( db.session.query(Challenge).count(), 6)
+        self.assertEqual( db.session.query(Score).count(), 24)
 
 class ChallengeModelCase(unittest.TestCase):
     def setUp(self):
@@ -42,8 +96,6 @@ class ChallengeModelCase(unittest.TestCase):
         db.session.commit()
         c.set_juge(u)
         self.assertEqual(u, c.get_juge())
-
-
 
 class TeamModelCase(unittest.TestCase):
     def setUp(self):
