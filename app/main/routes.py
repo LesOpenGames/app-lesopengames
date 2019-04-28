@@ -46,7 +46,9 @@ def challenge(challenge_id):
         or ( challenge.juge_id == current_user.id ) ) ):
         flash( _('Sorry, you cant view challenge') )
         return redirect(url_for('main.index'))
-    return render_template('challenge.html', title=_('Challenge'), challenge=challenge )
+    scored_teams = [{'team':t, 'score':t.get_score_by_challenge(challenge.id)} for t in Team.query.all() if t.is_valid()] 
+    scored_teams = sorted(scored_teams , key= lambda scored_team: scored_team['team'].get_team_number())
+    return render_template('challenge.html', title=_('Challenge'), challenge=challenge , scored_teams=scored_teams)
 
 
 @bp.route('/challenges')

@@ -1,0 +1,7 @@
+<tr>
+    {% with team = scored_team.team%}
+    <td>{% include '_team_number.html'%}</td>
+    {% endwith %}
+    <td>{{scored_team.team.teamname}}</td>
+    <td>{{scored_team.score}}</td>
+</tr>
