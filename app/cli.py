@@ -38,10 +38,12 @@ def register(app):
         """Populate the scores table with all players"""
         with db.session.no_autoflush:
             for c in Challenge.query.all():
-                for u in User.query.filter(User.role==int(RolesType.PLAYER)):
-                    s = Score(score=0)
-                    s.player = u
-                    c.players.append(s)
+                valid_teams = [t for t in Team.query.all() if t.is_valid() ]
+                for t in valid_teams:
+                    for p in t.get_players():
+                        s = Score(score=0)
+                        s.player = p
+                        c.players.append(s)
         db.session.commit()
 
     @og_seed.command()
