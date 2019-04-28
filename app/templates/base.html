@@ -62,11 +62,11 @@
             </div>
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link" href="{{ url_for('main.rating') }}">{{_('Rating')}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
                 {% if current_user.is_anonymous %}
                 <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_('Login')}}</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
                     {% if current_user.is_admin() %}
                         <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{ _('Users')}}</a>
