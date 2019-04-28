@@ -1,6 +1,6 @@
 import os
 import click
-from app.models import User, Post, Team, Challenge
+from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, ChallScoreType, ChallTeamType
 from app import db
 
@@ -31,6 +31,36 @@ def register(app):
                 Challenge(challenge_name='Tennis de Table/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) 
                 ]
             )
+        db.session.commit()
+
+    @og_seed.command()
+    def update_scores():
+        """Populate the scores table with all players"""
+        with db.session.no_autoflush:
+            for c in Challenge.query.all():
+                for u in User.query.filter(User.role==int(RolesType.PLAYER)):
+                    s = Score(score=0)
+                    s.player = u
+                    c.players.append(s)
+        db.session.commit()
+
+    @og_seed.command()
+    def show_scores():
+        # iterate through child objects via association, including association
+        # attributes
+        print("{3:2} {0:30} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id"))
+        print("{3:2} {0:30} {1:15} {2:5}".format('-'*30, '-'*15, '-'*5, '-'*2))
+        for score in Score.query.all():
+            print("{3:2} {0:30} {1:15} {2:5}".format(score.challenge.challenge_name,
+                                score.player.username,
+                                score.score,
+                                score.challenge.id))
+
+    @og_seed.command()
+    def rm_scores():
+        """Remove all scores"""
+        for s in Score.query.filter():
+            db.session.delete(s)
         db.session.commit()
 
 
