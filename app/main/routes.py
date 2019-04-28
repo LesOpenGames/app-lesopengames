@@ -6,8 +6,8 @@ from flask_babel import _, get_locale
 
 from sqlalchemy.exc import IntegrityError
 from app import db
-from app.models import User, Post, Team, RolesType, Challenge, Score
-
+from app.models import User, Post, Team, Challenge, Score
+from app.models import RolesType, SportLevel
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
@@ -130,9 +130,16 @@ def challenges():
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
     teams = sorted(Team.query.all(),
-            #key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
+            key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
+    return render_template('index.html', title=_('Home Page'), teams=teams)
+
+@bp.route('/rating', methods=['GET', 'POST'])
+def rating():
+    sport_teams = sorted(Team.query.filter(Team.sport_level==int(SportLevel.TOUGH)).all(),
             key= lambda t: t.get_score_total(), reverse=True)
-    return render_template('index.html', title=_('Home Page'), teams=teams, is_scoring=True)
+    easy_teams = sorted(Team.query.filter(Team.sport_level==int(SportLevel.EASY)).all(),
+            key= lambda t: t.get_score_total(), reverse=True)
+    return render_template('rating.html', title=_('General Rating'), easy_teams=easy_teams, sport_teams=sport_teams, is_scoring=True)
 
 def old_index():
     form = PostForm()

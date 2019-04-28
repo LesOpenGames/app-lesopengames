@@ -1,0 +1,9 @@
+    <hr/>
+    <h3>{{_('Teams')}}:</h3>
+    {% if scored_teams %}
+    <table class="table table-hover table-responsive">
+        {% for scored_team in scored_teams %}
+          {% include '_scored_team.html' %}
+        {% endfor %}
+    </table>
+    {% endif %}
