@@ -9,6 +9,9 @@ from datetime import datetime, date, timedelta
 from hashlib import md5
 from time import time
 
+from sqlalchemy.orm.exc import NoResultFound
+
+
 from flask_babel import _, lazy_gettext as _l
 
 
@@ -126,6 +129,17 @@ class User(UserMixin, db.Model):
     def has_team(self):
         return self.team is not None
 
+    def get_score_by_challenge(self, challenge_id):
+        score = 0
+        try:
+            s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+            score=s.score
+        except NoResultFound:
+            pass
+
+        return int(score)
+
+
     def get_billing(self):
         if( ( not self.is_mayor() ) or self.student  ):
             return 25
@@ -224,6 +238,14 @@ class Team(db.Model):
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
     
+    def get_score_by_challenge(self, challenge_id):
+        team_players = self.get_players()
+        score = 0
+        if len( team_players ) == 4:
+            for p in team_players:
+                score = score + p.get_score_by_challenge(challenge_id)
+        return score
+
     def get_billing(self):
         team_players = self.get_players()
         bill = 0
