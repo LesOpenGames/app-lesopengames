@@ -33,7 +33,12 @@ def register(app):
             )
         db.session.commit()
 
-    @og_seed.command()
+    @app.cli.group()
+    def og_adm():
+        """Administration for opengames app"""
+        pass
+
+    @og_adm.command()
     def update_scores():
         """Populate the scores table with all players"""
         with db.session.no_autoflush:
@@ -46,7 +51,7 @@ def register(app):
                         c.players.append(s)
         db.session.commit()
 
-    @og_seed.command()
+    @og_adm.command()
     def show_scores():
         # iterate through child objects via association, including association
         # attributes
@@ -58,18 +63,12 @@ def register(app):
                                 score.score,
                                 score.challenge.id))
 
-    @og_seed.command()
+    @og_adm.command()
     def rm_scores():
         """Remove all scores"""
         for s in Score.query.filter():
             db.session.delete(s)
         db.session.commit()
-
-
-    @app.cli.group()
-    def og_adm():
-        """Administration for opengames app"""
-        pass
 
     @og_adm.command()
     @click.argument('user_id')
@@ -109,20 +108,22 @@ def register(app):
     @og_adm.command()
     def show_teams():
         """List all teams in base"""
-        print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
+        print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
             str('id'),
             str('num.'),
             str('name'),
             str('players'),
             str('open'),
+            str('level'),
             ))
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
+            print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
                 str(t.id or '---'),
                 str(t.get_team_number() or '---'),
                 str(t.teamname or '---'),
                 str(t.get_players()),
                 str("open" if t.is_open else "closed"),
+                str(t.sport_level_name()),
                 ))
 
     @og_adm.command()
