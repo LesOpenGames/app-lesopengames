@@ -129,6 +129,12 @@ class User(UserMixin, db.Model):
     def has_team(self):
         return self.team is not None
 
+    def get_score_total(self):
+        score = 0 
+        for s in Score.query.filter( Score.player_id == self.id ).all():
+            score = score + s.score
+        return score
+
     def get_score_by_challenge(self, challenge_id):
         score = 0
         try:
@@ -138,7 +144,6 @@ class User(UserMixin, db.Model):
             pass
 
         return int(score)
-
 
     def get_billing(self):
         if( ( not self.is_mayor() ) or self.student  ):
@@ -238,6 +243,12 @@ class Team(db.Model):
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
     
+    def get_score_total(self):
+        score = 0
+        for p in self.get_players():
+            score = score + p.get_score_total()
+        return score
+
     def get_score_by_challenge(self, challenge_id):
         team_players = self.get_players()
         score = 0

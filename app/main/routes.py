@@ -130,8 +130,9 @@ def challenges():
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
     teams = sorted(Team.query.all(),
-            key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
-    return render_template('index.html', title=_('Home Page'), teams=teams)
+            #key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
+            key= lambda t: t.get_score_total(), reverse=True)
+    return render_template('index.html', title=_('Home Page'), teams=teams, is_scoring=True)
 
 def old_index():
     form = PostForm()
