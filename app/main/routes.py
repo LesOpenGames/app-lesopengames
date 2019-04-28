@@ -6,10 +6,12 @@ from flask_babel import _, get_locale
 
 from sqlalchemy.exc import IntegrityError
 from app import db
-from app.models import User, Post, Team, RolesType, Challenge
+from app.models import User, Post, Team, RolesType, Challenge, Score
 
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
+
+import math
 
 @bp.before_request
 def before_request():
@@ -38,6 +40,74 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
+def get_scored_teams(challenge_id):
+    scored_teams = [{'team':t, 'score':t.get_score_by_challenge(challenge_id)} for t in Team.query.all() if t.is_valid()] 
+    scored_teams = sorted(scored_teams,
+            key= lambda scored_team: scored_team['team'].get_score_by_challenge(challenge_id),
+            reverse=True)
+    return scored_teams
+
+@bp.route('/score_team', methods=['GET', 'POST'])
+@login_required
+def score_team():
+    if( not ( current_user.is_juge() or current_user.is_admin() )):
+        flash( _('Sorry, you cant score team'))
+        return redirect(url_for('main.index') )
+    #get params
+    team_id = request.form.get('team_id', None, type=int)
+    challenge_id = request.form.get('challenge_id', None, type=int)
+    score = request.form.get('score', None, type=int)
+    #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
+    #sanity checks
+    if( challenge_id==None or team_id == None or score==None):
+        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}".format(team_id, challenge_id, score))
+        return redirect(url_for('main.index') )
+    challenge = Challenge.query.get(challenge_id)
+    team = Team.query.get(team_id)
+    if( team is None ):
+        flash(_('No such Team'))
+        return redirect( url_for('main.index'))
+    if( challenge is None ):
+        flash(_('No such Challenge'))
+        return redirect( url_for('main.index'))
+    #set all players score
+    for p in team.get_players():
+        try:
+            s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == p.id).one()
+            s.score=math.ceil(score/4)
+        except:
+            flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=p.id))
+    db.session.commit()
+    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
+
+@bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
+@login_required
+def edit_challenge(challenge_id):
+    #sanity checks
+    challenge = Challenge.query.get(challenge_id)
+    if( challenge is None):
+        flash(_('No such challenge for id %(id)s', id=challenge_id))
+        return redirect(url_for('main.index'))
+    if( not ( current_user.is_admin() )):
+        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.name))
+        return redirect(url_for('main.index') )
+    form = EditChallengeForm(meta={'csrf': False})
+    juges = User.query.filter(User.role==int(RolesType.JUGE)).filter( User.firstname!=None).filter( User.secondname!=None)
+    juges_list = [(int(j.id), j.firstname+" "+j.secondname) for j in juges ]
+    form.juge_id.choices=juges_list
+    if form.validate_on_submit():
+        challenge.set_juge(User.query.get(form.juge_id.data))
+        #challenge.score_type=form.score_type.data
+        db.session.commit()
+        flash( _('Juge successfully changed') )
+        return redirect( url_for('main.challenge', challenge_id=challenge.id) )
+    form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
+    return render_template('edit_challenge.html',
+            title=_('Edit Challenge'),
+            form=form,
+            challenge=challenge,
+            scored_teams=get_scored_teams(challenge.id))
+
 @bp.route('/challenge/<int:challenge_id>')
 @login_required
 def challenge(challenge_id):
@@ -46,10 +116,10 @@ def challenge(challenge_id):
         or ( challenge.juge_id == current_user.id ) ) ):
         flash( _('Sorry, you cant view challenge') )
         return redirect(url_for('main.index'))
-    scored_teams = [{'team':t, 'score':t.get_score_by_challenge(challenge.id)} for t in Team.query.all() if t.is_valid()] 
-    scored_teams = sorted(scored_teams , key= lambda scored_team: scored_team['team'].get_team_number())
-    return render_template('challenge.html', title=_('Challenge'), challenge=challenge , scored_teams=scored_teams)
-
+    return render_template('challenge.html',
+            title=_('Challenge'),
+            challenge=challenge,
+            scored_teams=get_scored_teams(challenge.id))
 
 @bp.route('/challenges')
 def challenges():
@@ -59,7 +129,8 @@ def challenges():
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
-    teams = Team.query.all()
+    teams = sorted(Team.query.all(),
+            key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
     return render_template('index.html', title=_('Home Page'), teams=teams)
 
 def old_index():
@@ -360,31 +431,6 @@ def join_team(team_id=-1):
             flash(_('Successfully joined team'))
             return redirect(url_for('main.team', team_id=team_id) )
 
-@bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
-@login_required
-def edit_challenge(challenge_id):
-    #sanity checks
-    challenge = Challenge.query.get(challenge_id)
-    if( challenge is None):
-        flash(_('No such challenge for id %(id)s', id=challenge_id))
-        return redirect(url_for('main.index'))
-    if( not ( current_user.is_admin() )):
-        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.name))
-        return redirect(url_for('main.index') )
-    form = EditChallengeForm(meta={'csrf': False})
-    juges = User.query.filter(User.role==int(RolesType.JUGE)).filter( User.firstname!=None).filter( User.secondname!=None)
-    juges_list = [(int(j.id), j.firstname+" "+j.secondname) for j in juges ]
-    form.juge_id.choices=juges_list
-    if form.validate_on_submit():
-        challenge.set_juge(User.query.get(form.juge_id.data))
-        #challenge.score_type=form.score_type.data
-        db.session.commit()
-        flash( _('Juge successfully changed') )
-        return redirect( url_for('main.challenge', challenge_id=challenge.id) )
-    form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
-    return render_template('edit_challenge.html', title=_('Edit Challenge'), form=form, challenge=challenge)
-
-
 @bp.route('/delete_team/<int:team_id>', methods=['GET', 'POST'])
 @bp.route('/edit_team/<int:team_id>', methods=['GET', 'POST'])
 @login_required
@@ -451,7 +497,8 @@ def teams():
     if( current_user.role  != RolesType.ADMIN ):
         flash( _('You dont have access to such page'))
         return redirect(url_for('main.index') )
-    teams = Team.query.all()
+    teams = sorted(Team.query.all(),
+            key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
     return render_template('index.html', title=_('Teams Admin List'), teams=teams, admin=True)
 
 @bp.route('/follow/<username>')

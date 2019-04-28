@@ -26,11 +26,5 @@
         </div>
     </div>
     {% endif %}
-    {% if scored_teams %}
-    <table class="table table-hover table-responsive">
-        {% for scored_team in scored_teams %}
-          {% include '_team_challenge.html' %}
-        {% endfor %}
-    </table>
-    {% endif %}
+  {% include '_scored_teams.html' %}
 {% endblock %}

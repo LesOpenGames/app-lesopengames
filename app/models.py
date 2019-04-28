@@ -55,8 +55,8 @@ followers = db.Table('followers',
 
 class Score(db.Model):
     challenge_id   = db.Column(db.Integer, db.ForeignKey('challenge.id'), primary_key=True)
-    player_id      = db.Column( db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    score          = db.Column( db.Integer)
+    player_id      = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    score          = db.Column(db.Integer)
     chrono_s       = db.Column(db.Integer)
     tournament_pos = db.Column(db.Integer)
 

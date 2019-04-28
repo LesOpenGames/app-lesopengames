@@ -15,4 +15,7 @@
           <div class="col-md-3 col-12"><button type="submit" class="btn btn-block btn-info">{{ _('Validate') }}</button></div>
       </div>
     </form>
+    {% with edit=True %}
+    {% include '_scored_teams.html' %}
+    {% endwith %}
 {% endblock %}
