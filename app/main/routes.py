@@ -70,7 +70,7 @@ def score_team():
     if( challenge is None ):
         flash(_('No such Challenge'))
         return redirect( url_for('main.index'))
-    #set all players score
+    #set each player score
     for p in team.get_players():
         try:
             s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == p.id).one()
@@ -140,40 +140,6 @@ def rating():
     easy_teams = sorted(Team.query.filter(Team.sport_level==int(SportLevel.EASY)).all(),
             key= lambda t: t.get_score_total(), reverse=True)
     return render_template('rating.html', title=_('General Rating'), easy_teams=easy_teams, sport_teams=sport_teams, is_scoring=True)
-
-def old_index():
-    form = PostForm()
-    if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
-        flash( _('Post published'))
-        return redirect(url_for('main.index'))
-    page_num = request.args.get('page_num', 1, type=int)
-    posts = current_user.followed_posts().paginate(
-            page_num, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.index', page_num=posts.next_num)\
-            if posts.has_next else None
-    prev_url = url_for('main.index', page_num=posts.prev_num)\
-            if posts.has_prev else None
-    return  render_template('index.html', title=_('Home Page'), form=form, posts=posts.items,
-            next_url=next_url, prev_url=prev_url)
-
-@bp.route('/explore', methods=['GET', 'POST'])
-def explore():
-    page_num = request.args.get('page_num', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-            page_num, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.explore', page_num=posts.next_num)\
-            if posts.has_next else None
-    prev_url = url_for('main.explore', page_num=posts.prev_num)\
-            if posts.has_prev else None
-    return  render_template('index.html', title=_('Explore'), posts=posts.items,
-            next_url=next_url, prev_url=prev_url)
-
-@bp.route('/notitle')
-def notitle():
-    return  render_template('index.html')
 
 @bp.route('/posts')
 @login_required
