@@ -40,12 +40,12 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
-def get_scored_teams(challenge_id):
-    scored_teams = [{'team':t, 'score':t.get_score_by_challenge(challenge_id)} for t in Team.query.all() if t.is_valid()] 
-    scored_teams = sorted(scored_teams,
-            key= lambda scored_team: scored_team['team'].get_score_by_challenge(challenge_id),
+def get_teams_by_challenge(challenge_id):
+    teams_by_challenge = [t for t in Team.query.all() if t.is_valid()] 
+    teams_by_challenge = sorted(teams_by_challenge,
+            key= lambda t: t.get_score_by_challenge(challenge_id),
             reverse=True)
-    return scored_teams
+    return teams_by_challenge
 
 @bp.route('/score_team', methods=['GET', 'POST'])
 @login_required
@@ -106,7 +106,7 @@ def edit_challenge(challenge_id):
             title=_('Edit Challenge'),
             form=form,
             challenge=challenge,
-            scored_teams=get_scored_teams(challenge.id))
+            teams=get_teams_by_challenge(challenge.id))
 
 @bp.route('/challenge/<int:challenge_id>')
 @login_required
@@ -119,7 +119,7 @@ def challenge(challenge_id):
     return render_template('challenge.html',
             title=_('Challenge'),
             challenge=challenge,
-            scored_teams=get_scored_teams(challenge.id))
+            teams=get_teams_by_challenge(challenge.id))
 
 @bp.route('/challenges')
 def challenges():

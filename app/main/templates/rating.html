@@ -1,24 +1,5 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<div class="container">
- <div class="row">
-   <div class="col-md-5">
-       <h3>{{_('Easy Rating')}}</h3>
-       <table class="table table-hover table-responsive">
-          {% for team in easy_teams %}
-            {% include '_team.html' %}
-          {% endfor %}
-       </table>
-   </div>
-   <div class="col-md-5">
-       <h3>{{_('Tough Rating')}}</h3>
-       <table class="table table-hover table-responsive">
-          {% for team in sport_teams %}
-            {% include '_team.html' %}
-          {% endfor %}
-       </table>
-   </div>
- </div> 
-</div>
+{% include '_rated_teams.html' %}
 {% endblock %}
