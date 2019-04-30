@@ -12,6 +12,25 @@ from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTea
 from app.main import bp
 
 import math
+import enum
+
+
+
+def get_categorized_teams( teams):
+    
+    categorized_teams={
+            'easy_teams':filter( lambda t: t.sport_level == int(SportLevel.EASY), teams),
+            'sport_teams':filter( lambda t: t.sport_level == int(SportLevel.TOUGH), teams)
+            }
+
+    return categorized_teams
+
+def get_teams_by_challenge(challenge_id):
+    teams_by_challenge = [t for t in Team.query.all() if t.is_valid()] 
+    teams_by_challenge = sorted(teams_by_challenge,
+            key= lambda t: t.get_score_by_challenge(challenge_id),
+            reverse=True)
+    return teams_by_challenge
 
 @bp.before_request
 def before_request():
@@ -39,13 +58,6 @@ def rules():
 @bp.route('/contact')
 def contact():
     return render_template('contact.html', title=_('Contact'))
-
-def get_teams_by_challenge(challenge_id):
-    teams_by_challenge = [t for t in Team.query.all() if t.is_valid()] 
-    teams_by_challenge = sorted(teams_by_challenge,
-            key= lambda t: t.get_score_by_challenge(challenge_id),
-            reverse=True)
-    return teams_by_challenge
 
 @bp.route('/score_team', methods=['GET', 'POST'])
 @login_required
@@ -102,6 +114,8 @@ def edit_challenge(challenge_id):
         flash( _('Juge successfully changed') )
         return redirect( url_for('main.challenge', challenge_id=challenge.id) )
     form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
+    #challenged_teams=get_teams_by_challenge(challenge.id)
+    #easy_teams = challenged_teams.filter( lambda x : x.sport_level == int(Sport
     return render_template('edit_challenge.html',
             title=_('Edit Challenge'),
             form=form,
@@ -135,11 +149,9 @@ def index():
 
 @bp.route('/rating', methods=['GET', 'POST'])
 def rating():
-    sport_teams = sorted(Team.query.filter(Team.sport_level==int(SportLevel.TOUGH)).all(),
-            key= lambda t: t.get_score_total(), reverse=True)
-    easy_teams = sorted(Team.query.filter(Team.sport_level==int(SportLevel.EASY)).all(),
-            key= lambda t: t.get_score_total(), reverse=True)
-    return render_template('rating.html', title=_('General Rating'), easy_teams=easy_teams, sport_teams=sport_teams, is_scoring=True)
+    all_teams = sorted( Team.query.all() , key=lambda t: t.get_score_total() , reverse=True)
+    categorized_teams = get_categorized_teams( all_teams )
+    return render_template('rating.html', title=_('General Rating'), categorized_teams=categorized_teams, is_scoring=True)
 
 @bp.route('/posts')
 @login_required
