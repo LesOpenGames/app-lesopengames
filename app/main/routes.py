@@ -116,11 +116,12 @@ def edit_challenge(challenge_id):
     form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
     #challenged_teams=get_teams_by_challenge(challenge.id)
     #easy_teams = challenged_teams.filter( lambda x : x.sport_level == int(Sport
+    categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
     return render_template('edit_challenge.html',
             title=_('Edit Challenge'),
             form=form,
             challenge=challenge,
-            teams=get_teams_by_challenge(challenge.id))
+            categorized_teams=categorized_teams)
 
 @bp.route('/challenge/<int:challenge_id>')
 @login_required
@@ -130,10 +131,11 @@ def challenge(challenge_id):
         or ( challenge.juge_id == current_user.id ) ) ):
         flash( _('Sorry, you cant view challenge') )
         return redirect(url_for('main.index'))
+    categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
     return render_template('challenge.html',
             title=_('Challenge'),
             challenge=challenge,
-            teams=get_teams_by_challenge(challenge.id))
+            categorized_teams=categorized_teams)
 
 @bp.route('/challenges')
 def challenges():

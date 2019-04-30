@@ -1,9 +1,21 @@
-    <hr/>
-    <h3>{{_('Teams')}}:</h3>
-    {% if teams %}
-    <table class="table table-hover table-responsive">
-        {% for team in teams %}
-          {% include '_challenged_team.html' %}
-        {% endfor %}
-    </table>
-    {% endif %}
+<hr/>
+<div class="container">
+ <div class="row">
+   <div class="col-md-5">
+       <h3>{{_('Easy Teams')}}</h3>
+       <table class="table table-hover table-responsive">
+          {% for team in categorized_teams['easy_teams'] %}
+            {% include '_challenged_team.html' %}
+          {% endfor %}
+       </table>
+   </div>
+   <div class="col-md-5">
+       <h3>{{_('Tough Teams')}}</h3>
+       <table class="table table-hover table-responsive">
+          {% for team in categorized_teams['sport_teams'] %}
+            {% include '_challenged_team.html' %}
+          {% endfor %}
+       </table>
+   </div>
+ </div> 
+</div>
