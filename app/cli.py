@@ -48,6 +48,7 @@ def register(app):
                     for p in t.get_players():
                         s = Score(score=0)
                         s.player = p
+                        s.team = t
                         c.players.append(s)
         db.session.commit()
 
@@ -55,13 +56,14 @@ def register(app):
     def show_scores():
         # iterate through child objects via association, including association
         # attributes
-        print("{3:2} {0:30} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id"))
-        print("{3:2} {0:30} {1:15} {2:5}".format('-'*30, '-'*15, '-'*5, '-'*2))
+        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id", "Team"))
+        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15))
         for score in Score.query.all():
-            print("{3:2} {0:30} {1:15} {2:5}".format(score.challenge.challenge_name,
+            print("{3:2} {0:30} {4:15} {1:15} {2:5}".format(score.challenge.challenge_name,
                                 score.player.username,
                                 score.score,
-                                score.challenge.id))
+                                score.challenge.id,
+                                score.team.teamname))
 
     @og_adm.command()
     def rm_scores():

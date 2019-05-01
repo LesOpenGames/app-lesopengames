@@ -5,6 +5,13 @@ from app.models import User, Post, Team, RolesType, Challenge, Score
 from app.models import RolesType, CollectiveSportType, RacketSportType, SportLevel, ChallTeamType, ChallScoreType
 
 from config import Config
+def init_teams():
+    t = Team(teamname='cathares')
+    for u in User.query.limit(4).all():
+        t.subscribe( u)
+    db.session.add(t)
+    db.session.commit()
+
 def init_juges():
     """Add all juges"""
     db.session.add_all(
@@ -13,7 +20,7 @@ def init_juges():
                 User(username='susan1', firstname="Gavia", secondname="1-Susan", email='susan1@example.com', role = int(RolesType.JUGE)),
                 User(username='mary1',  firstname="Riley", secondname="1-Mary",  email='mary1@example.com',  role = int(RolesType.JUGE)),
                 User(username='david1', firstname="Getta", secondname="1-David", email='david1@example.com', role = int(RolesType.JUGE)),
-                ]
+            ]
             )
     db.session.commit()
 
@@ -36,6 +43,7 @@ def init_scores():
             for u in User.query.all():
                 s = Score(score=0)
                 s.player = u
+                s.team = u.team
                 c.players.append(s)
     db.session.commit
 
@@ -52,6 +60,7 @@ class ScoreModelCase(unittest.TestCase):
         db.create_all()
         init_challenges()
         init_juges()
+        init_teams()
         init_scores()
 
     def tearDown(self):

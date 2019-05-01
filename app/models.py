@@ -56,12 +56,14 @@ followers = db.Table('followers',
 class Score(db.Model):
     challenge_id   = db.Column(db.Integer, db.ForeignKey('challenge.id'), primary_key=True)
     player_id      = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    team_id        = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
     score          = db.Column(db.Integer)
     chrono_s       = db.Column(db.Integer)
     tournament_pos = db.Column(db.Integer)
 
     player = db.relationship("User", back_populates="challenges")
     challenge = db.relationship("Challenge", back_populates="players")
+    team = db.relationship("Team", back_populates="challenges")
 
 # used by the flask_login extension for db interaction
 @login.user_loader
@@ -242,6 +244,7 @@ class Team(db.Model):
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
+    challenges = db.relationship( 'Score', back_populates="team")
     
     def get_score_total(self):
         score = 0
