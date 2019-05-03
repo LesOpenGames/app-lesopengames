@@ -125,13 +125,8 @@ def edit_challenge(challenge_id):
             categorized_teams=categorized_teams)
 
 @bp.route('/challenge/<int:challenge_id>')
-@login_required
 def challenge(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
-    if( not ( current_user.is_admin()
-        or ( challenge.juge_id == current_user.id ) ) ):
-        flash( _('Sorry, you cant view challenge') )
-        return redirect(url_for('main.index'))
     categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
     return render_template('challenge.html',
             title=_('Challenge'),
