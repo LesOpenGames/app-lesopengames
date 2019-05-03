@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
@@ -336,6 +337,17 @@ def team(team_id):
         flash( _('Sorry, you cant see team %(name)s', name=team.teamname))
         return redirect(url_for('main.index') )
     return render_template('team.html', title=_('Team'), team=team)
+
+@bp.route('/team_scores/<team_id>')
+def team_scores(team_id):
+    team = Team.query.filter_by(id=team_id).first_or_404()
+    stmt = db.session.query(Score.challenge_id, func.sum(Score.score).label('score_total') ).\
+	    filter(Score.team_id == team.id).\
+	    group_by(Score.challenge_id).subquery()
+    joined = db.session.query(Challenge.challenge_name, stmt.c.score_total).\
+	    outerjoin(stmt, stmt.c.challenge_id == Challenge.id)
+    team_scores = [{'name': name, 'total': total} for name, total in joined.all()]
+    return render_template('team_scores.html', title=_('Team Scores'), team_scores=team_scores, team=team)
 
 def flash_team_non_valid(team):
     if team.is_valid():
