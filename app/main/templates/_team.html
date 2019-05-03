@@ -3,7 +3,11 @@
             {% include '_team_number.html'%}
         </td>
         <td>
+            {% if admin %}
+            <a href="{{ url_for('main.team', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
+            {% else %}
             <a href="{{ url_for('main.team_scores', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
+            {% endif%}
         </td>
         {% if is_scoring %}
         <td>
