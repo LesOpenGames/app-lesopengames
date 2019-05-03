@@ -5,6 +5,7 @@ from app.models import User, Post, Team, RolesType, Challenge, Score
 from app.models import RolesType, CollectiveSportType, RacketSportType, SportLevel, ChallTeamType, ChallScoreType
 
 from config import Config
+
 def init_teams():
     t = Team(teamname='cathares')
     for u in User.query.limit(4).all():

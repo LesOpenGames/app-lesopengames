@@ -3,6 +3,7 @@ import click
 from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, ChallScoreType, ChallTeamType
 from app import db
+from sqlalchemy import func
 
 
 
@@ -53,7 +54,22 @@ def register(app):
         db.session.commit()
 
     @og_adm.command()
-    def show_scores():
+    def show_scores_byteams():
+        """Show team scores by team_id"""
+        for t in Team.query.all():
+            print("\n"+t.teamname)
+            print('-'*34)
+            stmt = db.session.query(Score.challenge_id, func.sum(Score.score).label('score_total') ).\
+                    filter(Score.team_id == t.id).\
+                    group_by(Score.challenge_id).subquery()
+            joined = db.session.query(Challenge.challenge_name, stmt.c.score_total).\
+                    outerjoin(stmt, stmt.c.challenge_id == Challenge.id)
+            for name, total in joined.all():
+                print( "{0:5} {1:25} {2:4}".format(str(' '), str(name), str(total)) )
+
+    @og_adm.command()
+    def show_scores_all():
+        """Show all scores"""
         # iterate through child objects via association, including association
         # attributes
         print("{3:2} {0:30} {4:15} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id", "Team"))
