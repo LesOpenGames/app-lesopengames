@@ -1,7 +1,7 @@
 <tr>
     <td>{% include '_team_number.html'%}</td>
-    <td>{{team.teamname}}</td>
     {% if edit %}
+    <td>{{team.teamname}}</td>
     <td>
       <form action="/score_team" method="POST">
         <input id="team_id" name="team_id" type="hidden" value="{{team.id}}"/>
@@ -11,6 +11,9 @@
        </form>
     </td>
     {% else %}
+    <td>
+        <a href="{{ url_for('main.team_scores', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
+    </td>
     <td>{{team.get_score_by_challenge(challenge.id)}}</td>
     {% endif %}
 </tr>
