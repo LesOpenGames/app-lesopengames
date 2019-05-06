@@ -4,6 +4,4 @@ logs
 .flaskenv
 app.db
 .*swp
-useapp.py
-useteam.py
-usechallenges.py
+use*.py

@@ -1,0 +1,19 @@
+<tr>
+    <td>{% include '_team_number.html'%}</td>
+    {% if edit %}
+    <td>{{team.teamname}}</td>
+    <td>
+      <form action="/score_team" method="POST">
+        <input id="team_id" name="team_id" type="hidden" value="{{team.id}}"/>
+        <input id="challenge_id" name="challenge_id" type="hidden" value="{{challenge.id}}"/>
+        <input type="text" id="score" name="score" value="{{team.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>
+        <button type="submit" class="btn btn-info">{{ _('Validate') }}</button>
+       </form>
+    </td>
+    {% else %}
+    <td>
+        <a href="{{ url_for('main.team_scores', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
+    </td>
+    <td>{{team.get_score_by_challenge(challenge.id)}}</td>
+    {% endif %}
+</tr>

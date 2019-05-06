@@ -9,6 +9,9 @@ from datetime import datetime, date, timedelta
 from hashlib import md5
 from time import time
 
+from sqlalchemy.orm.exc import NoResultFound
+
+
 from flask_babel import _, lazy_gettext as _l
 
 
@@ -47,6 +50,21 @@ followers = db.Table('followers',
         db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
         )
 
+# All Scores are a relation between Challenges and Users as Players
+#
+
+class Score(db.Model):
+    challenge_id   = db.Column(db.Integer, db.ForeignKey('challenge.id'), primary_key=True)
+    player_id      = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    team_id        = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
+    score          = db.Column(db.Integer)
+    chrono_s       = db.Column(db.Integer)
+    tournament_pos = db.Column(db.Integer)
+
+    player = db.relationship("User", back_populates="challenges")
+    challenge = db.relationship("Challenge", back_populates="players")
+    team = db.relationship("Team", back_populates="challenges")
+
 # used by the flask_login extension for db interaction
 @login.user_loader
 def load_user(id):
@@ -58,6 +76,24 @@ class Challenge(db.Model):
     score_type = db.Column(db.Integer)
     team_type = db.Column(db.Integer)
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    players = db.relationship( 'Score', back_populates="challenge")
+
+    def set_juge(self, juge):
+        self.juge_id = juge.id
+
+    def get_juge(self):
+        if( self.juge_id is None):
+            return None
+        juge = User.query.get(self.juge_id)
+        return  juge
+
+    def score_type_name(self):
+        score_types = [_("Points"), _("Chrono"), _("Tournament")]
+        return _("none") if self.score_type is None else score_types[self.score_type]
+
+    def team_type_name(self):
+        team_types = [_("Individual"), _("Team")]
+        return _("none") if self.team_type is None else team_types[self.team_type]
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
@@ -86,12 +122,30 @@ class User(UserMixin, db.Model):
             primaryjoin=(followers.c.follower_id == id ),
             secondaryjoin=(followers.c.followed_id == id ),
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
+    challenges = db.relationship( 'Score', back_populates="player")
+            
 
     def __repr__(self):
         return '<Player {} {}, rank {}>'.format(self.id, self.username, self.player_rank)
 
     def has_team(self):
         return self.team is not None
+
+    def get_score_total(self):
+        score = 0 
+        for s in Score.query.filter( Score.player_id == self.id ).all():
+            score = score + s.score
+        return score
+
+    def get_score_by_challenge(self, challenge_id):
+        score = 0
+        try:
+            s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+            score=s.score
+        except NoResultFound:
+            pass
+
+        return int(score)
 
     def get_billing(self):
         if( ( not self.is_mayor() ) or self.student  ):
@@ -129,6 +183,9 @@ class User(UserMixin, db.Model):
             return False
         age = ( datetime.today() - self.birthdate ) / timedelta(days=365.2425)
         return age >= 18.0
+
+    def is_juge(self):
+        return self.role is not None and RolesType(self.role) == RolesType.JUGE
 
     def is_admin(self):
         return self.role is not None and RolesType(self.role) == RolesType.ADMIN
@@ -187,7 +244,22 @@ class Team(db.Model):
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
+    challenges = db.relationship( 'Score', back_populates="team")
     
+    def get_score_total(self):
+        score = 0
+        for p in self.get_players():
+            score = score + p.get_score_total()
+        return score
+
+    def get_score_by_challenge(self, challenge_id):
+        team_players = self.get_players()
+        score = 0
+        if len( team_players ) == 4:
+            for p in team_players:
+                score = score + p.get_score_by_challenge(challenge_id)
+        return score
+
     def get_billing(self):
         team_players = self.get_players()
         bill = 0

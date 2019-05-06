@@ -1,8 +1,9 @@
 import os
 import click
-from app.models import User, Post, Team, Challenge
+from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, ChallScoreType, ChallTeamType
 from app import db
+from sqlalchemy import func
 
 
 
@@ -16,6 +17,7 @@ def register(app):
         """Remove all challenges"""
         for c in Challenge.query.all():
             db.session.delete(c)
+        db.session.commit()
 
     @og_seed.command()
     def init_challenges():
@@ -32,11 +34,59 @@ def register(app):
             )
         db.session.commit()
 
-
     @app.cli.group()
     def og_adm():
         """Administration for opengames app"""
         pass
+
+    @og_adm.command()
+    def update_scores():
+        """Populate the scores table with all players"""
+        with db.session.no_autoflush:
+            for c in Challenge.query.all():
+                valid_teams = [t for t in Team.query.all() if t.is_valid() ]
+                for t in valid_teams:
+                    for p in t.get_players():
+                        s = Score(score=0)
+                        s.player = p
+                        s.team = t
+                        c.players.append(s)
+        db.session.commit()
+
+    @og_adm.command()
+    def show_scores_byteams():
+        """Show team scores by team_id"""
+        for t in Team.query.all():
+            print("\n"+t.teamname)
+            print('-'*34)
+            stmt = db.session.query(Score.challenge_id, func.sum(Score.score).label('score_total') ).\
+                    filter(Score.team_id == t.id).\
+                    group_by(Score.challenge_id).subquery()
+            joined = db.session.query(Challenge.challenge_name, stmt.c.score_total).\
+                    outerjoin(stmt, stmt.c.challenge_id == Challenge.id)
+            for name, total in joined.all():
+                print( "{0:5} {1:25} {2:4}".format(str(' '), str(name), str(total)) )
+
+    @og_adm.command()
+    def show_scores_all():
+        """Show all scores"""
+        # iterate through child objects via association, including association
+        # attributes
+        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id", "Team"))
+        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15))
+        for score in Score.query.all():
+            print("{3:2} {0:30} {4:15} {1:15} {2:5}".format(score.challenge.challenge_name,
+                                score.player.username,
+                                score.score,
+                                score.challenge.id,
+                                score.team.teamname))
+
+    @og_adm.command()
+    def rm_scores():
+        """Remove all scores"""
+        for s in Score.query.filter():
+            db.session.delete(s)
+        db.session.commit()
 
     @og_adm.command()
     @click.argument('user_id')
@@ -76,21 +126,34 @@ def register(app):
     @og_adm.command()
     def show_teams():
         """List all teams in base"""
-        print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
+        print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
             str('id'),
             str('num.'),
             str('name'),
             str('players'),
             str('open'),
+            str('level'),
             ))
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:4} {4:6} {2:14} {3}".format(
+            print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
                 str(t.id or '---'),
                 str(t.get_team_number() or '---'),
                 str(t.teamname or '---'),
                 str(t.get_players()),
                 str("open" if t.is_open else "closed"),
+                str(t.sport_level_name()),
                 ))
+
+    @og_adm.command()
+    def show_challenges():
+        """List all challenges"""
+        for c in Challenge.query.order_by(Challenge.id).all():
+            print("{0:4} {1:32} {2:32} {3:4}".format(
+            str(c.id),
+            str(c.challenge_name),
+            str(ChallScoreType(c.score_type)),
+            str(c.juge_id),
+            ))
 
     @og_adm.command()
     @click.argument('user_id')

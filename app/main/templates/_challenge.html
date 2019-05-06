@@ -3,7 +3,13 @@
         <a class="btn btn-block btn-light border" href="{{ url_for('main.challenge', challenge_id=challenge.id) }}">
             {{ challenge.challenge_name }}</a>
     </td>
-    <td> {{challenge.score_type}}</td>
-    <td> {{challenge.team_type}}</td>
-    <td> {{challenge.juge_id}}</td>
+    <td> {{challenge.score_type_name()}}</td>
+    <td> {{challenge.team_type_name()}}</td>
+    {% with juge = challenge.get_juge() %}
+    {% if juge == None %}
+    <td> {{_("No Juge yet")}}</td>
+    {% else %}
+    <td> {{juge.secondname}} {{juge.firstname}}</td>
+    {% endif %}
+    {% endwith%}
 </tr>

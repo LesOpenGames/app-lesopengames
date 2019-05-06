@@ -61,14 +61,12 @@
                 {% endif %}
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{{ url_for('main.apropos') }}">{{_('A Propos')}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.rating') }}">{{_('Rating')}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
                 {% if current_user.is_anonymous %}
                 <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_('Login')}}</a>
                 {% else %}
-                    {%if false %}
-                    <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
-                    {% endif %}
                     {% if current_user.is_admin() %}
                         <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a>
                         <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{ _('Users')}}</a>
@@ -76,6 +74,7 @@
                 <a class="nav-item nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{current_user.username}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">{{_('Logout')}}</a>
                 {% endif %}
+                <a class="nav-item nav-link" href="{{ url_for('main.apropos') }}">{{_('A Propos')}}</a>
             </div>
         </div>
     </div>

@@ -1,13 +1,111 @@
 from datetime import datetime, timedelta
 import unittest
 from app import db, create_app
-from app.models import User, Post, Team, RolesType, CollectiveSportType, RacketSportType, SportLevel
+from app.models import User, Post, Team, RolesType, Challenge, Score
+from app.models import RolesType, CollectiveSportType, RacketSportType, SportLevel, ChallTeamType, ChallScoreType
 
 from config import Config
+
+def init_teams():
+    t = Team(teamname='cathares')
+    for u in User.query.limit(4).all():
+        t.subscribe( u)
+    db.session.add(t)
+    db.session.commit()
+
+def init_juges():
+    """Add all juges"""
+    db.session.add_all(
+            [
+                User(username='john1',  firstname="Perry", secondname="1-John",  email='john1@example.com',  role = int(RolesType.JUGE)),
+                User(username='susan1', firstname="Gavia", secondname="1-Susan", email='susan1@example.com', role = int(RolesType.JUGE)),
+                User(username='mary1',  firstname="Riley", secondname="1-Mary",  email='mary1@example.com',  role = int(RolesType.JUGE)),
+                User(username='david1', firstname="Getta", secondname="1-David", email='david1@example.com', role = int(RolesType.JUGE)),
+            ]
+            )
+    db.session.commit()
+
+def init_challenges():
+    db.session.add_all(
+	[
+	Challenge(challenge_name='Badminton/Tournoi', score_type= ChallScoreType.TOURNAMENT, team_type= ChallTeamType.TEAM ),
+	Challenge(challenge_name='Badminton/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Judo/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Judo/Chrono', score_type= ChallScoreType.CHRONO, team_type= ChallTeamType.TEAM ),
+	Challenge(challenge_name='Tennis de Table/Points', score_type= ChallScoreType.POINTS, team_type= ChallTeamType.INDIV ),
+	Challenge(challenge_name='Tennis de Table/Tournoi', score_type= ChallScoreType.TOURNAMENT, team_type= ChallTeamType.TEAM )
+	]
+	)
+    db.session.commit()
+
+def init_scores():
+    with db.session.no_autoflush:
+        for c in Challenge.query.all():
+            for u in User.query.all():
+                s = Score(score=0)
+                s.player = u
+                s.team = u.team
+                c.players.append(s)
+    db.session.commit
 
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+class ScoreModelCase(unittest.TestCase):
+    def setUp(self):
+        # 
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+        init_challenges()
+        init_juges()
+        init_teams()
+        init_scores()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_score_init(self):
+        self.assertEqual( db.session.query(User).count(), 4)
+        self.assertEqual( db.session.query(Challenge).count(), 6)
+        self.assertEqual( db.session.query(Score).count(), 24)
+
+class ChallengeModelCase(unittest.TestCase):
+    def setUp(self):
+        # 
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_challenge_create(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        #c = Challenge(challenge_name='Badminton/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) ,
+
+    def test_challenge_get_juge(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        u = User(username='josette', email='josette@example.com', role = RolesType.JUGE)
+        db.session.add_all([u, c])
+        db.session.commit()
+        c.juge_id=u.id
+        self.assertEqual(u.id, c.get_juge().id)
+
+    def test_challenge_set_juge(self):
+        c = Challenge(challenge_name='Badminton/Tournoi')
+        u = User(username='josette', email='josette@example.com', role = RolesType.JUGE)
+        db.session.add_all([u, c])
+        db.session.commit()
+        c.set_juge(u)
+        self.assertEqual(u, c.get_juge())
 
 class TeamModelCase(unittest.TestCase):
     def setUp(self):
@@ -350,6 +448,17 @@ class UserModelCase(unittest.TestCase):
         self.assertFalse( u1.is_admin() )
         self.assertTrue( u2.is_admin() )
         self.assertFalse( u3.is_admin() )
+
+    def test_user_is_juge(self):
+        u0 = User(username='david', email='david@example.com')
+        u0.role = int(RolesType.ADMIN)
+        u1 = User(username='josette', email='josette@example.com')
+        u1.role = RolesType.JUGE
+        u2 = User(username='alfred', email='alfred@example.com')
+
+        self.assertFalse( u0.is_juge() )
+        self.assertTrue( u1.is_juge() )
+        self.assertFalse( u2.is_juge() )
 
     def test_user_is_valid_age_withnoteam(self):
         u1 = User(username='ing', email='ig@example.com',  birthdate=datetime(1970, 12, 9))
