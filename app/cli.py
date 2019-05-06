@@ -5,41 +5,27 @@ from app.models import RolesType, ChallScoreType, ChallTeamType
 from app import db
 from sqlalchemy import func
 
+challenges=[
+           { "challenge_name":'Badminton/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Badminton/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+           { "challenge_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+           { "challenge_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+           { "challenge_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) }
+           ]
 
+def c2j(c_name):
+    """Change the challenge name into jugename"""
+    j_name = c_name.replace(" ", "_")
+    j_name = j_name.replace("/", "_")
+    return j_name
 
 def register(app):
     @app.cli.group()
     def og_seed():
-        """Database seeding"""
-
-    @og_seed.command()
-    def rm_challenges():
-        """Remove all challenges"""
-        for c in Challenge.query.all():
-            db.session.delete(c)
-        db.session.commit()
-
-    @og_seed.command()
-    def init_challenges():
-        """Add all challenges"""
-        db.session.add_all(
-                [
-                Challenge(challenge_name='Badminton/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) ,
-                Challenge(challenge_name='Badminton/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
-                Challenge(challenge_name='Judo/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
-                Challenge(challenge_name='Judo/Chrono', score_type=int(ChallScoreType.CHRONO), team_type=int(ChallTeamType.TEAM)) ,
-                Challenge(challenge_name='Tennis de Table/Points', score_type=int(ChallScoreType.POINTS), team_type=int(ChallTeamType.INDIV)) ,
-                Challenge(challenge_name='Tennis de Table/Tournoi', score_type=int(ChallScoreType.TOURNAMENT), team_type=int(ChallTeamType.TEAM)) 
-                ]
-            )
-        db.session.commit()
-
-    @app.cli.group()
-    def og_adm():
-        """Administration for opengames app"""
         pass
 
-    @og_adm.command()
+    @og_seed.command()
     def update_scores():
         """Populate the scores table with all players"""
         with db.session.no_autoflush:
@@ -52,6 +38,57 @@ def register(app):
                         s.team = t
                         c.players.append(s)
         db.session.commit()
+
+    @og_seed.command()
+    def rm_scores():
+        """Remove all scores"""
+        for s in Score.query.filter():
+            db.session.delete(s)
+        db.session.commit()
+
+    @og_seed.command()
+    def init_juges():
+        """Add all juges (from challenges)"""
+        for c in challenges:
+            j_first_name=c2j(c["challenge_name"])
+            j_username = "Arbitre_"+j_first_name
+            j_email = j_username+"@og.fr"
+            db.session.add(
+                User(username=j_username,
+                    role=int(RolesType.JUGE),
+                    email=j_email,
+                    secondname='Arbitre',
+                    firstname=j_first_name),
+                )
+        db.session.commit()
+
+    @og_seed.command()
+    def rm_juges():
+        """Remove all juges"""
+        for j in User.query.filter(User.role==int(RolesType.JUGE)).all():
+            db.session.delete(j)
+        db.session.commit()
+
+    @og_seed.command()
+    def rm_challenges():
+        """Remove all challenges"""
+        for c in Challenge.query.all():
+            db.session.delete(c)
+        db.session.commit()
+
+    @og_seed.command()
+    def init_challenges():
+        """Add all challenges"""
+        for c in challenges:
+            j = User.query.filter(User.firstname==c2j(c["challenge_name"]) ).one()
+            challenge = Challenge( juge_id=j.id, challenge_name=c["challenge_name"], score_type=c["score_type"], team_type=c["team_type"] ) 
+            db.session.add(challenge)
+        db.session.commit()
+
+    @app.cli.group()
+    def og_adm():
+        """Administration for opengames app"""
+        pass
 
     @og_adm.command()
     def show_scores_byteams():
@@ -80,13 +117,6 @@ def register(app):
                                 score.score,
                                 score.challenge.id,
                                 score.team.teamname))
-
-    @og_adm.command()
-    def rm_scores():
-        """Remove all scores"""
-        for s in Score.query.filter():
-            db.session.delete(s)
-        db.session.commit()
 
     @og_adm.command()
     @click.argument('user_id')
