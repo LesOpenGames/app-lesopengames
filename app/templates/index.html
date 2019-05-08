@@ -9,14 +9,23 @@
              {{ _('Howto join the OpenGames event')}}
        </div>
        <div class="card-body">
+           <p class="card-text">{{ _('Create your account')}}
+               <a class="btn btn-light border" href="{{ url_for('auth.register') }}"> {{_('here')}}</a>
+            </p>
            <p class="card-text">{{ _('Your team has 4 players')}}:
 			<ul>
-                <li>{{_('Create your own team')}}</li>
+                <li>{{_('Create your own team')}}
+                   <a class="btn btn-light border" href="{{ url_for('main.create_team') }}"> {{_('here')}}</a>
+                </li>
 			</ul>
            <p class="card-text">{{ _('Your team is incomplete or you are alone')}}:
 			<ul>
-                <li>{{_('Either create an open team')}}</li>
-                <li>{{_('Or join an open team')}}</li>
+                <li>{{_('Either create an open team')}}
+                   <a class="btn btn-light border" href="{{ url_for('main.create_team') }}"> {{_('here')}}</a>
+                </li>
+                <li>{{_('Or join an open team')}}
+                   <a class="btn btn-light border" href="{{ url_for('main.join_team') }}"> {{_('here')}}</a>
+                </li>
 			</ul>
 			</p>
 
