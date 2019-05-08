@@ -97,6 +97,13 @@ class Challenge(db.Model):
         team_types = [_("Individual"), _("Team")]
         return _("none") if self.team_type is None else team_types[self.team_type]
 
+    def is_points_type(self):
+        return self.score_type == int(ChallScoreType.POINTS)
+    def is_chrono_type(self):
+        return self.score_type == int(ChallScoreType.CHRONO)
+    def is_tourna_type(self):
+        return self.score_type == int(ChallScoreType.TOURNAMENT)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
     username = db.Column(db.String(64), index=True, unique=True)
@@ -247,7 +254,13 @@ class Team(db.Model):
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
     challenges = db.relationship( 'Score', back_populates="team")
-    
+
+    def get_chrono_by_challenge(self, challenge_id):
+        return 0
+
+    def get_tourna_by_challenge(self, challenge_id):
+        return 0
+
     def get_score_total(self):
         score = 0
         for p in self.get_players():

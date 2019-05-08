@@ -6,7 +6,13 @@
       <form action="/score_team" method="POST">
         <input id="team_id" name="team_id" type="hidden" value="{{team.id}}"/>
         <input id="challenge_id" name="challenge_id" type="hidden" value="{{challenge.id}}"/>
-        <input type="text" id="score" name="score" value="{{team.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>
+        {# if challenge.is_points_type()#}
+        <input type="text" id="score" name="score" value="{{team.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pts.
+        {% if challenge.is_chrono_type() %}
+        <input type="text" id="chrono" name="chrono" value="{{team.get_chrono_by_challenge(challenge.id)}}" maxlength="4" size="4"/>secs.
+        {% elif challenge.is_tourna_type() %}
+        <input type="text" id="tourna" name="tourna" value="{{team.get_tourna_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pos.
+        {% endif %}
         <button type="submit" class="btn btn-info">{{ _('Validate') }}</button>
        </form>
     </td>
@@ -14,6 +20,12 @@
     <td>
         <a href="{{ url_for('main.team_scores', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
     </td>
-    <td>{{team.get_score_by_challenge(challenge.id)}}</td>
+    {# if challenge.is_points_type()#}
+    <td>{{team.get_score_by_challenge(challenge.id)}} pts.</td>
+    {% if challenge.is_chrono_type() %}
+    <td>{{team.get_chrono_by_challenge(challenge.id)}} secs.</td>
+    {% elif challenge.is_tourna_type() %}
+    <td>{{team.get_tourna_by_challenge(challenge.id)}} pos.</td>
+    {% endif%}
     {% endif %}
 </tr>
