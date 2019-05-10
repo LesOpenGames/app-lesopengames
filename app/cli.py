@@ -6,12 +6,36 @@ from app import db
 from sqlalchemy import func
 
 challenges=[
+        #tournament team
            { "challenge_name":'Badminton/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        #tournament indiv
+           { "challenge_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
+        #chrono team
+           { "challenge_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Athlétisme/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Orientation 1/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Orientation 2/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Jeux Gonflables/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Finale/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        #chrono indiv
+            #none
+        #points team
+           { "challenge_name":'Noeuds/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.TEAM) },
+        #points indiv
            { "challenge_name":'Badminton/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
            { "challenge_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
            { "challenge_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) }
+           { "challenge_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+           { "challenge_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        #distance indiv
+           { "challenge_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.INDIV) },
+        #score team
+           { "challenge_name":'Vote Supporter/Score', "score_type":int(ChallScoreType.SCORE), "team_type":int(ChallTeamType.TEAM) },
+           { "challenge_name":'Jeux Gonflables/Score', "score_type":int(ChallScoreType.SCORE), "team_type":int(ChallTeamType.TEAM) },
+
            ]
 
 def c2j(c_name):
@@ -27,7 +51,7 @@ def register(app):
 
     @og_seed.command()
     def update_scores():
-        """Populate the scores table with all players"""
+        """Populate the scores table with all players (init challenges first) """
         with db.session.no_autoflush:
             for c in Challenge.query.all():
                 valid_teams = [t for t in Team.query.all() if t.is_valid() ]
@@ -48,7 +72,7 @@ def register(app):
 
     @og_seed.command()
     def init_juges():
-        """Add all juges (from challenges)"""
+        """Add all juges (from challenges list)""" 
         for c in challenges:
             j_first_name=c2j(c["challenge_name"])
             j_username = "Arbitre_"+j_first_name
@@ -71,14 +95,14 @@ def register(app):
 
     @og_seed.command()
     def rm_challenges():
-        """Remove all challenges"""
+        """Remove all challenges (remove scores and juges first)"""
         for c in Challenge.query.all():
             db.session.delete(c)
         db.session.commit()
 
     @og_seed.command()
     def init_challenges():
-        """Add all challenges"""
+        """Add all challenges (init juges first)"""
         for c in challenges:
             j = User.query.filter(User.firstname==c2j(c["challenge_name"]) ).one()
             challenge = Challenge( juge_id=j.id, challenge_name=c["challenge_name"], score_type=c["score_type"], team_type=c["team_type"] ) 

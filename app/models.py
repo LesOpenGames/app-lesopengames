@@ -21,6 +21,8 @@ class ChallScoreType(enum.IntEnum):
     POINTS = 0
     CHRONO = 1
     TOURNAMENT = 2
+    DISTANCE = 3
+    SCORE = 4
 
 class ChallTeamType(enum.IntEnum):
     INDIV = 0
@@ -88,7 +90,7 @@ class Challenge(db.Model):
         return  juge
 
     def score_type_name(self):
-        score_types = [_("Points"), _("Chrono"), _("Tournament")]
+        score_types = [_("Points"), _("Chrono"), _("Tournament"), _("Distance"), _("Score")]
         return _("none") if self.score_type is None else score_types[self.score_type]
 
     def team_type_name(self):
