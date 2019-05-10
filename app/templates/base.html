@@ -47,12 +47,14 @@
 {% block navbar %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">Les Open Games</a>
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">
+            <img src="/static/logo.png" alt=""/>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#log-navbar" aria-controls="log-navbar" aria-expanded="false" aria-label="{{_('Toggle navigation')}}">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="log-navbar">
-            <div class="navbar-nav">
+            <div class="navbar-nav nav-team">
                 {% if current_user.is_anonymous or not current_user.team %}
                 <a class="nav-item nav-link" href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('main.join_team') }}">{{_('Join team')}}</a>
@@ -60,7 +62,7 @@
                 <a class="nav-item nav-link" href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a>
                 {% endif %}
             </div>
-            <div class="navbar-nav ml-auto">
+            <div class="navbar-nav ml-auto nav-utils">
                 <a class="nav-item nav-link" href="{{ url_for('main.rating') }}">{{_('Rating')}}</a>
                 <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
                 {% if current_user.is_anonymous %}
