@@ -1,12 +1,18 @@
 // Colors
-$color_one: #44d89e
-$color_two: #0c71c3
+$color_cold: #073f3f
+$color_hot: #ff6700
+$color_hot_light: #ffc6a0
 
 body
   font-family: "Open Sans", Roboto
+  background: url("/static/bandeau-haut.jpg") center -2px  no-repeat //, url("/static/bandeau-bas.jpg") bottom center no-repeat
+  background-size: auto
+
+.bg-light
+  background: transparent !important
 
 h1, h2, h3
-  color: $color_one
+  color: $color_hot
   font-family: Poppins
 
 h1
@@ -19,8 +25,48 @@ h1
     display: block
     margin: 30px auto 30px 0
 
+.navbar-brand
+  padding-top: 0
+  img
+    width: 230px
+    // margin-top: 10px
+
+#log-navbar
+  margin-top: 0em
+
 .navbar
-  margin-bottom: 5em
+  padding-top: 0
+  margin-bottom: 9em
+
+.navbar-nav
+  margin-top: 0em
+  a
+    color: white !important
+    padding: 5px
+    margin: 0 5px
+
+
+.nav-team
+  margin-top: 2em
+  a
+    background: $color_hot
+    &:hover
+      background: $color_hot_light
+
+.nav-utils
+  // margin-top: -10px !important
+  a
+    background: #268cb1
+    &:hover
+      background: #66c4e7
+.navbar-collapse
+  align-items: flex-start
 
 label
-  color: $color_two
+  color: $color_cold
+
+.btn-primary
+  background: $color_hot
+  border: 0
+  &:hover
+    background: $color_hot_light

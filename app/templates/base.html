@@ -1,102 +1,127 @@
-{% extends 'bootstrap/base.html' %}
-
-
-
-{% set aproposlink=url_for('main.apropos')%}
+{% extends 'bootstrap/base.html' %} {% set aproposlink=url_for('main.apropos')%}
 {% macro get_glyph_info(content, url)%}
-<span role="button" class="fas fa-question-circle text-danger"
-      data-container="body"
-      data-trigger="click"
-      data-toggle="popover"
-      data-placement="top"
-      data-html=true
-      data-content='{{content}} <a href="{{aproposlink}}" class="btn btn-block btn-light border">A Propos</a>'>
+<span
+  role="button"
+  class="fas fa-question-circle text-danger"
+  data-container="body"
+  data-trigger="click"
+  data-toggle="popover"
+  data-placement="top"
+  data-html="true"
+  data-content="{{ content }} <a href=&quot;{{
+    aproposlink
+  }}&quot; class=&quot;btn btn-block btn-light border&quot;>A Propos</a>"
+>
 </span>
-{% endmacro %}
-
-
-{% block scripts %}
-    {{ super() }}
-    {{ moment.include_moment() }}
-    {{ moment.lang(g.locale) }}
-	<script type="text/javascript">
-		$(function () {
-		  $('[data-toggle="popover"]').popover()
-		})
-	</script>
-{% endblock %}
-
-{% block head %}
-    {{ super() }}
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
-{% endblock %}
-
-{% block styles %}
-    {{super()}}
-    {{ fontawesome_html() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='opengames.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='theme.css')}}">
-{% endblock %}
-
-{% block title %}
-     LesOpenGames - {% if title %} {{title}} {% else %}{{_('Default Title')}}{% endif %}
-{% endblock %}
-
-{% block navbar %}
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">Les Open Games</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#log-navbar" aria-controls="log-navbar" aria-expanded="false" aria-label="{{_('Toggle navigation')}}">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="log-navbar">
-            <div class="navbar-nav">
-                {% if current_user.is_anonymous or not current_user.team %}
-                <a class="nav-item nav-link" href="{{ url_for('main.create_team') }}">{{_('Subscribe team')}}</a>
-                <a class="nav-item nav-link" href="{{ url_for('main.join_team') }}">{{_('Join team')}}</a>
-                {% elif current_user.team %}
-                <a class="nav-item nav-link" href="{{ url_for('main.team', team_id=current_user.team.id) }}">{{current_user.team.teamname}}</a>
-                {% endif %}
-            </div>
-            <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link" href="{{ url_for('main.apropos') }}">{{_('A Propos')}}</a>
-                {% if current_user.is_anonymous %}
-                <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_('Sign Up')}}</a>
-                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_('Login')}}</a>
-                {% else %}
-                    {%if false %}
-                    <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{ _('Challenges')}}</a>
-                    {% endif %}
-                    {% if current_user.is_admin() %}
-                        <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{ _('Teams')}}</a>
-                        <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{ _('Users')}}</a>
-                    {% endif %}
-                <a class="nav-item nav-link" href="{{ url_for('main.user', user_id=current_user.id) }}">{{current_user.username}}</a>
-                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">{{_('Logout')}}</a>
-                {% endif %}
-            </div>
-        </div>
+{% endmacro %} {% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{{ moment.lang(g.locale) }}
+<script type="text/javascript">
+  $(function() {
+    $('[data-toggle="popover"]').popover();
+  });
+</script>
+{% endblock %} {% block head %}
+{{ super() }}
+<link
+  rel="shortcut icon"
+  href="{{ url_for('static', filename='favicon.ico') }}"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Poppins:400,600"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Open+Sans"
+  rel="stylesheet"
+/>
+{% endblock %} {% block styles %}
+{{ super() }}
+{{ fontawesome_html() }}
+<link rel="stylesheet" href="{{url_for('static', filename='opengames.css')}}" />
+<link rel="stylesheet" href="{{url_for('static', filename='theme.css')}}" />
+{% endblock %} {% block title %} LesOpenGames - {% if title %} {{ title }} {%
+else %}{{ _("Default Title") }}{% endif %} {% endblock %} {% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('main.index') }}"
+      ><img src="/static/logo.png" alt=""
+    /></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#log-navbar"
+      aria-controls="log-navbar"
+      aria-expanded="false"
+      aria-label="{{ _('Toggle navigation') }}"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="log-navbar">
+      <div class="navbar-nav nav-team">
+        {% if current_user.is_anonymous or not current_user.team %}
+        <a class="nav-item nav-link" href="{{ url_for('main.create_team') }}">{{
+          _("Subscribe team")
+        }}</a>
+        <a class="nav-item nav-link" href="{{ url_for('main.join_team') }}">{{
+          _("Join team")
+        }}</a>
+        {% elif current_user.team %}
+        <a
+          class="nav-item nav-link"
+          href="{{ url_for('main.team', team_id=current_user.team.id) }}"
+          >{{ current_user.team.teamname }}</a
+        >
+        {% endif %}
+      </div>
+      <div class="navbar-nav ml-auto nav-utils">
+        <a class="nav-item nav-link" href="{{ url_for('main.apropos') }}">{{
+          _("A Propos")
+        }}</a>
+        {% if current_user.is_anonymous %}
+        <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{
+          _("Sign Up")
+        }}</a>
+        <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{
+          _("Login")
+        }}</a>
+        {% else %} {%if false %}
+        <a class="nav-item nav-link" href="{{ url_for('main.challenges') }}">{{
+          _("Challenges")
+        }}</a>
+        {% endif %} {% if current_user.is_admin() %}
+        <a class="nav-item nav-link" href="{{ url_for('main.teams') }}">{{
+          _("Teams")
+        }}</a>
+        <a class="nav-item nav-link" href="{{ url_for('main.users') }}">{{
+          _("Users")
+        }}</a>
+        {% endif %}
+        <a
+          class="nav-item nav-link"
+          href="{{ url_for('main.user', user_id=current_user.id) }}"
+          >{{ current_user.username }}</a
+        >
+        <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">{{
+          _("Logout")
+        }}</a>
+        {% endif %}
+      </div>
     </div>
-    </nav>
-{% endblock %}
-
-{% block content %}
-    <div class="container">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-
-      {% if messages %}
-          {% for level, message in messages %}
-              {% if level == 'info' or level == 'warning' or level == 'danger' %}
-              <div class="alert alert-{{level}}" role="alert">{{ message }}</div>
-              {% else %}
-              <div class="alert alert-info" role="alert">{{ message }}</div>
-              {% endif %}
-          {% endfor %}
-      {% endif %}
-      {% endwith %}
-      {# application content needs to be provided in the app_content block #}
-      {% block app_content %}{% endblock %}
-    </div>
+  </div>
+</nav>
+{% endblock %} {% block content %}
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for level, message in messages %} {% if level == 'info' or
+  level == 'warning' or level == 'danger' %}
+  <div class="alert alert-{{ level }}" role="alert">{{ message }}</div>
+  {% else %}
+  <div class="alert alert-info" role="alert">{{ message }}</div>
+  {% endif %} {% endfor %} {% endif %} {% endwith %} {# application content
+  needs to be provided in the app_content block #} {% block app_content %}{%
+  endblock %}
+</div>
 {% endblock %}
