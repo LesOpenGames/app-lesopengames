@@ -1,8 +1,13 @@
 body {
-  font-family: "Open Sans", Roboto; }
+  font-family: "Open Sans", Roboto;
+  background: url("/static/bandeau-haut.jpg") center -2px no-repeat;
+  background-size: auto; }
+
+.bg-light {
+  background: transparent !important; }
 
 h1, h2, h3 {
-  color: #44d89e;
+  color: #ff6700;
   font-family: Poppins; }
 
 h1 {
@@ -15,8 +20,45 @@ h1 {
     display: block;
     margin: 30px auto 30px 0; }
 
+.navbar-brand {
+  padding-top: 0; }
+  .navbar-brand img {
+    width: 230px; }
+
+#log-navbar {
+  margin-top: 0em; }
+
 .navbar {
-  margin-bottom: 5em; }
+  padding-top: 0;
+  margin-bottom: 9em; }
+
+.navbar-nav {
+  margin-top: 0em; }
+  .navbar-nav a {
+    color: white !important;
+    padding: 5px;
+    margin: 0 5px; }
+
+.nav-team {
+  margin-top: 2em; }
+  .nav-team a {
+    background: #ff6700; }
+    .nav-team a:hover {
+      background: #ffc6a0; }
+
+.nav-utils a {
+  background: #268cb1; }
+  .nav-utils a:hover {
+    background: #66c4e7; }
+
+.navbar-collapse {
+  align-items: flex-start; }
 
 label {
-  color: #0c71c3; }
+  color: #073f3f; }
+
+.btn-primary {
+  background: #ff6700;
+  border: 0; }
+  .btn-primary:hover {
+    background: #ffc6a0; }
