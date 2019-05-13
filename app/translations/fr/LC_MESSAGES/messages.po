@@ -399,7 +399,7 @@ msgstr "Aucune épreuve correspondante"
 #: app/main/routes.py:92
 #, python-format
 msgid "No such score for challenge %(cid)s player %(uid)s"
-msgstr "Notation impossible: épreuve %(cid)s jouer %(uid)s"
+msgstr "Notation impossible: épreuve %(cid)s joueur %(uid)s"
 
 #: app/main/routes.py:102
 #, python-format
@@ -821,7 +821,7 @@ msgstr "Payer par Chéque"
 
 #: app/main/templates/team_scores.html:4
 msgid "Scores"
-msgstr ""
+msgstr "Scores"
 
 #: app/main/templates/user.html:9
 msgid "User:"
