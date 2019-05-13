@@ -31,7 +31,7 @@ challenges=[
            { "challenge_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
            { "challenge_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         #distance indiv
-           { "challenge_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.INDIV) },
+           { "challenge_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
         #score team
            { "challenge_name":'Vote Supporter/Score', "score_type":int(ChallScoreType.SCORE), "team_type":int(ChallTeamType.TEAM) },
            { "challenge_name":'Jeux Gonflables/Score', "score_type":int(ChallScoreType.SCORE), "team_type":int(ChallTeamType.TEAM) },
