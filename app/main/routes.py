@@ -102,10 +102,16 @@ def score_team():
     team_id = request.form.get('team_id', None, type=int)
     challenge_id = request.form.get('challenge_id', None, type=int)
     score = request.form.get('score', None, type=int)
+    chrono = request.form.get('chrono', None, type=int)
+    tourna = request.form.get('tourna', None, type=int)
+    bonus = request.form.get('bonus', None, type=int)
+    distance = request.form.get('distance', None, type=int)
     #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
     #sanity checks
-    if( challenge_id==None or team_id == None or score==None):
-        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}".format(team_id, challenge_id, score))
+    if( challenge_id==None or team_id == None or
+            ( score==None and chrono==None and tourna==None and bonus == None and distance==None)):
+        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
+            .format(team_id, challenge_id, score, chrono, tourna, bonus, distance))
         return redirect(url_for('main.index') )
     challenge = Challenge.query.get(challenge_id)
     team = Team.query.get(team_id)
@@ -119,9 +125,14 @@ def score_team():
     for p in team.get_players():
         try:
             s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == p.id).one()
-            s.score=math.ceil(score/4)
+            if( score is not None ):
+                s.score=math.ceil(score/4)
+            s.chrono=chrono
+            s.tourna=tourna
+            s.bonus=bonus
+            s.distance=distance
         except:
-            flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=p.id))
+           flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=p.id))
     db.session.commit()
     return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
 
@@ -144,7 +155,7 @@ def edit_challenge(challenge_id):
         challenge.set_juge(User.query.get(form.juge_id.data))
         #challenge.score_type=form.score_type.data
         db.session.commit()
-        flash( _('Juge successfully changed') )
+        flash( _('Challenge successfully changed') )
         return redirect( url_for('main.challenge', challenge_id=challenge.id) )
     form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
     #challenged_teams=get_teams_by_challenge(challenge.id)
