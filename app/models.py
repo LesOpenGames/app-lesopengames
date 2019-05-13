@@ -60,8 +60,10 @@ class Score(db.Model):
     player_id      = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     team_id        = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
     score          = db.Column(db.Integer)
-    chrono_s       = db.Column(db.Integer)
-    tournament_pos = db.Column(db.Integer)
+    chrono         = db.Column(db.Integer)
+    tourna         = db.Column(db.Integer)
+    bonus          = db.Column(db.Integer)
+    distance       = db.Column(db.Integer)
 
     player = db.relationship("User", back_populates="challenges")
     challenge = db.relationship("Challenge", back_populates="players")
@@ -261,10 +263,12 @@ class Team(db.Model):
     challenges = db.relationship( 'Score', back_populates="team")
 
     def get_chrono_by_challenge(self, challenge_id):
-        return 0
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.chrono
 
     def get_tourna_by_challenge(self, challenge_id):
-        return 0
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.tourna
 
     def get_score_total(self):
         score = 0
