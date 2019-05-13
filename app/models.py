@@ -104,6 +104,11 @@ class Challenge(db.Model):
     def is_tourna_type(self):
         return self.score_type == int(ChallScoreType.TOURNAMENT)
 
+    def is_team_type(self):
+        return self.team_type == int(ChallTeamType.TEAM)
+    def is_indiv_type(self):
+        return self.team_type == int(ChallTeamType.INDIV)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
     username = db.Column(db.String(64), index=True, unique=True)

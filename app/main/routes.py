@@ -60,6 +60,38 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
+@bp.route('/score_player', methods=['GET', 'POST'])
+@login_required
+def score_player():
+    if( not ( current_user.is_juge() or current_user.is_admin() )):
+        flash( _('Sorry, you cant score team'))
+        return redirect(url_for('main.index') )
+    #get params
+    player_id = request.form.get('player_id', None, type=int)
+    challenge_id = request.form.get('challenge_id', None, type=int)
+    score = request.form.get('score', None, type=int)
+    #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
+    #sanity checks
+    if( challenge_id==None or player_id == None or score==None):
+        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}".format(team_id, challenge_id, score))
+        return redirect(url_for('main.index') )
+    challenge = Challenge.query.get(challenge_id)
+    player = User.query.get(player_id)
+    if( player is None ):
+        flash(_('No such Player'))
+        return redirect( url_for('main.index'))
+    if( challenge is None ):
+        flash(_('No such Challenge'))
+        return redirect( url_for('main.index'))
+    #set each player score
+    try:
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
+        s.score=score
+    except:
+        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    db.session.commit()
+    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
+
 @bp.route('/score_team', methods=['GET', 'POST'])
 @login_required
 def score_team():
