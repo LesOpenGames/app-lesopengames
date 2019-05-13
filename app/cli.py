@@ -50,7 +50,23 @@ def register(app):
         pass
 
     @og_seed.command()
-    def update_scores():
+    @click.pass_context
+    def init_jcs(ctx):
+        """Initialize juges, challenges and scores"""
+        ctx.forward(init_juges)
+        ctx.forward(init_challenges)
+        ctx.forward(init_scores)
+
+    @og_seed.command()
+    @click.pass_context
+    def rm_jcs(ctx):
+        """Remove juges, challenges and scores (reverse order)"""
+        ctx.forward(rm_scores)
+        ctx.forward(rm_challenges)
+        ctx.forward(rm_juges)
+
+    @og_seed.command()
+    def init_scores():
         """Populate the scores table with all players (init challenges first) """
         with db.session.no_autoflush:
             for c in Challenge.query.all():
