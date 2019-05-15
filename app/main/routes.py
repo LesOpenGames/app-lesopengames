@@ -34,7 +34,7 @@ def set_user_score(challenge_id,
         s.distance=distance
     except:
        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
-    flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    #flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
     db.session.commit()
 
 
@@ -156,6 +156,7 @@ def score_team():
             if( score is not None ):
                 score=math.ceil(score/4)
             set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
+        flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
     elif( "player" in request.path ):
         player = User.query.get(player_id)
         if( player is None ):
@@ -163,6 +164,7 @@ def score_team():
             return redirect( url_for('main.index'))
         #set player's score
         set_user_score(challenge.id, player.id, score, chrono, tourna, bonus, distance)
+        flash(_('Score changed for Player %(playername)s', playername=player.username))
     else:
         flash(_('Wrong Score Path'))
         return redirect( url_for('main.index'))
