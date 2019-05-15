@@ -147,6 +147,14 @@ class User(UserMixin, db.Model):
     def has_team(self):
         return self.team is not None
 
+    def get_chrono_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).first()
+        return s.chrono
+
+    def get_tourna_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).first()
+        return s.tourna
+
     def get_score_total(self):
         score = 0 
         for s in Score.query.filter( Score.player_id == self.id ).all():
@@ -160,6 +168,9 @@ class User(UserMixin, db.Model):
             score=s.score
         except NoResultFound:
             pass
+
+        if( score == None):
+            score=0
 
         return int(score)
 

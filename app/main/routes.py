@@ -17,6 +17,28 @@ import enum
 
 
 
+
+def set_user_score(challenge_id,
+        player_id,
+        score,
+        chrono,
+        tourna,
+        bonus,
+        distance):
+    try:
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
+        s.score=score
+        s.chrono=chrono
+        s.tourna=tourna
+        s.bonus=bonus
+        s.distance=distance
+    except:
+       flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    db.session.commit()
+
+
+
 def get_categorized_teams( teams):
     
     categorized_teams={
@@ -60,80 +82,91 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
-@bp.route('/score_player', methods=['GET', 'POST'])
-@login_required
-def score_player():
-    if( not ( current_user.is_juge() or current_user.is_admin() )):
-        flash( _('Sorry, you cant score team'))
-        return redirect(url_for('main.index') )
-    #get params
-    player_id = request.form.get('player_id', None, type=int)
-    challenge_id = request.form.get('challenge_id', None, type=int)
-    score = request.form.get('score', None, type=int)
-    #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
-    #sanity checks
-    if( challenge_id==None or player_id == None or score==None):
-        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}".format(team_id, challenge_id, score))
-        return redirect(url_for('main.index') )
-    challenge = Challenge.query.get(challenge_id)
-    player = User.query.get(player_id)
-    if( player is None ):
-        flash(_('No such Player'))
-        return redirect( url_for('main.index'))
-    if( challenge is None ):
-        flash(_('No such Challenge'))
-        return redirect( url_for('main.index'))
-    #set each player score
-    try:
-        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
-        s.score=score
-    except:
-        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
-    db.session.commit()
-    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
+#@bp.route('/score_player', methods=['GET', 'POST'])
+#@login_required
+#def score_player():
+#    if( not ( current_user.is_juge() or current_user.is_admin() )):
+#        flash( _('Sorry, you cant score team'))
+#        return redirect(url_for('main.index') )
+#    #get params
+#    player_id = request.form.get('player_id', None, type=int)
+#    challenge_id = request.form.get('challenge_id', None, type=int)
+#    score = request.form.get('score', None, type=int)
+#    #sanity checks
+#    if( challenge_id==None or player_id == None or score==None):
+#        flash("wrong player scoring: Userid = {}, Challengeid = {}, score = {}".format(player_id, challenge_id, score))
+#        return redirect(url_for('main.index') )
+#    challenge = Challenge.query.get(challenge_id)
+#    player = User.query.get(player_id)
+#    if( player is None ):
+#        flash(_('No such Player'))
+#        return redirect( url_for('main.index'))
+#    if( challenge is None ):
+#        flash(_('No such Challenge'))
+#        return redirect( url_for('main.index'))
+#    #set each player score
+#    try:
+#        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
+#        s.score=score
+#    except:
+#        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+#    db.session.commit()
+#    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
 
+@bp.route('/score_player', methods=['GET', 'POST'])
 @bp.route('/score_team', methods=['GET', 'POST'])
 @login_required
 def score_team():
+
     if( not ( current_user.is_juge() or current_user.is_admin() )):
         flash( _('Sorry, you cant score team'))
         return redirect(url_for('main.index') )
+
     #get params
     team_id = request.form.get('team_id', None, type=int)
+    player_id = request.form.get('player_id', None, type=int)
     challenge_id = request.form.get('challenge_id', None, type=int)
     score = request.form.get('score', None, type=int)
     chrono = request.form.get('chrono', None, type=int)
     tourna = request.form.get('tourna', None, type=int)
     bonus = request.form.get('bonus', None, type=int)
     distance = request.form.get('distance', None, type=int)
-    #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
+
     #sanity checks
-    if( challenge_id==None or team_id == None or
+    if( challenge_id==None or
+            ( player_id == None and team_id == None ) or
             ( score==None and chrono==None and tourna==None and bonus == None and distance==None)):
-        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
-            .format(team_id, challenge_id, score, chrono, tourna, bonus, distance))
+        flash("wrong team scoring: Teamid = {}, Userid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
+            .format(team_id, player_id, challenge_id, score, chrono, tourna, bonus, distance))
         return redirect(url_for('main.index') )
+
     challenge = Challenge.query.get(challenge_id)
-    team = Team.query.get(team_id)
-    if( team is None ):
-        flash(_('No such Team'))
-        return redirect( url_for('main.index'))
     if( challenge is None ):
         flash(_('No such Challenge'))
         return redirect( url_for('main.index'))
-    #set each player score
-    for p in team.get_players():
-        try:
-            s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == p.id).one()
+
+    # decide wether we score team or player
+    if( "team" in request.path ):
+        team = Team.query.get(team_id)
+        if( team is None ):
+            flash(_('No such Team'))
+            return redirect( url_for('main.index'))
+        #set each player's score
+        for p in team.get_players():
             if( score is not None ):
-                s.score=math.ceil(score/4)
-            s.chrono=chrono
-            s.tourna=tourna
-            s.bonus=bonus
-            s.distance=distance
-        except:
-           flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=p.id))
-    db.session.commit()
+                score=math.ceil(score/4)
+            set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
+    elif( "player" in request.path ):
+        player = User.query.get(player_id)
+        if( player is None ):
+            flash(_('No such Player'))
+            return redirect( url_for('main.index'))
+        #set player's score
+        set_user_score(challenge.id, player.id, score, chrono, tourna, bonus, distance)
+    else:
+        flash(_('Wrong Score Path'))
+        return redirect( url_for('main.index'))
+
     return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
 
 @bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
