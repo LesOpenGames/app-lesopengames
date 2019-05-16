@@ -14,7 +14,15 @@
                 {% elif challenge.is_chrono_type() %}
                 <input type="text" id="chrono" name="chrono" value="{{team.get_chrono_by_challenge(challenge.id)}}" maxlength="4" size="4"/>secs.
                 {% elif challenge.is_tourna_type() %}
-                <input type="text" id="tourna" name="tourna" value="{{team.get_tourna_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pos.
+                {#<input type="text" id="tourna" name="tourna" value="{{team.get_tourna_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pos.#}
+                {% set team_rank = team.get_tourna_by_challenge(challenge.id) %}
+				<select id="tourna" name="tourna" class="selectpicker form-control">
+					{% for r in tourna_ranks %}
+                    {% set selected  = "selected" if team_rank == r.value else "" %}
+                      <option value="{{ r.value }}" {{selected}}>{{ r.name }}</option>
+					{% endfor %}
+				</select>
+                {{ team_rank }}
                 {% endif %}
                 <button type="submit" class="btn btn-info">{{ _('Validate') }}</button>
                </form>

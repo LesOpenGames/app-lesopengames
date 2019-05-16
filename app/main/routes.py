@@ -8,7 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, SportLevel
+from app.models import RolesType, SportLevel, TournaRanksTeam, TournaRanksIndiv
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
@@ -37,6 +37,10 @@ def set_user_score(challenge_id,
     #flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
     db.session.commit()
 
+
+def get_tourna_ranks( challenge_team_type ):
+    tourna_ranks  = [ {'value': idx, 'name': r[0], 'points': r[1]} for idx, r in enumerate(TournaRanksTeam) ]
+    return tourna_ranks
 
 
 def get_categorized_teams( teams):
@@ -196,10 +200,12 @@ def edit_challenge(challenge_id):
     #challenged_teams=get_teams_by_challenge(challenge.id)
     #easy_teams = challenged_teams.filter( lambda x : x.sport_level == int(Sport
     categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
+    tourna_ranks = get_tourna_ranks( challenge.team_type )
     return render_template('edit_challenge.html',
             title=_('Edit Challenge'),
             form=form,
             challenge=challenge,
+            tourna_ranks = tourna_ranks,
             categorized_teams=categorized_teams)
 
 @bp.route('/challenge/<int:challenge_id>')

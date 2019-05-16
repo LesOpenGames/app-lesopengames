@@ -17,6 +17,22 @@ from flask_babel import _, lazy_gettext as _l
 
 from app import db, login
 
+TournaRanksTeam =[
+    ("1er", 10),
+    ("2ème", 5),
+    ("3ème", 2),
+    ("Dernier", 1)
+        ]
+
+TournaRanksIndiv = [
+    ("1er", 50),
+    ("2ème", 20),
+    ("3ème", 10),
+    ("4ème", 5),
+    ("5ème", 2),
+    ("Dernier", 1)
+        ]
+
 class ChallScoreType(enum.IntEnum):
     POINTS = 0
     CHRONO = 1
