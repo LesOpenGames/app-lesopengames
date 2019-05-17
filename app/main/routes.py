@@ -8,7 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, SportLevel, TournaRanksTeam, TournaRanksIndiv
+from app.models import RolesType, SportLevel, TournaRanksTeam, TournaRanksIndiv, ChallTeamType
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
@@ -39,6 +39,13 @@ def set_user_score(challenge_id,
 
 
 def get_tourna_ranks( challenge_team_type ):
+    ranks_tuple   =  []
+    if( challenge_team_type == ChallTeamType.INDIV ):
+        ranks_tuple = TournaRanksIndiv
+    elif( challenge_team_type == ChallTeamType.TEAM ):
+        ranks_tuple = TournaRanksTeam
+    else:
+        return []
     tourna_ranks  = [ {'value': idx, 'name': r[0], 'points': r[1]} for idx, r in enumerate(TournaRanksTeam) ]
     return tourna_ranks
 
