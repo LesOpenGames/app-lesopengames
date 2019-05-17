@@ -269,14 +269,21 @@ def challenges():
 @bp.route('/update_ranks/<int:challenge_id>')
 def update_ranks(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
-    if( challenge.score_type == ChallScoreType.TOURNAMENT and challenge.team_type == ChallTeamType.TEAM):
+    if( challenge.score_type == ChallScoreType.TOURNAMENT ):
         challenge_team_scores = Score.query.filter( Score.challenge_id == challenge_id )
         for s in challenge_team_scores:
             tourna = s.tourna
             tourna_ranks = get_tourna_ranks( challenge.team_type)
-            score = tourna_ranks[tourna]['points']
-            if( score is not None ):
+
+            if( tourna is not None ):
+                score = tourna_ranks[tourna]['points']
+            else:
+                score = 0
+
+            if( challenge.team_type == ChallTeamType.TEAM):
                 s.score = math.ceil(  score / 4)
+            else:
+                s.score = score
             set_user_score(challenge_id, s.player_id, s.score, s.chrono, s.tourna, s.bonus, s.distance)
     db.session.commit()
     return redirect( url_for('main.challenge', challenge_id=challenge.id) )
