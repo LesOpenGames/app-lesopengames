@@ -105,6 +105,10 @@ class Challenge(db.Model):
         return self.score_type == int(ChallScoreType.CHRONO)
     def is_tourna_type(self):
         return self.score_type == int(ChallScoreType.TOURNAMENT)
+    def is_distance_type(self):
+        return self.score_type == int(ChallScoreType.DISTANCE)
+    def is_bonus_type(self):
+        return self.score_type == int(ChallScoreType.BONUS)
 
     def is_team_type(self):
         return self.team_type == int(ChallTeamType.TEAM)
@@ -147,8 +151,16 @@ class User(UserMixin, db.Model):
     def has_team(self):
         return self.team is not None
 
+    def get_bonus_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.bonus
+
+    def get_distance_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.distance
+
     def get_chrono_by_challenge(self, challenge_id):
-        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).first()
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
         return s.chrono
 
     def get_tourna_by_challenge(self, challenge_id):
@@ -273,6 +285,14 @@ class Team(db.Model):
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
     challenges = db.relationship( 'Score', back_populates="team")
+
+    def get_bonus_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.bonus
+
+    def get_distance_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.distance
 
     def get_chrono_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
