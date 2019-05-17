@@ -181,7 +181,7 @@ def score_team():
         #set player's score
         set_user_score(challenge.id, player.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Player %(playername)s', playername=player.username))
-        anchor='player_{}'.format(player.id)
+        anchor='team_{}'.format(player.team.id)
     else:
         flash(_('Wrong Score Path'))
         return redirect( url_for('main.index'))
