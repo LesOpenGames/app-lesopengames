@@ -212,9 +212,11 @@ def edit_challenge(challenge_id):
 def challenge(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
     categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
+    tourna_ranks = get_tourna_ranks( challenge.team_type )
     return render_template('challenge.html',
             title=_('Challenge'),
             challenge=challenge,
+            tourna_ranks = tourna_ranks,
             categorized_teams=categorized_teams)
 
 @bp.route('/challenges')
