@@ -1,5 +1,5 @@
 {% set player_rank = player.get_tourna_by_challenge(challenge.id) %}
-<tr>
+<tr id="player_{{player.id}}">
     <td> {{ player.username }} </td>
 {% if edit %}
     <td>

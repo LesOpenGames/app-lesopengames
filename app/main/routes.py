@@ -172,6 +172,7 @@ def score_team():
                 score=math.ceil(score/4)
             set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
+        anchor='team_{}'.format(team.id)
     elif( "player" in request.path ):
         player = User.query.get(player_id)
         if( player is None ):
@@ -180,12 +181,13 @@ def score_team():
         #set player's score
         set_user_score(challenge.id, player.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Player %(playername)s', playername=player.username))
+        anchor='player_{}'.format(player.id)
     else:
         flash(_('Wrong Score Path'))
         return redirect( url_for('main.index'))
 
     update_ranks( challenge_id )
-    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
+    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id , _anchor=anchor))
 
 @bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
 @login_required
