@@ -17,45 +17,6 @@ from flask_babel import _, lazy_gettext as _l
 
 from app import db, login
 
-SortedRanks =[
-    ("0", 0),
-    ("1er", 32),
-    ("2ème", 28),
-    ("3ème", 24),
-    ("4-5ème", 20),
-    ("6-9ème", 16),
-    ("10-16ème", 12),
-    ("17-24ème", 8),
-    ("15-32ème", 4)
-        ]
-
-TournaRanksTeam =[
-    ("0", 0),
-    ("1er", 32),
-    ("2ème", 28),
-    ("3ème", 24),
-    ("4ème", 20),
-    ("5-8ème", 16),
-    ("9-12ème", 12),
-    ("13-16ème", 8)
-        ]
-
-TournaRanksIndiv = [
-    ("0", 0),
-    ("1er", 22),
-    ("2ème", 20),
-    ("3ème", 18),
-    ("4ème", 16),
-    ("5-6ème", 14),
-    ("7-8ème", 12),
-    ("Demi-3T", 10),
-    ("Demi-2T", 8),
-    ("Demi-1T", 6),
-    ("Élim-3T", 4),
-    ("Élim-2T", 2),
-    ("Élim-1T", 1)
-        ]
-
 class ChallScoreType(enum.IntEnum):
     POINTS = 0
     CHRONO = 1

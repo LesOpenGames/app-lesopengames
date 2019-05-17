@@ -8,14 +8,51 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, SportLevel, TournaRanksTeam, TournaRanksIndiv, ChallTeamType
+from app.models import RolesType, SportLevel, ChallScoreType, ChallTeamType
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
 import math
 import enum
 
+SortedRanks =[
+    ("0", 0),
+    ("1er", 32),
+    ("2ème", 28),
+    ("3ème", 24),
+    ("4-5ème", 20),
+    ("6-9ème", 16),
+    ("10-16ème", 12),
+    ("17-24ème", 8),
+    ("15-32ème", 4)
+        ]
 
+TournaRanksTeam =[
+    ("0", 0),
+    ("1er", 32),
+    ("2ème", 28),
+    ("3ème", 24),
+    ("4ème", 20),
+    ("5-8ème", 16),
+    ("9-12ème", 12),
+    ("13-16ème", 8)
+        ]
+
+TournaRanksIndiv = [
+    ("0", 0),
+    ("1er", 22),
+    ("2ème", 20),
+    ("3ème", 18),
+    ("4ème", 16),
+    ("5-6ème", 14),
+    ("7-8ème", 12),
+    ("Demi-3T", 10),
+    ("Demi-2T", 8),
+    ("Demi-1T", 6),
+    ("Élim-3T", 4),
+    ("Élim-2T", 2),
+    ("Élim-1T", 1)
+        ]
 
 
 def set_user_score(challenge_id,
@@ -46,17 +83,15 @@ def get_tourna_ranks( challenge_team_type ):
         ranks_tuple = TournaRanksTeam
     else:
         return []
-    tourna_ranks  = [ {'value': idx, 'name': r[0], 'points': r[1]} for idx, r in enumerate(TournaRanksTeam) ]
+    tourna_ranks  = [ {'value': idx, 'name': r[0], 'points': r[1]} for idx, r in enumerate( ranks_tuple ) ]
     return tourna_ranks
 
 
 def get_categorized_teams( teams):
-    
     categorized_teams={
             'easy_teams':filter( lambda t: t.sport_level == int(SportLevel.EASY), teams),
             'sport_teams':filter( lambda t: t.sport_level == int(SportLevel.TOUGH), teams)
             }
-
     return categorized_teams
 
 def get_teams_by_challenge(challenge_id):
@@ -230,6 +265,21 @@ def challenge(challenge_id):
 def challenges():
     challenges=Challenge.query.all()
     return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
+
+@bp.route('/update_ranks/<int:challenge_id>')
+def update_ranks(challenge_id):
+    challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    if( challenge.score_type == ChallScoreType.TOURNAMENT and challenge.team_type == ChallTeamType.TEAM):
+        challenge_team_scores = Score.query.filter( Score.challenge_id == challenge_id )
+        for s in challenge_team_scores:
+            tourna = s.tourna
+            tourna_ranks = get_tourna_ranks( challenge.team_type)
+            score = tourna_ranks[tourna]['points']
+            if( score is not None ):
+                s.score = math.ceil(  score / 4)
+            set_user_score(challenge_id, s.player_id, s.score, s.chrono, s.tourna, s.bonus, s.distance)
+    db.session.commit()
+    return redirect( url_for('main.challenge', challenge_id=challenge.id) )
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
