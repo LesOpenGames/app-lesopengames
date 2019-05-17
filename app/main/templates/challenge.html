@@ -24,9 +24,11 @@
         <div class="col-12 col-md-2">
             <a href="{{ url_for('main.edit_challenge', challenge_id=challenge.id) }}" class="btn btn-block btn-info">{{_('Edit Challenge')}}</a>
         </div>
+        {#
         <div class="col-12 col-md-2">
             <a href="{{ url_for('main.update_ranks', challenge_id=challenge.id) }}" class="btn btn-block btn-info">{{_('Update Ranks')}}</a>
         </div>
+        #}
     </div>
     {% endif %}
   {% include '_challenged_teams.html' %}
