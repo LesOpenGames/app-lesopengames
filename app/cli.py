@@ -131,6 +131,20 @@ def register(app):
         pass
 
     @og_adm.command()
+    def show_tourna_teams():
+        """Show team tournoi scores by challenge"""
+        for c in Challenge.query.filter(Challenge.team_type == int(ChallTeamType.TEAM)):
+            print("\n"+c.challenge_name)
+            print('-'*34)
+            stmt = db.session.query(Score.team_id, func.max(Score.tourna).label('tourna') ).\
+                    filter(Score.challenge_id == c.id).\
+                    group_by(Score.team_id).subquery()
+            joined = db.session.query(Team.teamname, stmt.c.tourna).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+            for t_name, tourna in joined.all():
+                print( "{0:5} {1:25} {2:4}".format(str(' '), str(t_name), str(tourna)) )
+
+    @og_adm.command()
     def show_scores_byteams():
         """Show team scores by team_id"""
         for t in Team.query.all():
