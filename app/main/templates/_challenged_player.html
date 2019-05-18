@@ -12,7 +12,7 @@
         {% elif challenge.is_chrono_type() %}
         <input type="text" id="chrono" name="chrono" value="{{player.get_chrono_by_challenge(challenge.id)}}" maxlength="4" size="4"/>secs.
         {% elif challenge.is_distance_type() %}
-        <input type="text" id="distance" name="distance" value="{{player.get_distance_by_challenge(challenge.id)}}" maxlength="4" size="4"/>{{_(meters)}}
+        <input type="text" id="distance" name="distance" value="{{player.get_distance_by_challenge(challenge.id)}}" maxlength="4" size="4"/>{{_('meters')}}
         {% elif challenge.is_bonus_type() %}
         <input type="text" id="bonus" name="bonus" value="{{player.get_bonus_by_challenge(challenge.id)}}" maxlength="4" size="4"/>bonus
         {% elif challenge.is_tourna_type() %}
@@ -32,7 +32,7 @@
     {% elif challenge.is_distance_type() %}
     <td>{{player.get_distance_by_challenge(challenge.id)}} {{_('meters')}}</td>
     {% elif challenge.is_bonus_type() %}
-    <td>{{player.get_bonus_by_challenge(challenge.id)}} {{_(bonus)}}</td>
+    <td>{{player.get_bonus_by_challenge(challenge.id)}} {{_('bonus')}}</td>
     {% elif challenge.is_tourna_type() %}
          {% if player_rank == None %}
          <td>{{ _('Not ranked yet') }}</td>
