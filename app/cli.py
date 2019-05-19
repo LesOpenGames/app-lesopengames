@@ -1,7 +1,7 @@
 import os
 import click
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, ChallScoreType, ChallTeamType
+from app.models import RolesType, ChallScoreType, ChallTeamType, SportLevel
 from app import db
 from sqlalchemy import func
 
@@ -164,12 +164,17 @@ def register(app):
         stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
                 filter(Score.challenge_id == challenge_id).\
                 group_by(Score.team_id).subquery()
-        sorted_teams = db.session.query(Team, stmt.c.distance).\
-                order_by( stmt.c.distance.desc() ).\
-                filter(stmt.c.distance.isnot(None) ).\
-                outerjoin(stmt, stmt.c.team_id == Team.id)
-        for team, value in sorted_teams.all():
-            print( team.id, value)
+        print( "{0:5} {1:5}".format("id", "dist.") )
+        print( "{0:5} {1:5}".format("-"*5, "-"*5) )
+        for sport_level in (int(SportLevel.EASY), int(SportLevel.TOUGH) ):
+            print( "   "+("easy", "tough")[sport_level])
+            sorted_teams = db.session.query(Team, stmt.c.distance).\
+                    order_by( stmt.c.distance.desc() ).\
+                    filter(Team.sport_level == sport_level).\
+                    filter(stmt.c.distance.isnot(None) ).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+            for team, value in sorted_teams.all():
+                print( "{0:5} {1:5}".format(str(team.id), str(value)) )
 
     @og_adm.command()
     @click.argument('challenge_id')
