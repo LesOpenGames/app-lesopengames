@@ -273,41 +273,45 @@ def update_ranks(challenge_id):
                 s.score = score
             set_user_score(challenge_id, s.player_id, s.score, s.chrono, s.tourna, s.bonus, s.distance)
     elif( challenge.team_type == ChallTeamType.TEAM ):
-        if( challenge.is_chrono_type() ):
-            stmt = db.session.query(Score.team_id, func.max(Score.chrono).label('chrono') ).\
-                    filter(Score.challenge_id == challenge.id).\
-                    group_by(Score.team_id).subquery()
-            sorted_teams = db.session.query(Team, stmt.c.chrono).\
-                    order_by( stmt.c.chrono.asc() ).\
-                    filter(stmt.c.chrono.isnot(None) ).\
-                    filter(stmt.c.chrono !=0 ).\
-                    outerjoin(stmt, stmt.c.team_id == Team.id)
-        elif( challenge.is_distance_type() ):
-            stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
-                    filter(Score.challenge_id == challenge.id).\
-                    group_by(Score.team_id).subquery()
-            sorted_teams = db.session.query(Team, stmt.c.distance).\
-                    order_by( stmt.c.distance.desc() ).\
-                    filter(stmt.c.distance.isnot(None) ).\
-                    filter(stmt.c.distance !=0 ).\
-                    outerjoin(stmt, stmt.c.team_id == Team.id)
-        elif( challenge.is_bonus_type() ):
-            stmt = db.session.query(Score.team_id, func.max(Score.bonus).label('bonus') ).\
-                    filter(Score.challenge_id == challenge.id).\
-                    group_by(Score.team_id).subquery()
-            sorted_teams = db.session.query(Team, stmt.c.bonus).\
-                    order_by( stmt.c.bonus.desc() ).\
-                    filter(stmt.c.bonus.isnot(None) ).\
-                    filter(stmt.c.bonus !=0 ).\
-                    outerjoin(stmt, stmt.c.team_id == Team.id)
-        for idx, (team, value) in enumerate(sorted_teams.all()):
-            score = SortedRanks[ idx ] # score teams by index in sorted list
+        for sport_level in (int(SportLevel.EASY), int(SportLevel.TOUGH)): 
             if( challenge.is_chrono_type() ):
-                set_team_score(challenge.id, team.id, score, chrono=value)
+                stmt = db.session.query(Score.team_id, func.max(Score.chrono).label('chrono') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.chrono).\
+                        order_by( stmt.c.chrono.asc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.chrono.isnot(None) ).\
+                        filter(stmt.c.chrono !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
             elif( challenge.is_distance_type() ):
-                set_team_score(challenge.id, team.id, score, distance=value)
+                stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.distance).\
+                        order_by( stmt.c.distance.desc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.distance.isnot(None) ).\
+                        filter(stmt.c.distance !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
             elif( challenge.is_bonus_type() ):
-                set_team_score(challenge.id, team.id, score, bonus=value)
+                stmt = db.session.query(Score.team_id, func.max(Score.bonus).label('bonus') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.bonus).\
+                        order_by( stmt.c.bonus.desc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.bonus.isnot(None) ).\
+                        filter(stmt.c.bonus !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
+            for idx, (team, value) in enumerate(sorted_teams.all()):
+                score = SortedRanks[ idx ] # score teams by index in sorted list
+                if( challenge.is_chrono_type() ):
+                    set_team_score(challenge.id, team.id, score, chrono=value)
+                elif( challenge.is_distance_type() ):
+                    set_team_score(challenge.id, team.id, score, distance=value)
+                elif( challenge.is_bonus_type() ):
+                    set_team_score(challenge.id, team.id, score, bonus=value)
     db.session.commit()
     return redirect( url_for('main.challenge', challenge_id=challenge.id) )
 
