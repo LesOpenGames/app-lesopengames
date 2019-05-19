@@ -60,8 +60,10 @@ class Score(db.Model):
     player_id      = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     team_id        = db.Column(db.Integer, db.ForeignKey('team.id'), primary_key=True)
     score          = db.Column(db.Integer)
-    chrono_s       = db.Column(db.Integer)
-    tournament_pos = db.Column(db.Integer)
+    chrono         = db.Column(db.Integer)
+    tourna         = db.Column(db.Integer)
+    bonus          = db.Column(db.Integer)
+    distance       = db.Column(db.Integer)
 
     player = db.relationship("User", back_populates="challenges")
     challenge = db.relationship("Challenge", back_populates="players")
@@ -96,6 +98,22 @@ class Challenge(db.Model):
     def team_type_name(self):
         team_types = [_("Individual"), _("Team")]
         return _("none") if self.team_type is None else team_types[self.team_type]
+
+    def is_points_type(self):
+        return self.score_type == int(ChallScoreType.POINTS)
+    def is_chrono_type(self):
+        return self.score_type == int(ChallScoreType.CHRONO)
+    def is_tourna_type(self):
+        return self.score_type == int(ChallScoreType.TOURNAMENT)
+    def is_distance_type(self):
+        return self.score_type == int(ChallScoreType.DISTANCE)
+    def is_bonus_type(self):
+        return self.score_type == int(ChallScoreType.BONUS)
+
+    def is_team_type(self):
+        return self.team_type == int(ChallTeamType.TEAM)
+    def is_indiv_type(self):
+        return self.team_type == int(ChallTeamType.INDIV)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True )
@@ -133,10 +151,27 @@ class User(UserMixin, db.Model):
     def has_team(self):
         return self.team is not None
 
+    def get_bonus_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.bonus
+
+    def get_distance_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.distance
+
+    def get_chrono_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.chrono
+
+    def get_tourna_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
+        return s.tourna
+
     def get_score_total(self):
         score = 0 
         for s in Score.query.filter( Score.player_id == self.id ).all():
-            score = score + s.score
+            c_score = 0 if s.score is None else s.score
+            score = score + c_score
         return score
 
     def get_score_by_challenge(self, challenge_id):
@@ -146,6 +181,9 @@ class User(UserMixin, db.Model):
             score=s.score
         except NoResultFound:
             pass
+
+        if( score == None):
+            score=0
 
         return int(score)
 
@@ -247,7 +285,23 @@ class Team(db.Model):
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
     challenges = db.relationship( 'Score', back_populates="team")
-    
+
+    def get_bonus_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.bonus
+
+    def get_distance_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.distance
+
+    def get_chrono_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.chrono
+
+    def get_tourna_by_challenge(self, challenge_id):
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
+        return s.tourna
+
     def get_score_total(self):
         score = 0
         for p in self.get_players():

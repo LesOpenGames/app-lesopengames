@@ -8,22 +8,105 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, SportLevel
+from app.models import RolesType, SportLevel, ChallScoreType, ChallTeamType
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
 import math
 import enum
 
+SortedRanks = [0]*32
+SortedRanks[0]=32
+SortedRanks[1]=28
+SortedRanks[2]=24
+SortedRanks[3:4]=[20]*2
+SortedRanks[5:8]=[16]*4
+SortedRanks[9:15]=[12]*6
+SortedRanks[16:23]=[8]*7
+SortedRanks[24:31]=[4]*7
+
+TournaRanksTeam =[
+    ("non classé", 0),
+    ("1er", 32),
+    ("2ème", 28),
+    ("3ème", 24),
+    ("4ème", 20),
+    ("5-8ème", 16),
+    ("9-12ème", 12),
+    ("13-16ème", 8)
+        ]
+
+TournaRanksIndiv = [
+    ("non classé", 0),
+    ("1er", 22),
+    ("2ème", 20),
+    ("3ème", 18),
+    ("4ème", 16),
+    ("5-6ème", 14),
+    ("7-8ème", 12),
+    ("Demi-3T", 10),
+    ("Demi-2T", 8),
+    ("Demi-1T", 6),
+    ("Élim-3T", 4),
+    ("Élim-2T", 2),
+    ("Élim-1T", 1)
+        ]
+
+
+def set_team_score(challenge_id,
+        team_id,
+        score,
+        chrono=None,
+        tourna=None,
+        bonus=None,
+        distance=None):
+    scores = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == team_id).all()
+    for s in scores:
+        s.score=math.ceil(score/4)
+        s.chrono=chrono
+        s.tourna=tourna
+        s.bonus=bonus
+        s.distance=distance
+    db.session.commit()
+
+
+def set_user_score(challenge_id,
+        player_id,
+        score,
+        chrono,
+        tourna,
+        bonus,
+        distance):
+    try:
+        s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
+        s.score=score
+        s.chrono=chrono
+        s.tourna=tourna
+        s.bonus=bonus
+        s.distance=distance
+    except:
+       flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    #flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
+    db.session.commit()
+
+
+def get_tourna_ranks( challenge_team_type ):
+    ranks_tuple   =  []
+    if( challenge_team_type == ChallTeamType.INDIV ):
+        ranks_tuple = TournaRanksIndiv
+    elif( challenge_team_type == ChallTeamType.TEAM ):
+        ranks_tuple = TournaRanksTeam
+    else:
+        return []
+    tourna_ranks  = [ {'value': idx, 'name': r[0], 'points': r[1]} for idx, r in enumerate( ranks_tuple ) ]
+    return tourna_ranks
 
 
 def get_categorized_teams( teams):
-    
     categorized_teams={
             'easy_teams':filter( lambda t: t.sport_level == int(SportLevel.EASY), teams),
             'sport_teams':filter( lambda t: t.sport_level == int(SportLevel.TOUGH), teams)
             }
-
     return categorized_teams
 
 def get_teams_by_challenge(challenge_id):
@@ -60,38 +143,66 @@ def rules():
 def contact():
     return render_template('contact.html', title=_('Contact'))
 
+@bp.route('/score_player', methods=['GET', 'POST'])
 @bp.route('/score_team', methods=['GET', 'POST'])
 @login_required
 def score_team():
+
     if( not ( current_user.is_juge() or current_user.is_admin() )):
         flash( _('Sorry, you cant score team'))
         return redirect(url_for('main.index') )
+
     #get params
     team_id = request.form.get('team_id', None, type=int)
+    player_id = request.form.get('player_id', None, type=int)
     challenge_id = request.form.get('challenge_id', None, type=int)
     score = request.form.get('score', None, type=int)
-    #return "Teamid: {}, Challengeid: {}, score: {}".format(team_id, challenge_id, score)
+    chrono = request.form.get('chrono', None, type=int)
+    tourna = request.form.get('tourna', None, type=int)
+    bonus = request.form.get('bonus', None, type=int)
+    distance = request.form.get('distance', None, type=int)
+
     #sanity checks
-    if( challenge_id==None or team_id == None or score==None):
-        flash("wrong team scoring: Teamid = {}, Challengeid = {}, score = {}".format(team_id, challenge_id, score))
+    if( challenge_id==None or
+            ( player_id == None and team_id == None ) or
+            ( score==None and chrono==None and tourna==None and bonus == None and distance==None)):
+        flash("wrong team scoring: Teamid = {}, Userid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
+            .format(team_id, player_id, challenge_id, score, chrono, tourna, bonus, distance))
         return redirect(url_for('main.index') )
+
     challenge = Challenge.query.get(challenge_id)
-    team = Team.query.get(team_id)
-    if( team is None ):
-        flash(_('No such Team'))
-        return redirect( url_for('main.index'))
     if( challenge is None ):
         flash(_('No such Challenge'))
         return redirect( url_for('main.index'))
-    #set each player score
-    for p in team.get_players():
-        try:
-            s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == p.id).one()
-            s.score=math.ceil(score/4)
-        except:
-            flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=p.id))
-    db.session.commit()
-    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id) )
+
+    # decide wether we score team or player
+    if( "team" in request.path ):
+        team = Team.query.get(team_id)
+        if( team is None ):
+            flash(_('No such Team'))
+            return redirect( url_for('main.index'))
+        #set each player's score
+        for p in team.get_players():
+            if( score is not None ):
+                score=math.ceil(score/4)
+            set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
+        flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
+        anchor='team_{}'.format(team.id)
+    elif( "player" in request.path ):
+        player = User.query.get(player_id)
+        if( player is None ):
+            flash(_('No such Player'))
+            return redirect( url_for('main.index'))
+        #set player's score
+        set_user_score(challenge.id, player.id, score, chrono, tourna, bonus, distance)
+        flash(_('Score changed for Player %(playername)s', playername=player.username))
+        anchor='team_{}'.format(player.team.id)
+    else:
+        flash(_('Wrong Score Path'))
+        return redirect( url_for('main.index'))
+
+    update_ranks( challenge_id )
+    return redirect( url_for('main.edit_challenge', challenge_id=challenge_id , _anchor=anchor))
 
 @bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
 @login_required
@@ -112,31 +223,97 @@ def edit_challenge(challenge_id):
         challenge.set_juge(User.query.get(form.juge_id.data))
         #challenge.score_type=form.score_type.data
         db.session.commit()
-        flash( _('Juge successfully changed') )
+        flash( _('Challenge successfully changed') )
         return redirect( url_for('main.challenge', challenge_id=challenge.id) )
     form.juge_id.data=challenge.get_juge().id if challenge.get_juge() else 1
     #challenged_teams=get_teams_by_challenge(challenge.id)
     #easy_teams = challenged_teams.filter( lambda x : x.sport_level == int(Sport
     categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
+    tourna_ranks = get_tourna_ranks( challenge.team_type )
     return render_template('edit_challenge.html',
             title=_('Edit Challenge'),
             form=form,
             challenge=challenge,
+            tourna_ranks = tourna_ranks,
             categorized_teams=categorized_teams)
 
 @bp.route('/challenge/<int:challenge_id>')
 def challenge(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
     categorized_teams = get_categorized_teams( get_teams_by_challenge( challenge.id ))
+    tourna_ranks = get_tourna_ranks( challenge.team_type )
     return render_template('challenge.html',
             title=_('Challenge'),
             challenge=challenge,
+            tourna_ranks = tourna_ranks,
             categorized_teams=categorized_teams)
 
 @bp.route('/challenges')
 def challenges():
     challenges=Challenge.query.all()
     return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
+
+@bp.route('/update_ranks/<int:challenge_id>')
+def update_ranks(challenge_id):
+    challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    if( challenge.score_type == ChallScoreType.TOURNAMENT ):
+        challenge_team_scores = Score.query.filter( Score.challenge_id == challenge_id )
+        for s in challenge_team_scores:
+            tourna = s.tourna
+            tourna_ranks = get_tourna_ranks( challenge.team_type)
+
+            if( tourna is not None ):
+                score = tourna_ranks[tourna]['points']
+            else:
+                score = 0
+
+            if( challenge.team_type == ChallTeamType.TEAM):
+                s.score = math.ceil(  score / 4)
+            else:
+                s.score = score
+            set_user_score(challenge_id, s.player_id, s.score, s.chrono, s.tourna, s.bonus, s.distance)
+    elif( challenge.team_type == ChallTeamType.TEAM ):
+        for sport_level in (int(SportLevel.EASY), int(SportLevel.TOUGH)): 
+            if( challenge.is_chrono_type() ):
+                stmt = db.session.query(Score.team_id, func.max(Score.chrono).label('chrono') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.chrono).\
+                        order_by( stmt.c.chrono.asc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.chrono.isnot(None) ).\
+                        filter(stmt.c.chrono !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
+            elif( challenge.is_distance_type() ):
+                stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.distance).\
+                        order_by( stmt.c.distance.desc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.distance.isnot(None) ).\
+                        filter(stmt.c.distance !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
+            elif( challenge.is_bonus_type() ):
+                stmt = db.session.query(Score.team_id, func.max(Score.bonus).label('bonus') ).\
+                        filter(Score.challenge_id == challenge.id).\
+                        group_by(Score.team_id).subquery()
+                sorted_teams = db.session.query(Team, stmt.c.bonus).\
+                        order_by( stmt.c.bonus.desc() ).\
+                        filter(Team.sport_level == sport_level).\
+                        filter(stmt.c.bonus.isnot(None) ).\
+                        filter(stmt.c.bonus !=0 ).\
+                        outerjoin(stmt, stmt.c.team_id == Team.id)
+            for idx, (team, value) in enumerate(sorted_teams.all()):
+                score = SortedRanks[ idx ] # score teams by index in sorted list
+                if( challenge.is_chrono_type() ):
+                    set_team_score(challenge.id, team.id, score, chrono=value)
+                elif( challenge.is_distance_type() ):
+                    set_team_score(challenge.id, team.id, score, distance=value)
+                elif( challenge.is_bonus_type() ):
+                    set_team_score(challenge.id, team.id, score, bonus=value)
+    db.session.commit()
+    return redirect( url_for('main.challenge', challenge_id=challenge.id) )
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])

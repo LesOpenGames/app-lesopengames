@@ -1,19 +1,53 @@
-<tr>
+{% set team_rank = team.get_tourna_by_challenge(challenge.id) %}
+<tr id="team_{{team.id}}">
     <td>{% include '_team_number.html'%}</td>
-    {% if edit %}
-    <td>{{team.teamname}}</td>
-    <td>
-      <form action="/score_team" method="POST">
-        <input id="team_id" name="team_id" type="hidden" value="{{team.id}}"/>
-        <input id="challenge_id" name="challenge_id" type="hidden" value="{{challenge.id}}"/>
-        <input type="text" id="score" name="score" value="{{team.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>
-        <button type="submit" class="btn btn-info">{{ _('Validate') }}</button>
-       </form>
-    </td>
-    {% else %}
     <td>
         <a href="{{ url_for('main.team_scores', team_id=team.id)}}" class="btn btn-block btn-light border" > {{ team.teamname }} </a>
     </td>
-    <td>{{team.get_score_by_challenge(challenge.id)}}</td>
+    <td>{{team.get_score_by_challenge(challenge.id)}} pts.</td>
+    {% if challenge.is_team_type()%}
+        {% if edit %}
+            <td>
+              <form action="/score_team" method="POST">
+                <input id="team_id" name="team_id" type="hidden" value="{{team.id}}"/>
+                <input id="challenge_id" name="challenge_id" type="hidden" value="{{challenge.id}}"/>
+                {% if challenge.is_points_type()%}
+                <input type="text" id="score" name="score" value="{{team.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pts.
+                {% elif challenge.is_chrono_type() %}
+                <input type="text" id="chrono" name="chrono" value="{{team.get_chrono_by_challenge(challenge.id)}}" maxlength="4" size="4"/>secs.
+                {% elif challenge.is_distance_type() %}
+                <input type="text" id="distance" name="distance" value="{{team.get_distance_by_challenge(challenge.id)}}" maxlength="4" size="4"/>{{_('meters')}}
+                {% elif challenge.is_bonus_type() %}
+                <input type="text" id="bonus" name="bonus" value="{{team.get_bonus_by_challenge(challenge.id)}}" maxlength="4" size="4"/>bonus
+                {% elif challenge.is_tourna_type() %}
+                    <select id="tourna" name="tourna" class="selectpicker form-control">
+                        {% for r in tourna_ranks %}
+                        {% set selected  = "selected" if team_rank == r.value else "" %}
+                          <option value="{{ r.value }}" {{selected}}>{{ r.name }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+                <button type="submit" class="btn btn-info">{{ _('Validate') }}</button>
+               </form>
+            </td>
+        {% else %}
+            {% if challenge.is_chrono_type() %}
+            <td>{{team.get_chrono_by_challenge(challenge.id)}} secs.</td>
+            {% elif challenge.is_distance_type() %}
+            <td>{{team.get_distance_by_challenge(challenge.id)}} {{_('meters')}}</td>
+            {% elif challenge.is_bonus_type() %}
+            <td>{{team.get_bonus_by_challenge(challenge.id)}} {{_('bonus')}}</td>
+            {% elif challenge.is_tourna_type() %}
+                {% if team_rank == None %}
+                <td>{{ _('Not ranked yet') }}</td>
+                {% else %}
+                <td>{{ tourna_ranks[team_rank].name }}</td>
+                {% endif %}
+            {% endif%}
+        {% endif %}
+    {% elif challenge.is_indiv_type() %}
+        {% for player in team.get_players() %}
+            {% include '_challenged_player.html' %}
+        {% endfor %}
     {% endif %}
 </tr>

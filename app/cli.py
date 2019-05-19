@@ -1,7 +1,7 @@
 import os
 import click
 from app.models import User, Post, Team, Challenge, Score
-from app.models import RolesType, ChallScoreType, ChallTeamType
+from app.models import RolesType, ChallScoreType, ChallTeamType, SportLevel
 from app import db
 from sqlalchemy import func
 
@@ -73,7 +73,7 @@ def register(app):
                 valid_teams = [t for t in Team.query.all() if t.is_valid() ]
                 for t in valid_teams:
                     for p in t.get_players():
-                        s = Score(score=0)
+                        s = Score(score=0, distance=0, chrono=0, bonus=0, tourna=0)
                         s.player = p
                         s.team = t
                         c.players.append(s)
@@ -131,6 +131,20 @@ def register(app):
         pass
 
     @og_adm.command()
+    def show_tourna_teams():
+        """Show team tournoi scores by challenge"""
+        for c in Challenge.query.filter(Challenge.team_type == int(ChallTeamType.TEAM)):
+            print("\n"+c.challenge_name)
+            print('-'*34)
+            stmt = db.session.query(Score.team_id, func.max(Score.tourna).label('tourna') ).\
+                    filter(Score.challenge_id == c.id).\
+                    group_by(Score.team_id).subquery()
+            joined = db.session.query(Team.teamname, stmt.c.tourna).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+            for t_name, tourna in joined.all():
+                print( "{0:5} {1:25} {2:4}".format(str(' '), str(t_name), str(tourna)) )
+
+    @og_adm.command()
     def show_scores_byteams():
         """Show team scores by team_id"""
         for t in Team.query.all():
@@ -143,6 +157,36 @@ def register(app):
                     outerjoin(stmt, stmt.c.challenge_id == Challenge.id)
             for name, total in joined.all():
                 print( "{0:5} {1:25} {2:4}".format(str(' '), str(name), str(total)) )
+
+    @og_adm.command()
+    @click.argument('challenge_id')
+    def show_scores_distance(challenge_id):
+        stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
+                filter(Score.challenge_id == challenge_id).\
+                group_by(Score.team_id).subquery()
+        print( "{0:5} {1:5}".format("id", "dist.") )
+        print( "{0:5} {1:5}".format("-"*5, "-"*5) )
+        for sport_level in (int(SportLevel.EASY), int(SportLevel.TOUGH) ):
+            print( "   "+("easy", "tough")[sport_level])
+            sorted_teams = db.session.query(Team, stmt.c.distance).\
+                    order_by( stmt.c.distance.desc() ).\
+                    filter(Team.sport_level == sport_level).\
+                    filter(stmt.c.distance.isnot(None) ).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+            for team, value in sorted_teams.all():
+                print( "{0:5} {1:5}".format(str(team.id), str(value)) )
+
+    @og_adm.command()
+    @click.argument('challenge_id')
+    def show_scores_chrono(challenge_id):
+        stmt = db.session.query(Score.team_id, func.max(Score.chrono).label('chrono') ).\
+                filter(Score.challenge_id == challenge_id).\
+                group_by(Score.team_id).subquery()
+        sorted_teams = db.session.query(Team, stmt.c.chrono).\
+                order_by( stmt.c.chrono.asc() ).\
+                outerjoin(stmt, stmt.c.team_id == Team.id)
+        for team, value in sorted_teams.all():
+            print( team.id, value)
 
     @og_adm.command()
     def show_scores_all():
