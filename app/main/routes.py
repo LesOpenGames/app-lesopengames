@@ -15,17 +15,15 @@ from app.main import bp
 import math
 import enum
 
-SortedRanks =[
-    ("non classé", 0),
-    ("1er", 32),
-    ("2ème", 28),
-    ("3ème", 24),
-    ("4-5ème", 20),
-    ("6-9ème", 16),
-    ("10-16ème", 12),
-    ("17-24ème", 8),
-    ("15-32ème", 4)
-        ]
+SortedRanks = [0]*32
+SortedRanks[0]=32
+SortedRanks[1]=28
+SortedRanks[2]=24
+SortedRanks[3:4]=[20]*2
+SortedRanks[5:8]=[16]*4
+SortedRanks[9:15]=[12]*6
+SortedRanks[16:23]=[8]*7
+SortedRanks[24:31]=[4]*7
 
 TournaRanksTeam =[
     ("non classé", 0),
@@ -53,6 +51,23 @@ TournaRanksIndiv = [
     ("Élim-2T", 2),
     ("Élim-1T", 1)
         ]
+
+
+def set_team_score(challenge_id,
+        team_id,
+        score,
+        chrono=None,
+        tourna=None,
+        bonus=None,
+        distance=None):
+    scores = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == team_id).all()
+    for s in scores:
+        s.score=math.ceil(score/4)
+        s.chrono=chrono
+        s.tourna=tourna
+        s.bonus=bonus
+        s.distance=distance
+    db.session.commit()
 
 
 def set_user_score(challenge_id,
@@ -257,6 +272,42 @@ def update_ranks(challenge_id):
             else:
                 s.score = score
             set_user_score(challenge_id, s.player_id, s.score, s.chrono, s.tourna, s.bonus, s.distance)
+    elif( challenge.team_type == ChallTeamType.TEAM ):
+        if( challenge.is_chrono_type() ):
+            stmt = db.session.query(Score.team_id, func.max(Score.chrono).label('chrono') ).\
+                    filter(Score.challenge_id == challenge.id).\
+                    group_by(Score.team_id).subquery()
+            sorted_teams = db.session.query(Team, stmt.c.chrono).\
+                    order_by( stmt.c.chrono.asc() ).\
+                    filter(stmt.c.chrono.isnot(None) ).\
+                    filter(stmt.c.chrono !=0 ).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+        elif( challenge.is_distance_type() ):
+            stmt = db.session.query(Score.team_id, func.max(Score.distance).label('distance') ).\
+                    filter(Score.challenge_id == challenge.id).\
+                    group_by(Score.team_id).subquery()
+            sorted_teams = db.session.query(Team, stmt.c.distance).\
+                    order_by( stmt.c.distance.desc() ).\
+                    filter(stmt.c.distance.isnot(None) ).\
+                    filter(stmt.c.distance !=0 ).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+        elif( challenge.is_bonus_type() ):
+            stmt = db.session.query(Score.team_id, func.max(Score.bonus).label('bonus') ).\
+                    filter(Score.challenge_id == challenge.id).\
+                    group_by(Score.team_id).subquery()
+            sorted_teams = db.session.query(Team, stmt.c.bonus).\
+                    order_by( stmt.c.bonus.desc() ).\
+                    filter(stmt.c.bonus.isnot(None) ).\
+                    filter(stmt.c.bonus !=0 ).\
+                    outerjoin(stmt, stmt.c.team_id == Team.id)
+        for idx, (team, value) in enumerate(sorted_teams.all()):
+            score = SortedRanks[ idx ] # score teams by index in sorted list
+            if( challenge.is_chrono_type() ):
+                set_team_score(challenge.id, team.id, score, chrono=value)
+            elif( challenge.is_distance_type() ):
+                set_team_score(challenge.id, team.id, score, distance=value)
+            elif( challenge.is_bonus_type() ):
+                set_team_score(challenge.id, team.id, score, bonus=value)
     db.session.commit()
     return redirect( url_for('main.challenge', challenge_id=challenge.id) )
 
