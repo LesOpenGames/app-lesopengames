@@ -404,7 +404,8 @@ def check_docs(user_id):
         user.valid_auth=form.auth.data
         user.valid_health=form.health.data
         db.session.commit()
-        return redirect ( request.referrer )
+        anchor='player_{}'.format(user.id)
+        return redirect( url_for('main.edit_team', team_id=user.team.id, _anchor=anchor) )
         #return redirect(url_for('main.index') )
     flash(_('You cant call that page'))
     return redirect(url_for('main.index') )
