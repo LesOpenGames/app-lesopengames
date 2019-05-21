@@ -16,6 +16,7 @@ import math
 import enum
 
 SortedRanks = [0]*32
+
 SortedRanks[0]=32
 SortedRanks[1]=28
 SortedRanks[2]=24
@@ -304,8 +305,12 @@ def update_ranks(challenge_id):
                         filter(stmt.c.bonus.isnot(None) ).\
                         filter(stmt.c.bonus !=0 ).\
                         outerjoin(stmt, stmt.c.team_id == Team.id)
-            for idx, (team, value) in enumerate(sorted_teams.all()):
-                score = SortedRanks[ idx ] # score teams by index in sorted list
+            sorted_teams_list = sorted_teams.all()
+            for idx, (team, value) in enumerate(sorted_teams_list):
+                # or deal with equality
+                while idx > 0 and value == sorted_teams_list[idx-1][1]:
+                    idx = idx -1
+                score = SortedRanks[ idx ] 
                 if( challenge.is_chrono_type() ):
                     set_team_score(challenge.id, team.id, score, chrono=value)
                 elif( challenge.is_distance_type() ):
