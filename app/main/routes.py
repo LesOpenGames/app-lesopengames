@@ -6,6 +6,7 @@ from flask_babel import _, get_locale
 
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
+from builtins import AttributeError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, SportLevel, ChallScoreType, ChallTeamType
@@ -164,8 +165,6 @@ def score_team():
     bonus = request.form.get('bonus', None, type=int)
     distance = request.form.get('distance', None, type=int)
 
-    chrono = str2secs( chrono )
-
     #sanity checks
     if( challenge_id==None or
             ( player_id == None and team_id == None ) or
@@ -173,6 +172,13 @@ def score_team():
         flash("wrong team scoring: Teamid = {}, Userid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
             .format(team_id, player_id, challenge_id, score, chrono, tourna, bonus, distance))
         return redirect(url_for('main.index') )
+
+    if( chrono is not None ):
+        try:
+            chrono = str2secs( chrono )
+        except AttributeError:
+            flash(_("Wrong chrono format; use something like 22m12s"))
+            return redirect(request.referrer )
 
     challenge = Challenge.query.get(challenge_id)
     if( challenge is None ):
