@@ -1,5 +1,6 @@
 import jwt
 import enum
+import re
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -16,6 +17,18 @@ from flask_babel import _, lazy_gettext as _l
 
 
 from app import db, login
+
+def secs2str( min_as_secs ):
+    min = min_as_secs // 60
+    secs = min_as_secs % 60
+    return "{}m{}s".format(min, secs)
+
+def str2secs( ms_str ):
+    mo = re.match("(\d*)m(\d*)s", ms_str)
+    min = int( mo.groups()[0] )
+    secs = int( mo.groups()[1] )
+    return secs+min*60
+
 
 class ChallScoreType(enum.IntEnum):
     POINTS = 0
@@ -159,6 +172,9 @@ class User(UserMixin, db.Model):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
         return s.distance
 
+    def get_chrono_by_challenge_str(self, challenge_id):
+        return secs2str( self.get_chrono_by_challenge(challenge_id) )
+
     def get_chrono_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
         return s.chrono
@@ -293,6 +309,9 @@ class Team(db.Model):
     def get_distance_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
         return s.distance
+
+    def get_chrono_by_challenge_str(self, challenge_id):
+        return secs2str( self.get_chrono_by_challenge(challenge_id) )
 
     def get_chrono_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()

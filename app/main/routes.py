@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, SportLevel, ChallScoreType, ChallTeamType
+from app.models import str2secs
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
@@ -158,10 +159,12 @@ def score_team():
     player_id = request.form.get('player_id', None, type=int)
     challenge_id = request.form.get('challenge_id', None, type=int)
     score = request.form.get('score', None, type=int)
-    chrono = request.form.get('chrono', None, type=int)
+    chrono = request.form.get('chrono', None, type=str)
     tourna = request.form.get('tourna', None, type=int)
     bonus = request.form.get('bonus', None, type=int)
     distance = request.form.get('distance', None, type=int)
+
+    chrono = str2secs( chrono )
 
     #sanity checks
     if( challenge_id==None or
