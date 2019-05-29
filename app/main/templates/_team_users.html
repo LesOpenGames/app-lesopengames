@@ -7,7 +7,9 @@
             <th>{{ _('Name') }}</th>
             <th>{{ _('Age') }} {{get_glyph_info(_('Year of birth limited to 2004 for Sportive level, or 2007 for Easy level'))}}</th>
             <th>{{ _('Auth') }} {{get_glyph_info(_('Parental Authorisation needed, to be sent by email'))}}</th>
+            {#
             <th>{{ _('Health') }} {{get_glyph_info(_('Health Document needed to be sent by email'))}}</th>
+            #}
             <th></th>
         </tr>
     {% macro u_paiment_dsbld(user) %}{% if  user.is_paid or user.is_striped %}disabled{% endif %}{% endmacro %}
@@ -46,6 +48,7 @@
                         </label>
                     </div>
                 </td>
+                {#
                 <td>
                     <div> <input type="checkbox" id="health" name="health" {{is_checked(u.is_valid_health())}}>
                         <label for="health">
@@ -53,11 +56,14 @@
                         </label>
                     </div>
                 </td>
+                #}
                 <td> <button type="submit" class="btn btn-info">{{ _('Validate') }}</button></td>
                 </form>
                 {% else %}
                 <td><span class="badge badge-{{is_success(u.is_valid_auth())}}">{{_("auth")}}</span></td>
+                {#
                 <td><span class="badge badge-{{is_success(u.is_valid_health())}}">{{_("health")}}</span></td>
+                #}
                 {% endif %}
                 {% if edit and current_user == u %}
                 <td><a href="{{ url_for('main.leave_team', user_id=u.id) }}" class="btn btn-block btn-info ">{{_('Quit Team')}}</a></td>

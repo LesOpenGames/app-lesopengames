@@ -416,7 +416,7 @@ def check_docs(user_id):
         return redirect(url_for('main.index'))
     if form.validate_on_submit():
         user.valid_auth=form.auth.data
-        user.valid_health=form.health.data
+        user.valid_health=True
         db.session.commit()
         anchor='player_{}'.format(user.id)
         return redirect( url_for('main.edit_team', team_id=user.team.id, _anchor=anchor) )

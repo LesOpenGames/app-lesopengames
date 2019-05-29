@@ -217,7 +217,8 @@ class User(UserMixin, db.Model):
         return self.is_valid_health() and self.is_valid_auth() and self.is_valid_age()
 
     def is_valid_health(self):
-        return self.valid_health
+        #return self.valid_health
+        return True
 
     def is_valid_auth(self):
         return self.is_mayor() or self.valid_auth
