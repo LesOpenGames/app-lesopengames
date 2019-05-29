@@ -6,9 +6,11 @@ from flask_babel import _, get_locale
 
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
+from builtins import AttributeError
 from app import db
 from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, SportLevel, ChallScoreType, ChallTeamType
+from app.models import str2secs
 from app.main.forms import EditChallengeForm, EditProfileForm, PostForm, EditTeamForm, SetAuthForm
 from app.main import bp
 
@@ -16,6 +18,7 @@ import math
 import enum
 
 SortedRanks = [0]*32
+
 SortedRanks[0]=32
 SortedRanks[1]=28
 SortedRanks[2]=24
@@ -157,7 +160,7 @@ def score_team():
     player_id = request.form.get('player_id', None, type=int)
     challenge_id = request.form.get('challenge_id', None, type=int)
     score = request.form.get('score', None, type=int)
-    chrono = request.form.get('chrono', None, type=int)
+    chrono = request.form.get('chrono', None, type=str)
     tourna = request.form.get('tourna', None, type=int)
     bonus = request.form.get('bonus', None, type=int)
     distance = request.form.get('distance', None, type=int)
@@ -169,6 +172,13 @@ def score_team():
         flash("wrong team scoring: Teamid = {}, Userid = {}, Challengeid = {}, score = {}, chrono={}, tourna={}, bonus={}, distance={}"
             .format(team_id, player_id, challenge_id, score, chrono, tourna, bonus, distance))
         return redirect(url_for('main.index') )
+
+    if( chrono is not None ):
+        try:
+            chrono = str2secs( chrono )
+        except AttributeError:
+            flash(_("Wrong chrono format; use something like 22m12s"))
+            return redirect(request.referrer )
 
     challenge = Challenge.query.get(challenge_id)
     if( challenge is None ):
@@ -304,8 +314,12 @@ def update_ranks(challenge_id):
                         filter(stmt.c.bonus.isnot(None) ).\
                         filter(stmt.c.bonus !=0 ).\
                         outerjoin(stmt, stmt.c.team_id == Team.id)
-            for idx, (team, value) in enumerate(sorted_teams.all()):
-                score = SortedRanks[ idx ] # score teams by index in sorted list
+            sorted_teams_list = sorted_teams.all()
+            for idx, (team, value) in enumerate(sorted_teams_list):
+                # or deal with equality
+                while idx > 0 and value == sorted_teams_list[idx-1][1]:
+                    idx = idx -1
+                score = SortedRanks[ idx ] 
                 if( challenge.is_chrono_type() ):
                     set_team_score(challenge.id, team.id, score, chrono=value)
                 elif( challenge.is_distance_type() ):
@@ -404,7 +418,8 @@ def check_docs(user_id):
         user.valid_auth=form.auth.data
         user.valid_health=form.health.data
         db.session.commit()
-        return redirect ( request.referrer )
+        anchor='player_{}'.format(user.id)
+        return redirect( url_for('main.edit_team', team_id=user.team.id, _anchor=anchor) )
         #return redirect(url_for('main.index') )
     flash(_('You cant call that page'))
     return redirect(url_for('main.index') )

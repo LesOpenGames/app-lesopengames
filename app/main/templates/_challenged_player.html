@@ -10,7 +10,7 @@
         {% if challenge.is_points_type()%}
         <input type="text" id="score" name="score" value="{{player.get_score_by_challenge(challenge.id)}}" maxlength="4" size="4"/>pts.
         {% elif challenge.is_chrono_type() %}
-        <input type="text" id="chrono" name="chrono" value="{{player.get_chrono_by_challenge(challenge.id)}}" maxlength="4" size="4"/>secs.
+        <input type="text" id="chrono" name="chrono" value="{{player.get_chrono_by_challenge_str(challenge.id)}}" maxlength="6" size="6"/>secs.
         {% elif challenge.is_distance_type() %}
         <input type="text" id="distance" name="distance" value="{{player.get_distance_by_challenge(challenge.id)}}" maxlength="4" size="4"/>{{_('meters')}}
         {% elif challenge.is_bonus_type() %}
@@ -28,7 +28,7 @@
     </td>
 {% else %}
     {% if challenge.is_chrono_type() %}
-    <td>{{player.get_chrono_by_challenge(challenge.id)}} secs.</td>
+    <td>{{player.get_chrono_by_challenge_str(challenge.id)}} secs.</td>
     {% elif challenge.is_distance_type() %}
     <td>{{player.get_distance_by_challenge(challenge.id)}} {{_('meters')}}</td>
     {% elif challenge.is_bonus_type() %}

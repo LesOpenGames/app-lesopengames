@@ -30,7 +30,7 @@
             {% endif %}
             <td><strong>{{ rank }}</strong></td>
                 {% set u = team.get_players()[i] %}
-                <td>{{u.get_billing()}} &euro;</td>
+                <td id="player_{{u.id}}">{{u.get_billing()}} &euro;</td>
                 {% if edit %}
                 <td><a href="{{ url_for('main.edit_profile', user_id=u.id)}}" class="btn btn-block btn-info">{{u.username}}</a></td>
                 {% else %}
