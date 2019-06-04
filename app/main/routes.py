@@ -192,9 +192,9 @@ def score_team():
             flash(_('No such Team'))
             return redirect( url_for('main.index'))
         #set each player's score
+        if( score is not None ):
+            score=math.ceil(score/4)
         for p in team.get_players():
-            if( score is not None ):
-                score=math.ceil(score/4)
             set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
         anchor='team_{}'.format(team.id)
