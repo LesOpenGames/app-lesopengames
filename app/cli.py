@@ -193,14 +193,19 @@ def register(app):
         """Show all scores"""
         # iterate through child objects via association, including association
         # attributes
-        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format("Challenge", "Player", "Score", "Id", "Team"))
-        print("{3:2} {0:30} {4:15} {1:15} {2:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15))
-        for score in Score.query.all():
-            print("{3:2} {0:30} {4:15} {1:15} {2:5}".format(score.challenge.challenge_name,
+        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format("Challenge", "Player", "Score", "Id", "Team", "Chrono", "Tourna", "Bonus", "Distance"))
+        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15, '-'*5, '-'*5, '-'*5, '-'*5))
+        for score in Score.query.order_by(Score.challenge_id, Score.team_id).all():
+            print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format(score.challenge.challenge_name,
                                 score.player.username,
                                 score.score,
                                 score.challenge.id,
-                                score.team.teamname))
+                                score.team.teamname,
+                                score.chrono,
+                                score.tourna,
+                                score.bonus,
+                                score.distance,
+                                ))
 
     @og_adm.command()
     @click.argument('user_id')
