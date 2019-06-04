@@ -212,6 +212,7 @@ def score_team():
         return redirect( url_for('main.index'))
 
     update_ranks( challenge_id )
+
     return redirect( url_for('main.edit_challenge', challenge_id=challenge_id , _anchor=anchor))
 
 @bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
@@ -266,6 +267,9 @@ def challenges():
 @bp.route('/update_ranks/<int:challenge_id>')
 def update_ranks(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    # Update rank for all challenges types except points one which is already scored
+    if( challenge.is_points_type() ):
+        return redirect( url_for('main.challenge', challenge_id=challenge.id) )
     if( challenge.score_type == ChallScoreType.TOURNAMENT ):
         challenge_team_scores = Score.query.filter( Score.challenge_id == challenge_id )
         for s in challenge_team_scores:
