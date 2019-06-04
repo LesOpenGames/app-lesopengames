@@ -58,18 +58,23 @@ TournaRanksIndiv = [
 
 def set_team_score(challenge_id,
         team_id,
-        score,
+        score=None,
         chrono=None,
         tourna=None,
         bonus=None,
         distance=None):
-    scores = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == team_id).all()
-    for s in scores:
-        s.score=math.ceil(score/4)
-        s.chrono=chrono
-        s.tourna=tourna
-        s.bonus=bonus
-        s.distance=distance
+    team = Team.query.get(team_id)
+    if score == None:
+        score = 0
+    #set each player's score
+    for p in team.get_players():
+        set_user_score( challenge_id,
+                p.id,
+                math.ceil(score/4),
+                chrono,
+                tourna,
+                bonus,
+                distance)
     db.session.commit()
 
 
@@ -82,11 +87,11 @@ def set_user_score(challenge_id,
         distance):
     try:
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
-        s.score=score
-        s.chrono=chrono
-        s.tourna=tourna
-        s.bonus=bonus
-        s.distance=distance
+        s.score=s.score if score == None else score
+        s.chrono=s.chrono if chrono == None else chrono
+        s.tourna=s.tourna if tourna == None else tourna
+        s.bonus=s.bonus if bonus == None else bonus
+        s.distance=s.distance if distance == None else distance
     except:
        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
     #flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
@@ -192,10 +197,7 @@ def score_team():
             flash(_('No such Team'))
             return redirect( url_for('main.index'))
         #set each player's score
-        if( score is not None ):
-            score=math.ceil(score/4)
-        for p in team.get_players():
-            set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
+        set_team_score(challenge.id, team.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
         anchor='team_{}'.format(team.id)
     elif( "player" in request.path ):
