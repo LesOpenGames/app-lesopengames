@@ -104,13 +104,17 @@ def register(app):
         for c in challenges:
             if( not c["j_email"] ):
                 continue
+            u=User.query.filter(User.email==c["j_email"]).one_or_none()
+            if u is not None:
+                db.session.delete(u)
+                db.session.commit()
             u=User(username=c["j_email"],
                     role=int(RolesType.JUGE),
                     email=c["j_email"],
                     secondname=c["j_secondname"],
                     firstname=c["j_firstname"])
             u.set_password(c["j_email"])
-            db.session.add( u)
+            db.session.add(u)
         db.session.commit()
 
     @og_seed.command()
