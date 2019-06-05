@@ -7,34 +7,34 @@ from sqlalchemy import func
 
 challenges=[
         #tournament team
-           { "challenge_name":'Badminton/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'TurnBad', "sport_name":'Badminton/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'tennis_tournoi', "sport_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'FlagOval', "sport_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'La Main Passe', "sport_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         #tournament indiv
-           { "challenge_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":'Cross Show', "sport_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
         #chrono team
-           { "challenge_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Athlétisme/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Orientation 1/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Orientation 2/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Jeux Gonflables/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Finale/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'KataStrophe', "sport_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'4 x 199M', "sport_name":'Athlétisme/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":"T'es Perdu", "sport_name":'Orientation 1/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":"T'es Azimuté", "sport_name":'Orientation 2/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":"T'as des Bras", "sport_name":'Jeux Gonflables/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'Trail Surprise', "sport_name":'Finale/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         #chrono indiv
             #none
         #points team
-           { "challenge_name":'Noeuds/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":'Tête de Noeuds', "sport_name":'Noeuds/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.TEAM) },
         #points indiv
-           { "challenge_name":'Badminton/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-           { "challenge_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":'La Folle Volante', "sport_name":'Badminton/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":'Takaléjecté', "sport_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":'A Table', "sport_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":'T Au But', "sport_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "challenge_name":"Fléchet'Ball", "sport_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         #distance indiv
-           { "challenge_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":"Triple Triple Saut", "sport_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
         #score team
-           { "challenge_name":'Vote Supporter/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
-           { "challenge_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
+        #{ "challenge_name":"", "sport_name":'Vote Supporter/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
+        { "challenge_name":"Gladiateur", "sport_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
            ]
 
 def c2j(c_name):
@@ -52,7 +52,8 @@ def register(app):
     @click.pass_context
     def init_jcs(ctx):
         """Initialize juges, challenges and scores"""
-        ctx.forward(init_juges)
+        #ctx.forward(init_juges)
+        ctx.forward(init_one_juge)
         ctx.forward(init_challenges)
         ctx.forward(init_scores)
 
@@ -86,10 +87,22 @@ def register(app):
         db.session.commit()
 
     @og_seed.command()
+    def init_one_juge():
+        """Add one juge"""
+        u=User(username="arbitre",
+                role=int(RolesType.JUGE),
+                email="arbitre@lesopengames.com",
+                secondname='LesOpenGames',
+                firstname='Arbitre')
+        u.set_password('arbitre')
+        db.session.add(u)
+        db.session.commit()
+
+    @og_seed.command()
     def init_juges():
         """Add all juges (from challenges list)""" 
         for c in challenges:
-            j_first_name=c2j(c["challenge_name"])
+            j_first_name=c2j(c["sport_name"])
             j_username = "Arbitre_"+j_first_name
             j_email = j_username+"@og.fr"
             db.session.add(
@@ -118,9 +131,12 @@ def register(app):
     @og_seed.command()
     def init_challenges():
         """Add all challenges (init juges first)"""
+        j = User.query.filter(User.username== "arbitre" ).one()
         for c in challenges:
-            j = User.query.filter(User.firstname==c2j(c["challenge_name"]) ).one()
-            challenge = Challenge( juge_id=j.id, challenge_name=c["challenge_name"], score_type=c["score_type"], team_type=c["team_type"] ) 
+        #    j = User.query.filter(User.firstname==c2j( c["sport_name"] ) ).one()
+            sport = c["sport_name"].split("/")[0]
+            challenge = Challenge( juge_id=j.id, challenge_name=c["challenge_name"]+" ("+sport+")", score_type=c["score_type"], team_type=c["team_type"] ) 
+        #   challenge = Challenge( challenge_name=c["challenge_name"]+" ("+sport+")", score_type=c["score_type"], team_type=c["team_type"] ) 
             db.session.add(challenge)
         db.session.commit()
 
