@@ -35,7 +35,6 @@ challenges=[
         #score team
            { "challenge_name":'Vote Supporter/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
            { "challenge_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
-
            ]
 
 def c2j(c_name):
