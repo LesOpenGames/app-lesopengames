@@ -1,4 +1,8 @@
+{% if not current_user.is_anonymous and ( current_user.is_admin() or challenge.is_juge(current_user) )%}
+<tr class="table-info " title="{{_('Click to edit challenge')}}">
+{% else %}
 <tr>
+{% endif %}
     <td>
         <a class="btn btn-block btn-light border" href="{{ url_for('main.challenge', challenge_id=challenge.id) }}">
             {{ challenge.challenge_name }}</a>

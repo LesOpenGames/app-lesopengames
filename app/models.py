@@ -95,6 +95,9 @@ class Challenge(db.Model):
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     players = db.relationship( 'Score', back_populates="challenge")
 
+    def is_juge(self, user):
+        return self.juge_id == user.id
+
     def set_juge(self, juge):
         self.juge_id = juge.id
 

@@ -19,7 +19,7 @@
         <div class="col-6 col-md-4"> {{ challenge.team_type_name()}}</div>
     </div>
     <br/>
-    {% if not current_user.is_anonymous and current_user.is_admin() %}
+    {% if not current_user.is_anonymous and ( current_user.is_admin() or challenge.is_juge(current_user) )%}
     <div class="row">
         <div class="col-12 col-md-2">
             <a href="{{ url_for('main.edit_challenge', challenge_id=challenge.id) }}" class="btn btn-block btn-info">{{_('Edit Challenge')}}</a>

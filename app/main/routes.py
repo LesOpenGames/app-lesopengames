@@ -58,18 +58,23 @@ TournaRanksIndiv = [
 
 def set_team_score(challenge_id,
         team_id,
-        score,
+        score=None,
         chrono=None,
         tourna=None,
         bonus=None,
         distance=None):
-    scores = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == team_id).all()
-    for s in scores:
-        s.score=math.ceil(score/4)
-        s.chrono=chrono
-        s.tourna=tourna
-        s.bonus=bonus
-        s.distance=distance
+    team = Team.query.get(team_id)
+    if score == None:
+        score = 0
+    #set each player's score
+    for p in team.get_players():
+        set_user_score( challenge_id,
+                p.id,
+                math.ceil(score/4),
+                chrono,
+                tourna,
+                bonus,
+                distance)
     db.session.commit()
 
 
@@ -82,11 +87,11 @@ def set_user_score(challenge_id,
         distance):
     try:
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == player_id).one()
-        s.score=score
-        s.chrono=chrono
-        s.tourna=tourna
-        s.bonus=bonus
-        s.distance=distance
+        s.score=s.score if score == None else score
+        s.chrono=s.chrono if chrono == None else chrono
+        s.tourna=s.tourna if tourna == None else tourna
+        s.bonus=s.bonus if bonus == None else bonus
+        s.distance=s.distance if distance == None else distance
     except:
        flash(_('No such score for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
     #flash(_('Score changed for challenge %(cid)s player %(uid)s', cid=challenge_id, uid=player_id))
@@ -192,10 +197,7 @@ def score_team():
             flash(_('No such Team'))
             return redirect( url_for('main.index'))
         #set each player's score
-        for p in team.get_players():
-            if( score is not None ):
-                score=math.ceil(score/4)
-            set_user_score(challenge.id, p.id, score, chrono, tourna, bonus, distance)
+        set_team_score(challenge.id, team.id, score, chrono, tourna, bonus, distance)
         flash(_('Score changed for Team %(teamname)s', teamname=team.teamname))
         anchor='team_{}'.format(team.id)
     elif( "player" in request.path ):
@@ -212,6 +214,7 @@ def score_team():
         return redirect( url_for('main.index'))
 
     update_ranks( challenge_id )
+
     return redirect( url_for('main.edit_challenge', challenge_id=challenge_id , _anchor=anchor))
 
 @bp.route('/edit_challenge/<int:challenge_id>', methods=['GET', 'POST'])
@@ -222,8 +225,8 @@ def edit_challenge(challenge_id):
     if( challenge is None):
         flash(_('No such challenge for id %(id)s', id=challenge_id))
         return redirect(url_for('main.index'))
-    if( not ( current_user.is_admin() )):
-        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.name))
+    if( not ( challenge.is_juge(current_user) or current_user.is_admin() )):
+        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.challenge_name))
         return redirect(url_for('main.index') )
     form = EditChallengeForm(meta={'csrf': False})
     juges = User.query.filter(User.role==int(RolesType.JUGE)).filter( User.firstname!=None).filter( User.secondname!=None)
@@ -266,6 +269,9 @@ def challenges():
 @bp.route('/update_ranks/<int:challenge_id>')
 def update_ranks(challenge_id):
     challenge = Challenge.query.filter_by(id=challenge_id).first_or_404()
+    # Update rank for all challenges types except points one which is already scored
+    if( challenge.is_points_type() ):
+        return redirect( url_for('main.challenge', challenge_id=challenge.id) )
     if( challenge.score_type == ChallScoreType.TOURNAMENT ):
         challenge_team_scores = Score.query.filter( Score.challenge_id == challenge_id )
         for s in challenge_team_scores:
