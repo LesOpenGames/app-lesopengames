@@ -225,8 +225,8 @@ def edit_challenge(challenge_id):
     if( challenge is None):
         flash(_('No such challenge for id %(id)s', id=challenge_id))
         return redirect(url_for('main.index'))
-    if( not ( current_user.is_admin() )):
-        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.name))
+    if( not ( challenge.is_juge(current_user) or current_user.is_admin() )):
+        flash( _('Sorry, you cant modify challenge %(name)s', name=challenge.challenge_name))
         return redirect(url_for('main.index') )
     form = EditChallengeForm(meta={'csrf': False})
     juges = User.query.filter(User.role==int(RolesType.JUGE)).filter( User.firstname!=None).filter( User.secondname!=None)
