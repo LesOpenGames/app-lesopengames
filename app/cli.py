@@ -26,7 +26,7 @@ challenges=[
         { "j_firstname":'Tabitha', "j_secondname":'Combes', "j_email":'tablafolle@yahoo.com', "challenge_name":'Tête de Noeuds', "sport_name":'Noeuds/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.TEAM) },
         #points indiv
         { "j_firstname":'Sophie', "j_secondname":'Valérino', "j_email":'sophievalerino@yahoo.fr', "challenge_name":'La Folle Volante', "sport_name":'Badminton/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-        { "j_firstname":'Didier', "j_secondname":'Tailhan', "j_email":'didier-tailhan@yahoo.fr', "challenge_name":'Takaléjecté', "sport_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "j_firstname":'Didier', "j_secondname":'Tailhan', "j_email":'didier-tailhan@wanadoo.fr', "challenge_name":'Takaléjecté', "sport_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'Daniel', "j_secondname":'Garcia', "j_email":'g.daniel812@aliceadsl.fr', "challenge_name":'A Table', "sport_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'Laufav', "j_secondname":'Laufav', "j_email":'laufav@free.fr', "challenge_name":'T Au But', "sport_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Fléchet'Ball", "sport_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
@@ -64,6 +64,12 @@ def register(app):
         ctx.forward(rm_scores)
         ctx.forward(rm_challenges)
         ctx.forward(rm_juges)
+
+    @og_seed.command()
+    def show_juges_emails():
+        for c in challenges:
+            if c["j_email"]:
+                print ( c["j_email"])
 
     @og_seed.command()
     def init_scores():
