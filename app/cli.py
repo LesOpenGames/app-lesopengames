@@ -12,7 +12,7 @@ challenges=[
         { "j_firstname":'Alain', "j_secondname":'Barthe', "j_email":'afjf.jeuauflag@gmail.com', "challenge_name":'FlagOval', "sport_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":'La Main Passe', "sport_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         #tournament indiv
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":'Cross Show', "sport_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
+        { "j_firstname":'Patrice', "j_secondname":'Descoings', "j_email":'desmen@hotmail.fr', "challenge_name":'Cross Show', "sport_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
         #chrono team
         { "j_firstname":'Hervé', "j_secondname":'Puy', "j_email":'h.puy@limoux.fr', "challenge_name":'KataStrophe', "sport_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Bernard', "j_secondname":'Thierry', "j_email":'b.thierry1@wanadoo.fr', "challenge_name":'4 x 199M', "sport_name":'Athlétisme/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
@@ -31,7 +31,7 @@ challenges=[
         { "j_firstname":'Laufav', "j_secondname":'Laufav', "j_email":'laufav@free.fr', "challenge_name":'T Au But', "sport_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Fléchet'Ball", "sport_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         #distance indiv
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Triple Triple Saut", "sport_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
+        { "j_firstname":'Anne', "j_secondname":'Rouquet', "j_email":'anneethenri.rouquet@sfr.fr', "challenge_name":"Triple Triple Saut", "sport_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
         #score team
         #{ "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"", "sport_name":'Vote Supporter/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Gladiateur", "sport_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
@@ -112,8 +112,7 @@ def register(app):
                 continue
             u=User.query.filter(User.email==c["j_email"]).one_or_none()
             if u is not None:
-                db.session.delete(u)
-                db.session.commit()
+                continue
             u=User(username=c["j_email"],
                     role=int(RolesType.JUGE),
                     email=c["j_email"],
