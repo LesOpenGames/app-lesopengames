@@ -410,6 +410,13 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
 
+    def test_user_without_email(self):
+        u0 = User()
+        db.session.add(u0)
+        db.session.commit()
+        for u in User.query.all():
+            print( u )
+
     def test_user_roles(self):
         u0 = User(username='david', email='david@example.com')
         u0.role = RolesType.ADMIN
