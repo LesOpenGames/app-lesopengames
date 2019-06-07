@@ -566,7 +566,7 @@ def flash_team_non_valid(team):
 @bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
 def create_team():
-    if( current_user.team is not None):
+    if( current_user.team is not None and current_user.role  != RolesType.ADMIN ):
         flash( _('Sorry, you already belong to team %(name)s', name=current_user.team.teamname))
         return redirect( url_for('main.index') )
     form = EditTeamForm()
