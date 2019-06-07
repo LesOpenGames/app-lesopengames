@@ -523,7 +523,8 @@ class UserModelCase(unittest.TestCase):
         self.assertFalse( u1.is_valid() )
         self.assertTrue( u1.is_valid_auth() )
 
-        self.assertFalse( u1.is_valid_health() )
+        # No more health checking
+        #self.assertFalse( u1.is_valid_health() )
         self.assertFalse( u2.is_valid_auth() )
         self.assertTrue( u2.is_valid_health() )
 
