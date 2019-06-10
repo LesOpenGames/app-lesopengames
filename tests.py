@@ -212,10 +212,30 @@ class TeamModelCase(unittest.TestCase):
         self.assertTrue(t1.team_number is None)
         self.assertTrue(t2.team_number is None)
         
+    def test_team_bylevel_team_number(self):
+        t1 = Team(teamname='cathares', sport_level = SportLevel.EASY)
+        t2 = Team(teamname='pelutes', sport_level = SportLevel.TOUGH)
+        t3 = Team(teamname='chatons', sport_level = SportLevel.EASY)
+        t4 = Team(teamname='godzillas', sport_level = SportLevel.TOUGH)
+
+        db.session.add_all([t1, t2, t3, t4])
+        db.session.commit()
+
+        t1.set_team_number()
+        t2.set_team_number()
+        t3.set_team_number()
+        t4.set_team_number()
+        db.session.commit()
+
+        self.assertEqual(t1.team_number , 1 )
+        self.assertEqual(t2.team_number , 33 )
+        self.assertEqual(t3.team_number , 2 )
+        self.assertEqual(t4.team_number , 34 )
+
     def test_team_set_team_number(self):
-        t1 = Team(teamname='cathares')
-        t2 = Team(teamname='pelutes')
-        t3 = Team(teamname='chatons')
+        t1 = Team(teamname='cathares', sport_level = SportLevel.EASY)
+        t2 = Team(teamname='pelutes', sport_level = SportLevel.EASY)
+        t3 = Team(teamname='chatons', sport_level = SportLevel.EASY)
 
         db.session.add_all([t1, t2, t3])
         db.session.commit()

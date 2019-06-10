@@ -369,19 +369,26 @@ class Team(db.Model):
     def unset_team_number(self):
         self.team_number = None
 
+    # Attribute team number to a valid team
+    #   - easy teams get numbers from 1 to 32
+    #   - tough teams get numbers from 33 to 64
+    # 
+    # try to guess smallest available number
     def set_team_number(self):
         if ( self.team_number is not None):
             return 0
-        # get all team_numbers
+        # get all allready set team_numbers
         team_numbers = [ tn for tn, in db.session.query(Team.team_number).all() if tn is not None]
-        # set to 1 if no numbered teams
+        # set to first number (1 or 33) if no numbered teams
         if( len(team_numbers) == 0):
-            self.team_number = 1
+            self.team_number = 1 if self.sport_level == SportLevel.EASY  else 33 
             return 0
         # or get the smallest available number
         team_numbers.sort()
-        i = 0
+        i = 0 if self.sport_level == SportLevel.EASY else 32
         for n in team_numbers:
+            if( self.sport_level == SportLevel.TOUGH and n < 33 ):
+                continue
             i = i+1
             if( n == i ):
                 continue
