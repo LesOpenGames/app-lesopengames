@@ -1,5 +1,10 @@
 {% if team.get_team_number() != None%}
-<span class="badge badge-success"
+    {% if team.sport_level == 0 %}
+        {% set badgecolor = "badge-success" %}
+    {% else %}
+        {% set badgecolor = "badge-warning" %}
+    {% endif %}
+<span class="badge {{badgecolor}}"
           role="button"
           data-toggle="popover" 
           data-html=true
