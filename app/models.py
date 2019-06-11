@@ -184,7 +184,7 @@ class User(UserMixin, db.Model):
 
     def get_tourna_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
-        return s.tourna
+        return None if s is None else s.tourna
 
     def get_score_total(self):
         score = 0 
@@ -323,7 +323,7 @@ class Team(db.Model):
 
     def get_tourna_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.tourna
+        return None if s is None else s.tourna
 
     def get_score_total(self):
         score = 0

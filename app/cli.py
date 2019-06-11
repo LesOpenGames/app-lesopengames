@@ -66,8 +66,15 @@ def register(app):
         ctx.forward(rm_juges)
 
     @og_seed.command()
+    def teams_get_tourna():
+        for t in Team.query.all():
+            print( '\n', t.id, t.teamname , t.is_valid(), t.team_number)
+            for c in Challenge.query.all():
+                print( t.get_tourna_by_challenge( c.id ), c.challenge_name )
+
+    @og_seed.command()
     def renumber_teams():
-        """Reset teamnumber for valid teams"""
+        """Reset team_number for valid teams"""
         teams = [t for t in Team.query.order_by(Team.team_number).all() if t.is_valid() ]
         print('Before:\n-------')
         for t in teams:
