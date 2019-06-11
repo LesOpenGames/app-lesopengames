@@ -308,18 +308,18 @@ class Team(db.Model):
 
     def get_bonus_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.bonus
+        return 0 if s is None else s.bonus
 
     def get_distance_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.distance
+        return 0 if s is None else s.distance
 
     def get_chrono_by_challenge_str(self, challenge_id):
         return secs2str( self.get_chrono_by_challenge(challenge_id) )
 
     def get_chrono_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.chrono
+        return 0 if s is None else s.chrono
 
     def get_tourna_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
