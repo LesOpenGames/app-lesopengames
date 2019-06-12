@@ -263,7 +263,7 @@ def challenge(challenge_id):
 
 @bp.route('/challenges')
 def challenges():
-    challenges=Challenge.query.all()
+    challenges=Challenge.query.order_by(Challenge.challenge_name).all()
     return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
 
 @bp.route('/update_ranks/<int:challenge_id>')
@@ -344,7 +344,8 @@ def index():
 
 @bp.route('/rating', methods=['GET', 'POST'])
 def rating():
-    all_teams = sorted( Team.query.all() , key=lambda t: t.get_score_total() , reverse=True)
+    valid_teams = [t for t in Team.query.all() if t.is_valid()]
+    all_teams = sorted( valid_teams , key=lambda t: t.get_score_total() , reverse=True)
     categorized_teams = get_categorized_teams( all_teams )
     return render_template('rating.html', title=_('General Rating'), categorized_teams=categorized_teams, is_scoring=True)
 
@@ -566,7 +567,7 @@ def flash_team_non_valid(team):
 @bp.route('/create_team', methods=['GET', 'POST'])
 @login_required
 def create_team():
-    if( current_user.team is not None):
+    if( current_user.team is not None and current_user.role  != RolesType.ADMIN ):
         flash( _('Sorry, you already belong to team %(name)s', name=current_user.team.teamname))
         return redirect( url_for('main.index') )
     form = EditTeamForm()
@@ -664,6 +665,15 @@ def edit_team(team_id):
                 flash( _('Problem Occured with modifying team') )
                 return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s modified', teamname=team.teamname))
+        # Check valid players  or Unvalidate team
+        if( team.get_team_number() is None ):
+            if ( team.is_valid() ):
+                team.set_team_number()
+                db.session.commit()
+        else:
+            if ( not team.is_valid() ):
+                team.unset_team_number()
+                db.session.commit()
         return redirect(url_for('main.team', team_id=team_id) )
     elif request.method == 'GET':
         form.sportlevel.data = team.sport_level
@@ -672,15 +682,6 @@ def edit_team(team_id):
         form.is_paid.data = team.is_paid
         form.is_partner.data = team.is_partner
         form.is_open.data = team.is_open
-    # Check valid players  or Unvalidate team
-    if( team.get_team_number() is None ):
-        if ( team.is_valid() ):
-            team.set_team_number()
-            db.session.commit()
-    else:
-        if ( not team.is_valid() ):
-            team.unset_team_number()
-            db.session.commit()
     #flash_team_non_valid(team)
     return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 

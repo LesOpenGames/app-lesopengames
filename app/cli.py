@@ -12,13 +12,13 @@ challenges=[
         { "j_firstname":'Alain', "j_secondname":'Barthe', "j_email":'afjf.jeuauflag@gmail.com', "challenge_name":'FlagOval', "sport_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":'La Main Passe', "sport_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         #tournament indiv
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":'Cross Show', "sport_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
+        { "j_firstname":'Patrice', "j_secondname":'Descoings', "j_email":'desmen@hotmail.fr', "challenge_name":'Cross Show', "sport_name":'Athlétisme/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.INDIV) },
         #chrono team
         { "j_firstname":'Hervé', "j_secondname":'Puy', "j_email":'h.puy@limoux.fr', "challenge_name":'KataStrophe', "sport_name":'Judo/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Bernard', "j_secondname":'Thierry', "j_email":'b.thierry1@wanadoo.fr', "challenge_name":'4 x 199M', "sport_name":'Athlétisme/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Jean-François', "j_secondname":'Barge', "j_email":'ajfbarge@neuf.fr', "challenge_name":"T'es Perdu", "sport_name":'Orientation 1/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Jules', "j_secondname":'Barge', "j_email":'jules.barge@gmail.com', "challenge_name":"T'es Azimuté", "sport_name":'Orientation 2/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"T'as des Bras", "sport_name":'Jeux Gonflables/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
+        { "j_firstname":'Valérie', "j_secondname":'Lançon', "j_email":'Valerie.lancon1168@Gmail.com', "challenge_name":"T'as des Bras", "sport_name":'Jeux Gonflables/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Guy', "j_secondname":'Madrenes', "j_email":'guymadrenes@gmail.com', "challenge_name":'Trail Surprise', "sport_name":'Finale/Chrono', "score_type":int(ChallScoreType.CHRONO), "team_type":int(ChallTeamType.TEAM) },
         #chrono indiv
             #none
@@ -29,12 +29,12 @@ challenges=[
         { "j_firstname":'Didier', "j_secondname":'Tailhan', "j_email":'didier-tailhan@wanadoo.fr', "challenge_name":'Takaléjecté', "sport_name":'Judo/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'Daniel', "j_secondname":'Garcia', "j_email":'g.daniel812@aliceadsl.fr', "challenge_name":'A Table', "sport_name":'Tennis de Table/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         { "j_firstname":'Laufav', "j_secondname":'Laufav', "j_email":'laufav@free.fr', "challenge_name":'T Au But', "sport_name":'HandBall/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Fléchet'Ball", "sport_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
+        { "j_firstname":'Laurence', "j_secondname":'Gourin', "j_email":'laurencegourin@gmail.com', "challenge_name":"Fléchet'Ball", "sport_name":'Jeux Gonflables/Points', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.INDIV) },
         #distance indiv
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Triple Triple Saut", "sport_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
+        { "j_firstname":'Anne', "j_secondname":'Rouquet', "j_email":'anneethenri.rouquet@sfr.fr', "challenge_name":"Triple Triple Saut", "sport_name":'Athlétisme/Distance', "score_type":int(ChallScoreType.DISTANCE), "team_type":int(ChallTeamType.TEAM) },
         #score team
         #{ "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"", "sport_name":'Vote Supporter/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
-        { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":"Gladiateur", "sport_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.BONUS), "team_type":int(ChallTeamType.TEAM) },
+        { "j_firstname":'Isabelle', "j_secondname":'Violas', "j_email":'mariza.dany@gmail.com', "challenge_name":"Gladiateur", "sport_name":'Jeux Gonflables/Bonus', "score_type":int(ChallScoreType.POINTS), "team_type":int(ChallTeamType.TEAM) },
            ]
 
 def c2j(c_name):
@@ -66,6 +66,27 @@ def register(app):
         ctx.forward(rm_juges)
 
     @og_seed.command()
+    def teams_get_tourna():
+        for t in Team.query.all():
+            print( '\n', t.id, t.teamname , t.is_valid(), t.team_number)
+            for c in Challenge.query.all():
+                print( t.get_tourna_by_challenge( c.id ), c.challenge_name )
+
+    @og_seed.command()
+    def renumber_teams():
+        """Reset team_number for valid teams"""
+        teams = [t for t in Team.query.order_by(Team.team_number).all() if t.is_valid() ]
+        print('Before:\n-------')
+        for t in teams:
+            print( t.team_number, t.sport_level, t.teamname)
+        for t in teams:
+            t.unset_team_number()
+            t.set_team_number()
+            db.session.commit()
+        print('\nAfter:\n------')
+        for t in teams:
+            print( t.team_number, t.sport_level, t.teamname)
+    @og_seed.command()
     def show_juges_emails():
         for c in challenges:
             if c["j_email"]:
@@ -79,10 +100,16 @@ def register(app):
                 valid_teams = [t for t in Team.query.all() if t.is_valid() ]
                 for t in valid_teams:
                     for p in t.get_players():
-                        s = Score(score=0, distance=0, chrono=0, bonus=0, tourna=0)
-                        s.player = p
-                        s.team = t
-                        c.players.append(s)
+                        s = Score.query.filter(Score.player_id == p.id, Score.challenge_id == c.id , Score.team_id == t.id ).first()
+                        if s is not None:
+                            continue
+                        else:
+                            print( c.challenge_name, t.teamname, p.username)
+                            s = Score(score=0, distance=0, chrono=0, bonus=0, tourna=0)
+                            s.player = p
+                            s.team = t
+                            s.challenge=c
+                        #c.players.append(s)
         db.session.commit()
 
     @og_seed.command()
@@ -112,8 +139,7 @@ def register(app):
                 continue
             u=User.query.filter(User.email==c["j_email"]).one_or_none()
             if u is not None:
-                db.session.delete(u)
-                db.session.commit()
+                continue
             u=User(username=c["j_email"],
                     role=int(RolesType.JUGE),
                     email=c["j_email"],
@@ -138,10 +164,25 @@ def register(app):
         db.session.commit()
 
     @og_seed.command()
+    def update_challenges_juges():
+        """Change challenges juges (init_juges before)"""
+        for c in challenges:
+            juge = User.query.filter(User.email==c["j_email"] ).one_or_none()
+            challenge = Challenge.query.filter(Challenge.challenge_name.like(c['challenge_name']+"%")).one_or_none()
+            if( juge is None ):
+                print( "No such juge {}".format(c["j_email"]) )
+            elif( challenge is None ):
+                print( "No such challenge {}".format(c["challenge_name"]) )
+            elif( challenge.juge_id != juge.id):
+                print("oh yes adding {} to {}".format(juge.email, challenge.challenge_name))
+                challenge.juge_id = juge.id
+                db.session.commit()
+
+    @og_seed.command()
     def init_challenges():
         """Add all challenges (init juges first)"""
         for c in challenges:
-            j = User.query.filter(User.email==c2j( c["j_email"] ) ).one_or_none()
+            j = User.query.filter(User.email==c["j_email"] ).one_or_none()
             sport = c["sport_name"].split("/")[0]
             if( j is None ):
                 challenge = Challenge( challenge_name=c["challenge_name"]+" ("+sport+")", score_type=c["score_type"], team_type=c["team_type"] ) 
@@ -214,14 +255,31 @@ def register(app):
             print( team.id, value)
 
     @og_adm.command()
+    @click.argument('entity')
+    def show_scores_entities(entity):
+        """Show entities in scores: Player, Team, or Challenge"""
+        if( entity == 'Challenge'):
+            for s in db.session.query(Score).order_by(Score.challenge_id).all():
+                print( s.challenge.challenge_name )
+        elif( entity == 'Player'):
+            for s in db.session.query(Score).order_by(Score.player_id).all():
+                print( s.player.username )
+        elif( entity == 'Team'):
+            for s in db.session.query(Score).order_by(Score.team_id).all():
+                print( s.team.teamname )
+        else:
+            print( "Wrong entity given. Use Player,  Team or Challenge") 
+
+
+    @og_adm.command()
     def show_scores_all():
         """Show all scores"""
         # iterate through child objects via association, including association
         # attributes
-        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format("Challenge", "Player", "Score", "Id", "Team", "Chrono", "Tourna", "Bonus", "Distance"))
-        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15, '-'*5, '-'*5, '-'*5, '-'*5))
+        print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format("Challenge", "Player", "Score", "Id", "Team", "Chrono", "Tourna", "Bonus", "Distance"))
+        print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format('-'*40, '-'*15, '-'*5, '-'*2, '-'*15, '-'*5, '-'*5, '-'*5, '-'*5))
         for score in Score.query.order_by(Score.challenge_id, Score.team_id).all():
-            print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format(score.challenge.challenge_name,
+            print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format(score.challenge.challenge_name,
                                 score.player.username,
                                 score.score,
                                 score.challenge.id,
@@ -270,22 +328,24 @@ def register(app):
     @og_adm.command()
     def show_teams():
         """List all teams in base"""
-        print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
+        print ("{0:4} {1:4} {4:6} {6:6} {2:14} {5:10} {3:6}".format(
             str('id'),
             str('num.'),
             str('name'),
             str('players'),
             str('open'),
             str('level'),
+            str('valid.'),
             ))
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
+            print ("{0:4} {1:4} {4:6} {6:6} {2:14} {5:10} {3:6}".format(
                 str(t.id or '---'),
                 str(t.get_team_number() or '---'),
                 str(t.teamname or '---'),
-                str(t.get_players()),
+                str([p.username for p in t.get_players()]),
                 str("open" if t.is_open else "closed"),
                 str(t.sport_level_name()),
+                str(t.is_valid()),
                 ))
 
     @og_adm.command()

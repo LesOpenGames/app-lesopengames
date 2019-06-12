@@ -78,9 +78,9 @@ class Score(db.Model):
     bonus          = db.Column(db.Integer)
     distance       = db.Column(db.Integer)
 
-    player = db.relationship("User", back_populates="challenges")
-    challenge = db.relationship("Challenge", back_populates="players")
-    team = db.relationship("Team", back_populates="challenges")
+    player = db.relationship("User", back_populates="challenges") # change to scores
+    challenge = db.relationship("Challenge", back_populates="players") # change to scores
+    team = db.relationship("Team", back_populates="challenges") # change to scores
 
 # used by the flask_login extension for db interaction
 @login.user_loader
@@ -93,7 +93,7 @@ class Challenge(db.Model):
     score_type = db.Column(db.Integer)
     team_type = db.Column(db.Integer)
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    players = db.relationship( 'Score', back_populates="challenge")
+    players = db.relationship( 'Score', back_populates="challenge") # change to scores
 
     def is_juge(self, user):
         return self.juge_id == user.id
@@ -158,7 +158,7 @@ class User(UserMixin, db.Model):
             primaryjoin=(followers.c.follower_id == id ),
             secondaryjoin=(followers.c.followed_id == id ),
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
-    challenges = db.relationship( 'Score', back_populates="player")
+    challenges = db.relationship( 'Score', back_populates="player") # change to scores
             
 
     def __repr__(self):
@@ -184,7 +184,7 @@ class User(UserMixin, db.Model):
 
     def get_tourna_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.player_id == self.id).one()
-        return s.tourna
+        return None if s is None else s.tourna
 
     def get_score_total(self):
         score = 0 
@@ -304,26 +304,26 @@ class Team(db.Model):
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
-    challenges = db.relationship( 'Score', back_populates="team")
+    challenges = db.relationship( 'Score', back_populates="team") # change to score
 
     def get_bonus_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.bonus
+        return 0 if s is None else s.bonus
 
     def get_distance_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.distance
+        return 0 if s is None else s.distance
 
     def get_chrono_by_challenge_str(self, challenge_id):
         return secs2str( self.get_chrono_by_challenge(challenge_id) )
 
     def get_chrono_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.chrono
+        return 0 if s is None else s.chrono
 
     def get_tourna_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()
-        return s.tourna
+        return None if s is None else s.tourna
 
     def get_score_total(self):
         score = 0
@@ -369,19 +369,26 @@ class Team(db.Model):
     def unset_team_number(self):
         self.team_number = None
 
+    # Attribute team number to a valid team
+    #   - easy teams get numbers from 1 to 32
+    #   - tough teams get numbers from 33 to 64
+    # 
+    # try to guess smallest available number
     def set_team_number(self):
         if ( self.team_number is not None):
             return 0
-        # get all team_numbers
+        # get all allready set team_numbers
         team_numbers = [ tn for tn, in db.session.query(Team.team_number).all() if tn is not None]
-        # set to 1 if no numbered teams
+        # set to first number (1 or 33) if no numbered teams
         if( len(team_numbers) == 0):
-            self.team_number = 1
+            self.team_number = 1 if self.sport_level == SportLevel.EASY  else 33 
             return 0
         # or get the smallest available number
         team_numbers.sort()
-        i = 0
+        i = 0 if self.sport_level == SportLevel.EASY else 32
         for n in team_numbers:
+            if( self.sport_level == SportLevel.TOUGH and n < 33 ):
+                continue
             i = i+1
             if( n == i ):
                 continue
