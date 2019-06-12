@@ -78,9 +78,9 @@ class Score(db.Model):
     bonus          = db.Column(db.Integer)
     distance       = db.Column(db.Integer)
 
-    player = db.relationship("User", back_populates="challenges")
-    challenge = db.relationship("Challenge", back_populates="players")
-    team = db.relationship("Team", back_populates="challenges")
+    player = db.relationship("User", back_populates="challenges") # change to scores
+    challenge = db.relationship("Challenge", back_populates="players") # change to scores
+    team = db.relationship("Team", back_populates="challenges") # change to scores
 
 # used by the flask_login extension for db interaction
 @login.user_loader
@@ -93,7 +93,7 @@ class Challenge(db.Model):
     score_type = db.Column(db.Integer)
     team_type = db.Column(db.Integer)
     juge_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    players = db.relationship( 'Score', back_populates="challenge")
+    players = db.relationship( 'Score', back_populates="challenge") # change to scores
 
     def is_juge(self, user):
         return self.juge_id == user.id
@@ -158,7 +158,7 @@ class User(UserMixin, db.Model):
             primaryjoin=(followers.c.follower_id == id ),
             secondaryjoin=(followers.c.followed_id == id ),
             backref=db.backref('followers', lazy='dynamic'), lazy='dynamic') # this name is the new User.fieldname
-    challenges = db.relationship( 'Score', back_populates="player")
+    challenges = db.relationship( 'Score', back_populates="player") # change to scores
             
 
     def __repr__(self):
@@ -304,7 +304,7 @@ class Team(db.Model):
     is_paid = db.Column(db.Boolean, default=False)
     is_striped = db.Column(db.Boolean, default=False)
     is_open = db.Column(db.Boolean, default=False)
-    challenges = db.relationship( 'Score', back_populates="team")
+    challenges = db.relationship( 'Score', back_populates="team") # change to score
 
     def get_bonus_by_challenge(self, challenge_id):
         s = Score.query.filter( Score.challenge_id == challenge_id ).filter( Score.team_id == self.id).first()

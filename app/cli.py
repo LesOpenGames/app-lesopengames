@@ -164,6 +164,21 @@ def register(app):
         db.session.commit()
 
     @og_seed.command()
+    def update_challenges_juges():
+        """Change challenges juges (init_juges before)"""
+        for c in challenges:
+            juge = User.query.filter(User.email==c["j_email"] ).one_or_none()
+            challenge = Challenge.query.filter(Challenge.challenge_name.like(c['challenge_name']+"%")).one_or_none()
+            if( juge is None ):
+                print( "No such juge {}".format(c["j_email"]) )
+            elif( challenge is None ):
+                print( "No such challenge {}".format(c["challenge_name"]) )
+            elif( challenge.juge_id != juge.id):
+                print("oh yes adding {} to {}".format(juge.email, challenge.challenge_name))
+                challenge.juge_id = juge.id
+                db.session.commit()
+
+    @og_seed.command()
     def init_challenges():
         """Add all challenges (init juges first)"""
         for c in challenges:
