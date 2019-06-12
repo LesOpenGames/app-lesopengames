@@ -263,7 +263,7 @@ def challenge(challenge_id):
 
 @bp.route('/challenges')
 def challenges():
-    challenges=Challenge.query.all()
+    challenges=Challenge.query.order_by(Challenge.challenge_name).all()
     return render_template('challenges.html', title=_('Challenges'), challenges=challenges)
 
 @bp.route('/update_ranks/<int:challenge_id>')
