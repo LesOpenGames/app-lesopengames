@@ -344,7 +344,8 @@ def index():
 
 @bp.route('/rating', methods=['GET', 'POST'])
 def rating():
-    all_teams = sorted( Team.query.all() , key=lambda t: t.get_score_total() , reverse=True)
+    valid_teams = [t for t in Team.query.all() if t.is_valid()]
+    all_teams = sorted( valid_teams , key=lambda t: t.get_score_total() , reverse=True)
     categorized_teams = get_categorized_teams( all_teams )
     return render_template('rating.html', title=_('General Rating'), categorized_teams=categorized_teams, is_scoring=True)
 
