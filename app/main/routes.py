@@ -665,6 +665,15 @@ def edit_team(team_id):
                 flash( _('Problem Occured with modifying team') )
                 return redirect(url_for('main.index') )
         flash( _('Team %(teamname)s modified', teamname=team.teamname))
+        # Check valid players  or Unvalidate team
+        if( team.get_team_number() is None ):
+            if ( team.is_valid() ):
+                team.set_team_number()
+                db.session.commit()
+        else:
+            if ( not team.is_valid() ):
+                team.unset_team_number()
+                db.session.commit()
         return redirect(url_for('main.team', team_id=team_id) )
     elif request.method == 'GET':
         form.sportlevel.data = team.sport_level
@@ -673,15 +682,6 @@ def edit_team(team_id):
         form.is_paid.data = team.is_paid
         form.is_partner.data = team.is_partner
         form.is_open.data = team.is_open
-    # Check valid players  or Unvalidate team
-    if( team.get_team_number() is None ):
-        if ( team.is_valid() ):
-            team.set_team_number()
-            db.session.commit()
-    else:
-        if ( not team.is_valid() ):
-            team.unset_team_number()
-            db.session.commit()
     #flash_team_non_valid(team)
     return render_template('edit_team.html', title=_('Edit Team'), form=form, team=team)
 
