@@ -99,13 +99,16 @@ def register(app):
             for c in Challenge.query.all():
                 valid_teams = [t for t in Team.query.all() if t.is_valid() ]
                 for t in valid_teams:
-                    s = Score.query.filter(Score.team_id == t.id, Score.challenge_id == c.id )
-                    if s is not None:
-                        continue
                     for p in t.get_players():
-                        s = Score(score=0, distance=0, chrono=0, bonus=0, tourna=0)
-                        s.player = p
-                        s.team = t
+                        s = Score.query.filter(Score.player_id == p.id, Score.challenge_id == c.id , Score.team_id == t.id ).first()
+                        if s is not None:
+                            continue
+                        else:
+                            print( c.challenge_name, t.teamname, p.username)
+                            s = Score(score=0, distance=0, chrono=0, bonus=0, tourna=0)
+                            s.player = p
+                            s.team = t
+                            s.challenge=c
                         #c.players.append(s)
         db.session.commit()
 
@@ -237,14 +240,31 @@ def register(app):
             print( team.id, value)
 
     @og_adm.command()
+    @click.argument('entity')
+    def show_scores_entities(entity):
+        """Show entities in scores: Player, Team, or Challenge"""
+        if( entity == 'Challenge'):
+            for s in db.session.query(Score).order_by(Score.challenge_id).all():
+                print( s.challenge.challenge_name )
+        elif( entity == 'Player'):
+            for s in db.session.query(Score).order_by(Score.player_id).all():
+                print( s.player.username )
+        elif( entity == 'Team'):
+            for s in db.session.query(Score).order_by(Score.team_id).all():
+                print( s.team.teamname )
+        else:
+            print( "Wrong entity given. Use Player,  Team or Challenge") 
+
+
+    @og_adm.command()
     def show_scores_all():
         """Show all scores"""
         # iterate through child objects via association, including association
         # attributes
-        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format("Challenge", "Player", "Score", "Id", "Team", "Chrono", "Tourna", "Bonus", "Distance"))
-        print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format('-'*30, '-'*15, '-'*5, '-'*2, '-'*15, '-'*5, '-'*5, '-'*5, '-'*5))
+        print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format("Challenge", "Player", "Score", "Id", "Team", "Chrono", "Tourna", "Bonus", "Distance"))
+        print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format('-'*40, '-'*15, '-'*5, '-'*2, '-'*15, '-'*5, '-'*5, '-'*5, '-'*5))
         for score in Score.query.order_by(Score.challenge_id, Score.team_id).all():
-            print("{3:2} {0:30} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format(score.challenge.challenge_name,
+            print("{3:2} {0:40} {4:15} {1:15} {2:5} {5:5} {6:5} {7:5} {8:5}".format(score.challenge.challenge_name,
                                 score.player.username,
                                 score.score,
                                 score.challenge.id,
@@ -293,22 +313,24 @@ def register(app):
     @og_adm.command()
     def show_teams():
         """List all teams in base"""
-        print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
+        print ("{0:4} {1:4} {4:6} {6:6} {2:14} {5:10} {3:6}".format(
             str('id'),
             str('num.'),
             str('name'),
             str('players'),
             str('open'),
             str('level'),
+            str('valid.'),
             ))
         for t in Team.query.order_by(Team.id).all():
-            print ("{0:4} {1:4} {4:6} {2:14} {5:10} {3:6}".format(
+            print ("{0:4} {1:4} {4:6} {6:6} {2:14} {5:10} {3:6}".format(
                 str(t.id or '---'),
                 str(t.get_team_number() or '---'),
                 str(t.teamname or '---'),
-                str(t.get_players()),
+                str([p.username for p in t.get_players()]),
                 str("open" if t.is_open else "closed"),
                 str(t.sport_level_name()),
+                str(t.is_valid()),
                 ))
 
     @og_adm.command()
