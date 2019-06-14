@@ -8,7 +8,7 @@ from sqlalchemy import func
 challenges=[
         #tournament team
         { "j_firstname":'Ludovic', "j_secondname":'Valérino', "j_email":'ludovicvalerino@yahoo.fr', "challenge_name":'TurnBad', "sport_name":'Badminton/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
-        { "j_firstname":'Ludovic', "j_secondname":'Rivière', "j_email":'ludorivier0969@orange.fr', "challenge_name":'tennis_tournoi', "sport_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
+        { "j_firstname":'Ludovic', "j_secondname":'Rivière', "j_email":'ludorivier0969@orange.fr', "challenge_name":'Moteur, ça tourne', "sport_name":'Tennis de Table/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'Alain', "j_secondname":'Barthe', "j_email":'afjf.jeuauflag@gmail.com', "challenge_name":'FlagOval', "sport_name":'Flag/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         { "j_firstname":'', "j_secondname":'', "j_email":'', "challenge_name":'La Main Passe', "sport_name":'HandBall/Tournoi', "score_type":int(ChallScoreType.TOURNAMENT), "team_type":int(ChallTeamType.TEAM) },
         #tournament indiv
