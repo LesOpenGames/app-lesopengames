@@ -192,11 +192,28 @@ def register(app):
         db.session.commit()
 
     @app.cli.group()
-    def og_adm():
-        """Administration for opengames app"""
+    def og_hack():
+        """Latest minute changes"""
         pass
 
-    @og_adm.command()
+    @og_hack.command()
+    @click.argument('challenge_id')
+    def points_2_bonus(challenge_id):
+        """Change challenge type"""
+        c = Challenge.query.get(challenge_id)
+        if( c is None):
+            print("No such challenge id {}".format(challenge_id) )
+            return 1
+        print( "Challenge name: {}".format(c.challenge_name) )
+        c.score_type = int(ChallScoreType.BONUS)
+        scores = Score.query.filter(Score.challenge_id == challenge_id).all()
+        for s in scores:
+            s.bonus = s.score 
+            print( "{0:4} {1:4} {2:4}".format( s.challenge_id, s.score, s.bonus ))
+            s.score = 0
+        db.session.commit()
+
+    @og_hack.command()
     @click.argument('team_id')
     @click.argument('sport_level')
     @click.argument('team_number')
@@ -213,6 +230,11 @@ def register(app):
         t.team_number = int(team_number)
         db.session.commit()
         print( t.teamname )
+
+    @app.cli.group()
+    def og_adm():
+        """Administration for opengames app"""
+        pass
 
     @og_adm.command()
     def show_tourna_teams():
