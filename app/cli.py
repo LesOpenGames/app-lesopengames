@@ -197,6 +197,24 @@ def register(app):
         pass
 
     @og_adm.command()
+    @click.argument('team_id')
+    @click.argument('sport_level')
+    @click.argument('team_number')
+    def set_level_and_number(team_id, sport_level, team_number):
+        """Set new sport level for team (0: easy, 1: tough) and team number"""
+        t = Team.query.get(team_id)
+        if( t is None):
+            print( "no such team for id {}".format(team_id) )
+            return 1
+        if( int(sport_level) !=0 and int(sport_level) !=1):
+            print( "wrong sport level {} (0 or 1)".format(sport_level) )
+            return 1
+        t.sport_level = int(sport_level)
+        t.team_number = int(team_number)
+        db.session.commit()
+        print( t.teamname )
+
+    @og_adm.command()
     def show_tourna_teams():
         """Show team tournoi scores by challenge"""
         for c in Challenge.query.filter(Challenge.team_type == int(ChallTeamType.TEAM)):
