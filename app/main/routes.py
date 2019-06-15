@@ -335,7 +335,6 @@ def update_ranks(challenge_id):
     db.session.commit()
     return redirect( url_for('main.challenge', challenge_id=challenge.id) )
 
-@bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
     valid_teams = [t for t in Team.query.all() if t.is_valid()]
@@ -343,6 +342,7 @@ def index():
             key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
     return render_template('index.html', title=_('Home Page'), teams=teams)
 
+@bp.route('/', methods=['GET', 'POST'])
 @bp.route('/rating', methods=['GET', 'POST'])
 def rating():
     valid_teams = [t for t in Team.query.all() if t.is_valid()]
