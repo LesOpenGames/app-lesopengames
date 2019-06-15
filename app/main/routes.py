@@ -338,7 +338,8 @@ def update_ranks(challenge_id):
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
-    teams = sorted(Team.query.all(),
+    valid_teams = [t for t in Team.query.all() if t.is_valid()]
+    teams = sorted(valid_teams,
             key= lambda t: t.get_team_number() if t.get_team_number() else 2000)
     return render_template('index.html', title=_('Home Page'), teams=teams)
 
