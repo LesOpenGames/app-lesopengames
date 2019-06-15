@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+{#
 {% if current_user.is_anonymous or not current_user.has_team()
     and not ( current_user.is_admin() or current_user.is_juge() )
 %}
@@ -32,6 +33,7 @@
        </div>
    </div>
 {% endif %}
+   #}
 <br/>
    <table class="table table-hover table-responsive">
       {% for team in teams %}
