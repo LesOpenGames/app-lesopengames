@@ -36,8 +36,11 @@
    #}
 <br/>
    <table class="table table-hover table-responsive">
-      {% for team in teams %}
-        {% include '_team.html' %}
-      {% endfor %}
+		 {% set count = namespace(a=0) %}
+          {% for team in teams %}
+            {% set count.a = count.a+1%}
+            {% set rank = count.a %}
+            {% include '_team.html' %}
+          {% endfor %}
   </table>
 {% endblock %}
