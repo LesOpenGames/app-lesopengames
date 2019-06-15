@@ -1,5 +1,7 @@
 import os
+import math
 import click
+from app.main.routes import set_user_score
 from app.models import User, Post, Team, Challenge, Score
 from app.models import RolesType, ChallScoreType, ChallTeamType, SportLevel
 from app import db
@@ -195,6 +197,25 @@ def register(app):
     def og_hack():
         """Latest minute changes"""
         pass
+
+    @og_hack.command()
+    @click.argument('challenge_id')
+    @click.argument('team_id')
+    @click.argument('score')
+    def set_team_points(challenge_id, team_id, score):
+        """Set points for team and challenge"""
+        team = Team.query.get(team_id)
+        for p in team.get_players():
+            set_user_score( challenge_id,
+                p.id,
+                math.ceil(int(score)/4),
+                None,
+                None,
+                None,
+                None)
+        db.session.commit()
+
+
 
     @og_hack.command()
     @click.argument('challenge_id')
