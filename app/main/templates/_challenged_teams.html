@@ -2,13 +2,19 @@
 <div class="container">
  <div class="row">
    <div class="col-md-5">
+       {#
        <h3>{{_('Easy')}}</h3>
+       #}
        <table class="table table-hover table-responsive">
+          {% set count = namespace(a=0) %}
           {% for team in categorized_teams['easy_teams'] %}
+		    {% set count.a = count.a+1%}
+            {% set rank = count.a %}
             {% include '_challenged_team.html' %}
           {% endfor %}
        </table>
    </div>
+   {#
    <div class="col-md-5">
        <h3>{{_('Tough')}}</h3>
        <table class="table table-hover table-responsive">
@@ -17,5 +23,6 @@
           {% endfor %}
        </table>
    </div>
+   #}
  </div> 
 </div>
